@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Account Creation</title>
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <center>
+      <form method="POST" action="login" style="max-width:400px">
+        <input type="hidden" name="action" value="create">
+        <h1 class="create-title">Create Account</h2>
+        <label for="username" class="sr-only">Username</label>
+        <input id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+
+        <label for="password2" class="sr-only">Confirm Password</label>
+        <input type="password" id="password2" name="password2" class="form-control" placeholder="Confirm Password" required>
+
+        <br />
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
+      </form>
+    </center>
+    </div>
+
+  </body>
+</html>
