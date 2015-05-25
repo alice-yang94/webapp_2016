@@ -4,7 +4,7 @@ import java.awt.Event;
 import java.awt.Graphics;
 
 import model.Board;
-import src/RunningMoster;
+import rm.RunningMonster;
 
 public class GameController {
 
