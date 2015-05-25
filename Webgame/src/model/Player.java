@@ -14,7 +14,7 @@ public class Player {
 		dir = Direction.NORTH;
 	}
 
-//	public Direction rotate() {
+//	public Direction rotate() { 
 //		dir = (dir + 1) % 4;
 //	}
 //	
