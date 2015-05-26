@@ -12,17 +12,18 @@ public class Board {
 	private static Random random = new Random();
 	
 	private Object[][] board;
-	private List<Obstacle> obstacles = new ArrayList<Obstacle>();
 	private List<Monster> monsters = new ArrayList<Monster>();
 	private Player player;
 	private int numOfMonsters;
 	private int numOfObstacles;
+	private int numOfSeeds;
 	
 	public Board(Player player, int level) {
 		this.player = player;
 		board = new Object[HEIGHT][WIDTH];
 		numOfMonsters = level * level;
 		numOfObstacles = level * 7;
+		numOfSeeds = 40 - level * level; 
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
 				board[j][i] = null;
@@ -49,13 +50,20 @@ public class Board {
 				y = random.nextInt(HEIGHT);
 			}
 			board[y][x] = new Obstacle(x, y);
-			obstacles.add((Obstacle) board[y][x]);
+		}
+		
+		//add seeds related to player's level
+		for (int i = 0; i < numOfSeeds; i++) {
+			int x = random.nextInt(WIDTH);
+			int y = random.nextInt(HEIGHT);
+			while (board[y][x] != null) {
+				x = random.nextInt(WIDTH);
+				y = random.nextInt(HEIGHT);
+			}
+			board[y][x] = new Seed(x, y);
 		}
 	}
-	
-	public List<Obstacle> getObstacleList() {
-		return obstacles;
-	}
+
 	
 	public List<Monster> getMonsters() {
 		return monsters;
@@ -63,6 +71,13 @@ public class Board {
 	
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public void removeDeadMonster(Monster deadMonster) throws Exception {
+		if (!monsters.remove(deadMonster)) {
+			throw new Exception("The Game has Bugs!");
+		}
+		numOfMonsters--;
 	}
 
 }

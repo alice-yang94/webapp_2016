@@ -5,28 +5,17 @@ public class Player {
 	private int x;
 	private int y;
 	private int level;
-	private Direction dir;
 	private int life;
+	private int bullets;
+	private final int[] bulletsByLevel = {70, 60, 50, 40, 30};
+	private final int MAXLIFE = 3;
 	
 	public Player(int level) {
 		this.level = level;
 		setX(14);
 		setY(14);
-		dir = Direction.NORTH;
-	}
-
-	public Direction rotateLeft() {
-		dir = dir.rotate(Rotation.LEFT);
-		return dir;
-	}
-	
-	public Direction rotateRight() {
-		dir = dir.rotate(Rotation.RIGHT);
-		return dir;
-	}
-	
-	public Direction getDirection() {
-		return dir;
+		life = MAXLIFE;
+		bullets = bulletsByLevel[level];
 	}
 	
 	public int getX() {
@@ -45,17 +34,24 @@ public class Player {
 		this.y = y;
 	}
 	
-	public static void main(String[] args) {
-		Player player = new Player(1);
-		player.rotateRight();
-		System.out.print(player.getDirection());
-	}
-
 	public int getLife() {
 		return life;
 	}
 
 	public void setLife(int life) {
 		this.life = life;
+	}
+
+	public int getBullets() {
+		return bullets;
+	}
+
+	public void decreaseBullets() {
+		bullets--;
+	}
+	
+	public static void main(String[] args) {
+		Player player = new Player(1);
+		System.out.print(player.getBullets());
 	}
 }
