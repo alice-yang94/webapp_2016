@@ -32,6 +32,7 @@ public class Board {
 		
 		//add number of monsters related to player's level 
 		for (int i = 0; i < numOfMonsters; i++) {
+			//generate monsters
 			int x = random.nextInt(WIDTH);
 			int y = random.nextInt(HEIGHT);
 			while (board[y][x] != null) {
@@ -40,7 +41,19 @@ public class Board {
 			}
 			board[y][x] = new Monster(x, y);
 			monsters.add((Monster) board[y][x]);
+			
+			//generate seeds
+			if (random.nextInt(2) == 1) {
+				int sx = (x-1) + random.nextInt(3);
+				int sy = (y-1) + random.nextInt(3);
+				while (board[sy][sx] != null) {
+					sx = (x-1) + random.nextInt(3);
+					sy = (y-1) + random.nextInt(3);
+				}
+				board[sy][sx] = new Seed(sx, sy);
+			}	
 		}
+		
 		//add number of obstacles related to player's level
 		for (int i = 0; i < numOfObstacles; i++) {
 			int x = random.nextInt(WIDTH);
@@ -52,16 +65,7 @@ public class Board {
 			board[y][x] = new Obstacle(x, y);
 		}
 		
-		//add seeds related to player's level
-		for (int i = 0; i < numOfSeeds; i++) {
-			int x = random.nextInt(WIDTH);
-			int y = random.nextInt(HEIGHT);
-			while (board[y][x] != null) {
-				x = random.nextInt(WIDTH);
-				y = random.nextInt(HEIGHT);
-			}
-			board[y][x] = new Seed(x, y);
-		}
+
 	}
 
 	
@@ -81,4 +85,3 @@ public class Board {
 	}
 
 }
-
