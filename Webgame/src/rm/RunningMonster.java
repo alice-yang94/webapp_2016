@@ -25,16 +25,16 @@ public class RunningMonster extends Applet implements Runnable {
 	@Override
 	public void run() {
 
-		setSize(600, 600);
+		setSize(960, 960);
 
-		BufferedImage screen = new BufferedImage(600, 600,
+		BufferedImage screen = new BufferedImage(960, 960,
 				BufferedImage.TYPE_INT_RGB);
 		Graphics g = screen.getGraphics();
 		Graphics appletG = getGraphics();
 
 		while (true) {
 			g.setColor(Color.black);
-			g.fillRect(0, 0, 480, 320);
+			g.fillRect(0, 0, 960, 960);
 
 			gc.update(TIMESLICE);
 			gc.view(g);
