@@ -15,20 +15,22 @@ public class Board {
 	private List<Monster> monsters = new ArrayList<Monster>();
 	private Player player;
 	private int numOfMonsters;
-	private int numOfObstacles;
 	private int numOfSeeds;
 	
-	public Board(Player player, int level) {
+	public Board(Player player) {
 		this.player = player;
+		int level = player.getLevel();
 		board = new Object[HEIGHT][WIDTH];
 		numOfMonsters = level * level;
-		numOfObstacles = level * 7;
 		numOfSeeds = 40 - level * level; 
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
 				board[j][i] = null;
 			}
 		}
+		
+		//add player to the center of board
+		board[(int) player.getY()][player.getX()] = player;
 		
 		//add number of monsters related to player's level 
 		for (int i = 0; i < numOfMonsters; i++) {
@@ -53,19 +55,6 @@ public class Board {
 				board[sy][sx] = new Seed(sx, sy);
 			}	
 		}
-		
-		//add number of obstacles related to player's level
-		for (int i = 0; i < numOfObstacles; i++) {
-			int x = random.nextInt(WIDTH);
-			int y = random.nextInt(HEIGHT);
-			while (board[y][x] != null) {
-				x = random.nextInt(WIDTH);
-				y = random.nextInt(HEIGHT);
-			}
-			board[y][x] = new Obstacle(x, y);
-		}
-		
-
 	}
 
 	
@@ -82,6 +71,11 @@ public class Board {
 			throw new Exception("The Game has Bugs!");
 		}
 		numOfMonsters--;
+	}
+
+
+	public int getNumOfSeeds() {
+		return numOfSeeds;
 	}
 
 }

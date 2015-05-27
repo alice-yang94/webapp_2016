@@ -12,8 +12,6 @@ public class Player {
 	
 	public Player(int level) {
 		this.level = level;
-		setX(14);
-		setY(14);
 		life = MAXLIFE;
 		bullets = bulletsByLevel[level];
 	}
@@ -53,5 +51,9 @@ public class Player {
 	public static void main(String[] args) {
 		Player player = new Player(1);
 		System.out.print(player.getBullets());
+	}
+
+	public int getLevel() {
+		return level;
 	}
 }

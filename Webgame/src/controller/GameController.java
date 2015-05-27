@@ -4,12 +4,21 @@ import java.awt.Event;
 import java.awt.Graphics;
 
 import model.Board;
-import rm.RunningMonster;
+import model.Player;
 
 public class GameController {
 
 	private Board board;
-	private RunningMonster rm;
+	private Player player;
+	private int level = 3;   //TODO:Connect to database to get level
+	private int centerPoint = 14;
+	
+	public GameController() {
+		player = new Player(level);
+		player.setX(centerPoint);
+		player.setY(centerPoint);
+		board = new Board(player);
+	}
 	
 	public boolean eventHandler(Event e) {
 		switch(e.id) {
