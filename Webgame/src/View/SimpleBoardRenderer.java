@@ -18,11 +18,11 @@ public class SimpleBoardRenderer implements Renderer {
 	@Override
 	public void render(Graphics g) {
 		//render the board
-		int cellSize = 32;
+		int cellSize = 25;
 		g.setColor(Color.blue);
-		for (int i = 0; i<= Board.WIDTH; i++) {
+		for (int i = 0; i< Board.WIDTH; i++) {
 			g.drawLine(i * cellSize, 0, i * cellSize, Board.HEIGHT * cellSize);
-			if (i <= Board.WIDTH) {
+			if (i < Board.WIDTH) {
 				g.drawLine(0, i * cellSize, Board.WIDTH * cellSize, i * cellSize);
 			}
 		}

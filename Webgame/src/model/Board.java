@@ -6,8 +6,8 @@ import java.util.Random;
 
 public class Board {
 
-	public static final int WIDTH = 960 / 32;
-	public static final int HEIGHT = 960 / 32;
+	public static final int WIDTH = 750 / 25;
+	public static final int HEIGHT = 750 / 25;
 	
 	private static Random random = new Random();
 	
@@ -46,17 +46,24 @@ public class Board {
 			
 			//generate seeds
 			if (random.nextInt(2) == 1) {
-				int sx = (x-1) + random.nextInt(3);
-				int sy = (y-1) + random.nextInt(3);
+				int sx = generateNeighbourPoint(x);
+				int sy = generateNeighbourPoint(y);
 				while (board[sy][sx] != null) {
-					sx = (x-1) + random.nextInt(3);
-					sy = (y-1) + random.nextInt(3);
+					sx = generateNeighbourPoint(x);
+					sy = generateNeighbourPoint(y);
 				}
 				board[sy][sx] = new Seed(sx, sy);
 			}	
 		}
 	}
 
+	private int generateNeighbourPoint(int x) {     //assume width and height are the same
+		int result = x - 2 + random.nextInt(4);
+		while (result < 0 || result >= WIDTH) {
+			result = x - 2 + random.nextInt();
+		}
+		return result;
+	}
 	
 	public List<Monster> getMonsters() {
 		return monsters;

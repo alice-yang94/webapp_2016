@@ -16,7 +16,11 @@ public class RunningMonster extends Applet implements Runnable {
 	// board will be updated every TIMESLICE
 	public static final int TIMESLICE = 10;
 
-	private GameController gc = new GameController();
+	private GameController gc;
+	
+	public RunningMonster() {
+		 gc = new GameController();
+	}
 
 	public void start() {
 		new Thread(this).start();
@@ -25,22 +29,39 @@ public class RunningMonster extends Applet implements Runnable {
 	@Override
 	public void run() {
 
-		setSize(960, 960);
+		setSize(750, 750);
 
-		BufferedImage screen = new BufferedImage(960, 960,
+		BufferedImage screen = new BufferedImage(750, 750,
 				BufferedImage.TYPE_INT_RGB);
 		Graphics g = screen.getGraphics();
 		Graphics appletG = getGraphics();
 
+		long delta = 01;
+		
 		while (true) {
+			long lastTime = System.nanoTime();
+			
 			g.setColor(Color.black);
-			g.fillRect(0, 0, 960, 960);
+			g.fillRect(0, 0, 750, 750);
 
+//			gc.update((float)(delta / 1000000000.0));
 			gc.update(TIMESLICE);
 			gc.view(g);
 
-			appletG.drawImage(screen, 0, 0, null);
+    		appletG.drawImage(screen, 0, 0, null);
 
+//			delta = System.nanoTime() - lastTime;
+//			if (delta < 20000000L) {
+//				try {
+//					Thread.sleep((20000000L - delta) / 1000000L);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+			
+			
+			
 			if (!isActive()) {
 				return;
 			}
@@ -49,7 +70,8 @@ public class RunningMonster extends Applet implements Runnable {
 	}
 	
 	public boolean eventHandler(Event e) {
-		return gc.eventHandler(e);
+//		return gc.eventHandler(e);
+		return false;
 	}
 
 }
