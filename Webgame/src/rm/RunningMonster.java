@@ -36,10 +36,10 @@ public class RunningMonster extends Applet implements Runnable {
 		Graphics g = screen.getGraphics();
 		Graphics appletG = getGraphics();
 
-		long delta = 01;
+//		long delta = 01;
 		
 		while (true) {
-			long lastTime = System.nanoTime();
+//			long lastTime = System.nanoTime();
 			
 			g.setColor(Color.black);
 			g.fillRect(0, 0, 750, 750);

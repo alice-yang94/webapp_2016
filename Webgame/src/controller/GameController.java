@@ -13,6 +13,7 @@ public class GameController {
 	private Board board;
 	private Player player;
 	private Renderer renderer;
+	private BoardController controller;
 	
 	private int level = 3;   //TODO:Connect to database to get level
 	private int centerPoint = 14;
@@ -25,6 +26,9 @@ public class GameController {
 		
 		//setup view
 		renderer = new SimpleBoardRenderer(board);
+		
+		//setup controller
+		controller = new BoardController(board);
 	}
 	
 	public boolean eventHandler(Event e) {
@@ -41,8 +45,8 @@ public class GameController {
 		return false;
 	}
 	
-	public void update(float time) {
-		
+	public void update(int time) {
+		controller.update(time);
 	}
 	
 	public void view(Graphics g) {
