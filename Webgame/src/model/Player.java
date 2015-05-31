@@ -41,7 +41,7 @@ public class Player {
 	}
 
 	public boolean loseLife() {
-		if (life >= 1) {
+		if (life > 1) {
 			life--;
 			return true;
 		}
@@ -52,8 +52,16 @@ public class Player {
 		return bullets;
 	}
 
-	public void decreaseBullets() {
-		bullets--;
+	public void winBullets() {
+		bullets++;
+	}
+	
+	public boolean decreaseBullets() {
+		if (bullets > 0) {
+			bullets--;
+			return true;
+		}
+		return false;
 	}
 
 	public int getLevel() {

@@ -15,7 +15,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 	private static final long serialVersionUID = 1L;
 
 	// board will be updated every TIMESLICE
-	public static final int TIMESLICE = 10;
+	public static final int TIMESLICE = 1000;
 
 	private GameController gc;
 	
