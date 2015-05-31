@@ -31,7 +31,7 @@ public class GameController {
 		controller = new BoardController(board);
 	}
 	
-	public boolean eventHandler(KeyEvent e) {
+	public boolean eventHandler(KeyEvent e) throws Exception {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			controller.pressUp();
@@ -45,6 +45,8 @@ public class GameController {
 		case KeyEvent.VK_RIGHT:
 			controller.pressRight();
 			break;
+		case KeyEvent.VK_SPACE:
+			controller.pressSpace();
 		}
 		return false;
 	}

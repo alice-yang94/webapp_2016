@@ -10,44 +10,47 @@ public class BoardController {
 	private Board board;
 	private Player player;
 
-	private int targetX, targetY;
+	private int targetX, targetY, seedCounter;
 	private boolean hasInput = false; // true if player input on keyboard
+
+	public static final int INITIAL_COUNTER = 0;
+	public static final int SEED_COUNTER = 2;
 
 	public BoardController(Board board) {
 		this.board = board;
+		seedCounter = INITIAL_COUNTER;
 		player = board.getPlayer();
 	}
 
 	public void update(int time) throws Exception {
 		if (hasInput) {
-			// if new coordinate is inside the board
-			if (board.WIDTH > targetX && targetX > 0 && board.HEIGHT > targetY
-					&& targetY > 0) {
-				player.setX(targetX);
-				player.setY(targetY);
+			player.setX(targetX);
+			player.setY(targetY);
 
-				// Object[][] currentBoard = board.getBoard();
-				// Object item = currentBoard[targetY][targetX];
-				boolean empty = true;
-				for (Monster monster : board.getMonsters()) {
-					if (monster.equals(targetX, targetY)) {
-						player.loseLife();
-						board.removeDeadMonster(monster);
-						empty = false;
+			boolean notMonster = true;
+			for (Monster monster : board.getMonsters()) {
+				// if player meets monster, player loselife, monster die
+				if (monster.equals(targetX, targetY)) {
+					player.loseLife();
+					board.removeDeadMonster(monster);
+					notMonster = false;
+					break;
+				}
+
+				// if space is pressed within 2 rounds, hit monster
+				if (seedCounter > 0) {
+					hitMonster(monster);
+				}
+			}
+
+			// if the grid contains seed, player gets a bullet
+			if (notMonster) {
+				for (Seed seed : board.getSeeds()) {
+					if (seed.equals(targetX, targetY)) {
+						player.getBullets();
 						break;
 					}
 				}
-
-				if (empty) {
-					for (Seed seed : board.getSeeds()) {
-						if (seed.equals(targetX, targetY)) {
-							player.getBullets();
-							board.removeUsedSeeds(seed);
-							break;
-						}
-					}
-				}
-
 			}
 			monsterMove();
 		}
@@ -99,6 +102,25 @@ public class BoardController {
 			return;
 		} else { // hit boundary, lose a life
 			playerLoseLife();
+		}
+	}
+
+	public void pressSpace() throws Exception {
+		if (player.decreaseBullets()) {
+			seedCounter = SEED_COUNTER;
+			for (Monster monster : board.getMonsters()) {
+				hitMonster(monster);
+			}
+		}
+	}
+
+	public void hitMonster(Monster monster) throws Exception {
+		if (monster.getX() == player.getX() || monster.getY() == player.getY()) {
+			if (monster.loseLife()) {
+				seedCounter--;
+			} else {
+				board.removeDeadMonster(monster);
+			}
 		}
 	}
 

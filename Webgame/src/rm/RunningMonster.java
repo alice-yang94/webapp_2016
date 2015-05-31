@@ -15,7 +15,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 	private static final long serialVersionUID = 1L;
 
 	// board will be updated every TIMESLICE
-	public static final int TIMESLICE = 10;
+	public static final int TIMESLICE = 1000;
 
 	private GameController gc;
 	
@@ -76,7 +76,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 
 	}
 	
-	public boolean eventHandler(KeyEvent e) {
+	public boolean eventHandler(KeyEvent e) throws Exception {
 		return gc.eventHandler(e);
 	}
 
@@ -88,7 +88,12 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		eventHandler(e);
+		try {
+			eventHandler(e);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	@Override
