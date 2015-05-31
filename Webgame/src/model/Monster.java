@@ -36,4 +36,11 @@ public class Monster {
 		return life;
 	}
 
+	public boolean equals(int mx, int my) {
+		if (mx == x && my == y) {
+			return true;
+		}
+		return false;
+	}
+
 }

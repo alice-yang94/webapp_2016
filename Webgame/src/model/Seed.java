@@ -25,4 +25,11 @@ public class Seed {
 		public void setY(int y) {
 			this.y = y;
 		}
+
+		public boolean equals(int sx, int sy) {
+			if (sx == x && sy == y) {
+				return true;
+			}
+			return false;
+		}
 }

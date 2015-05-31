@@ -13,6 +13,7 @@ public class Board {
 	
 	private Object[][] board;
 	private List<Monster> monsters = new ArrayList<Monster>();
+	private List<Seed> seeds = new ArrayList<Seed>();
 	private Player player;
 	private int numOfMonsters;
 	private int numOfSeeds;
@@ -22,7 +23,7 @@ public class Board {
 		int level = player.getLevel();
 		board = new Object[HEIGHT][WIDTH];
 		numOfMonsters = level * level;
-		numOfSeeds = 40 - level * level; 
+
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
 				board[j][i] = null;
@@ -32,7 +33,7 @@ public class Board {
 		//add player to the center of board
 		board[(int) player.getY()][player.getX()] = player;
 		
-		//add number of monsters related to player's level 
+		//add number of monsters with seeds related to player's level 
 		for (int i = 0; i < numOfMonsters; i++) {
 			//generate monsters
 			int x = random.nextInt(WIDTH);
@@ -53,6 +54,7 @@ public class Board {
 					sy = generateNeighbourPoint(y);
 				}
 				board[sy][sx] = new Seed(sx, sy);
+				seeds.add((Seed) board[sy][sx]);
 			}	
 		}
 	}
@@ -69,6 +71,10 @@ public class Board {
 		return monsters;
 	}
 	
+	public List<Seed> getSeeds() {
+		return seeds;
+	}
+	
 	public Player getPlayer() {
 		return player;
 	}
@@ -80,9 +86,12 @@ public class Board {
 		numOfMonsters--;
 	}
 
-
 	public int getNumOfSeeds() {
 		return numOfSeeds;
 	}
+	
+//	public Object[][]  getBoard() {
+//		return board;
+//	}
 
 }
