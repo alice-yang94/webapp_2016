@@ -25,25 +25,66 @@ public class BoardController {
 	}
 	
 	public void pressUp() {
+		int y = player.getY() - 1;
+		if (withinIndexMove(y)) {
+			targetX = player.getX();
+			targetY = y;
+			hasInput = true;
+			return;
+		} else {                        // hit boundary, lose a life
+			playerLoseLife();
+		}
+	}
+	
+	public void pressDown() {
 		int y = player.getY() + 1;
 		if (withinIndexMove(y)) {
 			targetX = player.getX();
 			targetY = y;
+			hasInput = true;
+			return;
 		} else {                        // hit boundary, lose a life
-			if (player.loseLife()) {    //still have life
-				hasInput = false;       //invalid move, has to wait another input
-			} else {    
-				//TODO: restart the game
-				
-			}
+			playerLoseLife();
 		}
-		hasInput = true;
 	}
 	
-	public boolean withinIndexMove(int x) {
+	public void pressRight() {
+		int x = player.getX() + 1;
+		if (withinIndexMove(x)) {
+			targetX = x;
+			targetY = player.getY();
+			hasInput = true;
+			return;
+		} else {                        // hit boundary, lose a life
+			playerLoseLife();
+		}
+	}
+	
+	public void pressLeft() {
+		int x = player.getX() - 1;
+		if (withinIndexMove(x)) {
+			targetX = x;
+			targetY = player.getY();
+			hasInput = true;
+			return;
+		} else {                        // hit boundary, lose a life
+			playerLoseLife();
+		}
+	}
+	
+	private boolean withinIndexMove(int x) {
 		if (x >= 0 && x < Board.WIDTH) {
 			return true;
 		}
 		return false;
+	}
+	
+	private void playerLoseLife() {
+		if (player.loseLife()) {    //still have life
+			hasInput = false;       //invalid move, has to wait another input
+		} else {    
+			//TODO: restart the game
+			
+		}
 	}
 }
