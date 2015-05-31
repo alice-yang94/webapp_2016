@@ -36,7 +36,6 @@ public class SimpleBoardRenderer implements Renderer {
 		int y = (int) (player.getY() * cellSize);
 		g.fillOval(x + 2, y + 2, cellSize - 4, cellSize - 4);
 
-		
 		// render square on player
 		g.setColor(Color.white);
 		g.fillRect(x + 10, y + 10, cellSize - 20, cellSize - 20);

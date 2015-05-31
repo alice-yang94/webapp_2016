@@ -139,26 +139,39 @@ public class BoardController {
 
 		}
 	}
-	
+
 	public void monsterMove() {
 		for (Monster monster : board.getMonsters()) {
 			int monsterX = monster.getX();
-			int monsterY = monster.getY();       
-				if (monsterX > targetX && withinIndexMove(monsterX - 1)) {
-					monster.setX(monsterX - 1);
-				} else {
-					if (monsterX < targetX && withinIndexMove(monsterX + 1)) {
-					monster.setX(monsterX + 1);						
-					}
-				}
-				if (monsterY > targetY && withinIndexMove(monsterY - 1)) {
-					monster.setY(monsterY - 1);
-				} else {
-					if (monsterY < targetY && withinIndexMove(monsterY + 1)) {
-						monster.setY(monsterY + 1);
-					
+			int monsterY = monster.getY();
+			int monsterIntendX = targetX;
+			int monsterIntendY = targetY;
+			if (monsterX > targetX && withinIndexMove(monsterX - 1)) {
+				monsterIntendX = monsterX - 1;
+			} else {
+				if (monsterX < targetX && withinIndexMove(monsterX + 1)) {
+					monsterIntendX = monsterX + 1;
 				}
 			}
+			if (monsterY > targetY && withinIndexMove(monsterY - 1)) {
+				monsterIntendY = monsterY - 1;
+			} else {
+				if (monsterY < targetY && withinIndexMove(monsterY + 1)) {
+					monsterIntendY = monsterY + 1;
+				}
+			}
+			
+			Object obj = board.getObject(monsterIntendX, monsterIntendY);
+			if (obj == null) {
+				monster.setX(monsterIntendX);
+				monster.setY(monsterIntendY);
+			} 
+//			else {
+//				if (obj instanceof Monster) {
+//					monster.setX(monsterX);
+//					monster.setY(targetY);
+//				}
+//			}
 		}
 	}
 }

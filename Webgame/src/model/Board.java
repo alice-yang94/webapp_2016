@@ -110,6 +110,10 @@ public class Board {
 		return numOfSeeds;
 	}
 
+	public Object getObject(int x, int y) {
+		return board[y][x];
+	}
+	
 	// public Object[][] getBoard() {
 	// return board;
 	// }
