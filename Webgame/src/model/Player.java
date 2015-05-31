@@ -40,17 +40,20 @@ public class Player {
 		this.life = life;
 	}
 
+	public boolean loseLife() {
+		if (life >= 1) {
+			life--;
+			return true;
+		}
+		return false;
+	}
+	
 	public int getBullets() {
 		return bullets;
 	}
 
 	public void decreaseBullets() {
 		bullets--;
-	}
-	
-	public static void main(String[] args) {
-		Player player = new Player(1);
-		System.out.print(player.getBullets());
 	}
 
 	public int getLevel() {

@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.Event;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
 import View.Renderer;
 import View.SimpleBoardRenderer;
@@ -31,9 +32,12 @@ public class GameController {
 		controller = new BoardController(board);
 	}
 	
-	public boolean eventHandler(Event e) {
-		switch(e.id) {
+	public boolean eventHandler(KeyEvent e) {
+		System.out.print("event Handler");
+		switch(e.getID()) {
 		case Event.UP:
+			System.out.print("sdsa");
+			controller.pressUp();
 			break;
 		case Event.DOWN:
 			break;

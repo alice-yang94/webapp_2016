@@ -4,11 +4,13 @@ import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Event;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import controller.GameController;
 
-public class RunningMonster extends Applet implements Runnable {
+public class RunningMonster extends Applet implements Runnable, KeyListener {
 
 	//default serialVersionUID
 	private static final long serialVersionUID = 1L;
@@ -20,6 +22,7 @@ public class RunningMonster extends Applet implements Runnable {
 	
 	public RunningMonster() {
 		 gc = new GameController();
+		 addKeyListener(this);
 	}
 
 	public void start() {
@@ -69,9 +72,26 @@ public class RunningMonster extends Applet implements Runnable {
 
 	}
 	
-	public boolean eventHandler(Event e) {
-//		return gc.eventHandler(e);
-		return false;
+	public boolean eventHandler(KeyEvent e) {
+		System.out.print("event Handler");
+		return gc.eventHandler(e);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+//		eventHandler(e);
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
