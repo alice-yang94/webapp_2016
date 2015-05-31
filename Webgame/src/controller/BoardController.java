@@ -42,12 +42,14 @@ public class BoardController {
 					for (Seed seed : board.getSeeds()) {
 						if (seed.equals(targetX, targetY)) {
 							player.getBullets();
+							board.removeUsedSeeds(seed);
 							break;
 						}
 					}
 				}
 
 			}
+			monsterMove();
 		}
 		hasInput = false;
 	}
@@ -113,6 +115,28 @@ public class BoardController {
 		} else {
 			// TODO: restart the game
 
+		}
+	}
+	
+	public void monsterMove() {
+		for (Monster monster : board.getMonsters()) {
+			int monsterX = monster.getX();
+			int monsterY = monster.getY();       
+				if (monsterX > targetX && withinIndexMove(monsterX - 1)) {
+					monster.setX(monsterX - 1);
+				} else {
+					if (monsterX < targetX && withinIndexMove(monsterX + 1)) {
+					monster.setX(monsterX + 1);						
+					}
+				}
+				if (monsterY > targetY && withinIndexMove(monsterY - 1)) {
+					monster.setY(monsterY - 1);
+				} else {
+					if (monsterY < targetY && withinIndexMove(monsterY + 1)) {
+						monster.setY(monsterY + 1);
+					
+				}
+			}
 		}
 	}
 }

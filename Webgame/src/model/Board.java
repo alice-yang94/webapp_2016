@@ -55,6 +55,7 @@ public class Board {
 				}
 				board[sy][sx] = new Seed(sx, sy);
 				seeds.add((Seed) board[sy][sx]);
+				numOfSeeds++;
 			}	
 		}
 	}
@@ -84,6 +85,13 @@ public class Board {
 			throw new Exception("The Game has Bugs!");
 		}
 		numOfMonsters--;
+	}
+	
+	public void removeUsedSeeds(Seed seed) throws Exception {
+		if (!seeds.remove(seed)) {
+			throw new Exception("The Game has bugs");
+		}
+		numOfSeeds--;
 	}
 
 	public int getNumOfSeeds() {
