@@ -19,7 +19,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 
 	private GameController gc;
 	
-	public RunningMonster() {
+	public RunningMonster() throws Exception {
 		 gc = new GameController();
 		 addKeyListener(this);
 	}

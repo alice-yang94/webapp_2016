@@ -18,7 +18,7 @@ public class Board {
 	private int numOfMonsters;
 	private int numOfSeeds;
 
-	public Board(Player player) {
+	public Board(Player player) throws Exception {
 		this.player = player;
 		int level = player.getLevel();
 		board = new Object[HEIGHT][WIDTH];
@@ -56,12 +56,17 @@ public class Board {
 				board[sy][sx] = new Seed(sx, sy);
 				seeds.add((Seed) board[sy][sx]);
 				numOfSeeds++;
-			}	
+
+				if (Math.abs(x - sx) > 2 || Math.abs(y - sy) > 2) {
+					throw new Exception("Exception: incorrect seed generated!!");
+				}
+
+			}
 
 		}
 	}
 
-	private int generateNeighbourPoint(int x, boolean isWidth) { 
+	private int generateNeighbourPoint(int x, boolean isWidth) {
 		int result = x - 1 + random.nextInt(3);
 		int compareWith;
 		if (isWidth) {
@@ -70,7 +75,7 @@ public class Board {
 			compareWith = HEIGHT;
 		}
 		while (result < 0 || result >= compareWith) {
-			result = x - 2 + random.nextInt();
+			result = x - 1 + random.nextInt(3);
 		}
 		return result;
 	}
@@ -93,7 +98,7 @@ public class Board {
 		}
 		numOfMonsters--;
 	}
-	
+
 	public void removeUsedSeeds(Seed seed) throws Exception {
 		if (!seeds.remove(seed)) {
 			throw new Exception("The Game has bugs");
