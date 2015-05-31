@@ -1,0 +1,3 @@
+Database Configuration:
+
+create table users (username varchar(20), password varchar(20));
