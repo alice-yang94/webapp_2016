@@ -2,7 +2,6 @@ package rm;
 
 import java.applet.Applet;
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -48,7 +47,12 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 			g.fillRect(0, 0, 750, 750);
 
 //			gc.update((float)(delta / 1000000000.0));
-			gc.update(TIMESLICE);
+			try {
+				gc.update(TIMESLICE);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			gc.view(g);
 
     		appletG.drawImage(screen, 0, 0, null);
@@ -73,7 +77,6 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 	}
 	
 	public boolean eventHandler(KeyEvent e) {
-		System.out.print("event Handler");
 		return gc.eventHandler(e);
 	}
 
@@ -85,7 +88,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-//		eventHandler(e);
+		eventHandler(e);
 	}
 
 	@Override

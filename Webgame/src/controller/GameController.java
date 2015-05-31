@@ -1,6 +1,5 @@
 package controller;
 
-import java.awt.Event;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
@@ -33,23 +32,24 @@ public class GameController {
 	}
 	
 	public boolean eventHandler(KeyEvent e) {
-		System.out.print("event Handler");
-		switch(e.getID()) {
-		case Event.UP:
-			System.out.print("sdsa");
+		switch(e.getKeyCode()) {
+		case KeyEvent.VK_UP:
 			controller.pressUp();
 			break;
-		case Event.DOWN:
+		case KeyEvent.VK_DOWN:
+			controller.pressDown();
 			break;
-		case Event.LEFT:
+		case KeyEvent.VK_LEFT:
+			controller.pressLeft();
 			break;
-		case Event.RIGHT:
+		case KeyEvent.VK_RIGHT:
+			controller.pressRight();
 			break;
 		}
 		return false;
 	}
 	
-	public void update(int time) {
+	public void update(int time) throws Exception {
 		controller.update(time);
 	}
 	
