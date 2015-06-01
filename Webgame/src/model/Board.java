@@ -47,11 +47,11 @@ public class Board {
 
 			// generate seeds
 			if (random.nextInt(2) == 1) {
-				int sx = generateNeighbourPoint(x, true);
-				int sy = generateNeighbourPoint(y, false);
+				int sx = generateNeighbourPoint(x);
+				int sy = generateNeighbourPoint(y);
 				while (board[sy][sx] != null) {
-					sx = generateNeighbourPoint(x, true);
-					sy = generateNeighbourPoint(y, false);
+					sx = generateNeighbourPoint(x);
+					sy = generateNeighbourPoint(y);
 				}
 				board[sy][sx] = new Seed(sx, sy);
 				seeds.add((Seed) board[sy][sx]);
@@ -66,15 +66,9 @@ public class Board {
 		}
 	}
 
-	private int generateNeighbourPoint(int x, boolean isWidth) {
+	private int generateNeighbourPoint(int x) {
 		int result = x - 1 + random.nextInt(3);
-		int compareWith;
-		if (isWidth) {
-			compareWith = WIDTH;
-		} else {
-			compareWith = HEIGHT;
-		}
-		while (result < 0 || result >= compareWith) {
+		while (result < 0 || result >= WIDTH) {
 			result = x - 1 + random.nextInt(3);
 		}
 		return result;
@@ -93,13 +87,19 @@ public class Board {
 	}
 
 	public void removeDeadMonster(Monster deadMonster) throws Exception {
+		int x = deadMonster.getX();
+		int y = deadMonster.getY();
+
 		if (!monsters.remove(deadMonster)) {
 			throw new Exception("The Game has Bugs!");
 		}
+		board[y][x] = null;
 		numOfMonsters--;
+
 	}
 
 	public void removeUsedSeeds(Seed seed) throws Exception {
+		board[seed.getY()][seed.getX()] = null;
 		if (!seeds.remove(seed)) {
 			throw new Exception("The Game has bugs");
 		}
@@ -110,12 +110,29 @@ public class Board {
 		return numOfSeeds;
 	}
 
+	public void changePlayerPos(int x, int y) {
+		board[player.getY()][player.getX()] = null;
+		board[y][x] = player;
+	}
+	
+	public boolean changeMonsterPos(Monster m, int newx, int newy) {
+		board[m.getY()][m.getX()] = null;
+		if (board[newy][newx] == null) {
+			board[newy][newx] = m;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isEmpty(int x, int y) {
+		if (board[y][x] == null) {
+			return true;
+		}
+		return false;
+	}
+
 	public Object getObject(int x, int y) {
 		return board[y][x];
 	}
-	
-	// public Object[][] getBoard() {
-	// return board;
-	// }
 
 }
