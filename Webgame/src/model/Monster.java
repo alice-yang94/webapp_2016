@@ -36,4 +36,23 @@ public class Monster {
 		return life;
 	}
 
+	public void setLife(int life) {
+		this.life = life;
+	}
+
+	public boolean loseLife() {
+		if (life > 1) {
+			life--;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean equals(int mx, int my) {
+		if (mx == x && my == y) {
+			return true;
+		}
+		return false;
+	}
+
 }
