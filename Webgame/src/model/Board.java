@@ -116,10 +116,11 @@ public class Board {
 	}
 	
 	public boolean changeMonsterPos(Monster m, int newx, int newy) {   
-		//Remember to check if the new coordinate is set after this function
 		board[m.getY()][m.getX()] = null;
 		if (board[newy][newx] == null) {
 			board[newy][newx] = m;
+			m.setX(newx);
+			m.setY(newy);
 			return true;
 		}
 		return false;

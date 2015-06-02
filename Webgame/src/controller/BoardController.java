@@ -277,20 +277,16 @@ public class BoardController {
 	private void moveX(int[] m, int[] monsterIntend, Monster monster) {
 		if (m[0] < monsterIntend[0] && ifEmpty(m[0] + 1, m[1])) {
 			board.changeMonsterPos(monster, m[0] + 1, m[1]);
-			monster.setX(m[0] + 1);
 		} else if (m[0] > monsterIntend[0] && ifEmpty(m[0] - 1, m[1])) {
 			board.changeMonsterPos(monster, m[0] - 1, m[1]);
-			monster.setX(m[0] - 1);
 		}
 	}
 
 	private void moveY(int[] m, int[] monsterIntend, Monster monster) {
 		if (m[1] < monsterIntend[1] && board.isEmpty(m[0], m[1] + 1)) {
 			board.changeMonsterPos(monster, m[0], m[1] + 1);
-			monster.setY(m[1] + 1);
 		} else if (m[1] > monsterIntend[1] && board.isEmpty(m[0], m[1] - 1)) {
 			board.changeMonsterPos(monster, m[0], m[1] - 1);
-			monster.setY(m[1] - 1);
 		}
 	}
 
