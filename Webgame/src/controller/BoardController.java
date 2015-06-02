@@ -27,10 +27,6 @@ public class BoardController {
 
 	public void update(int time) throws Exception {
 		if (hasInput) {
-			
-			board.printAllCoodinateOfMonsters();
-			board.printAllMonsterOnBoard();
-
 			boolean notMonster = true;
 			for (Monster monster : board.getMonsters()) {
 				// if player meets monster, player loselife, monster die
@@ -61,6 +57,9 @@ public class BoardController {
 			player.setX(targetX);
 			player.setY(targetY);
 			monsterMove();
+			
+			board.printAllCoodinateOfMonsters();
+			board.printAllMonsterOnBoard();
 		}
 		hasInput = false;
 	}

@@ -154,7 +154,7 @@ public class Board {
 			for (int j = 0; j < HEIGHT; j++) {
 				if (board[j][i] instanceof Monster) {
 					Monster monster = (Monster) board[j][i];
-					System.out.println(monster.getX() + " " + monster.getY());
+					System.out.println(i + " " + j + "     " + monster.getX() + " " + monster.getY());
 				}
 			}
 		}
