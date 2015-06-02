@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -28,11 +27,14 @@ public class BoardController {
 
 	public void update(int time) throws Exception {
 		if (hasInput) {
+			
+			board.printAllCoodinateOfMonsters();
+			board.printAllMonsterOnBoard();
 
 			boolean notMonster = true;
 			for (Monster monster : board.getMonsters()) {
 				// if player meets monster, player loselife, monster die
-				if (monster.equals(targetX, targetY)) {
+				if (monster.equalsCoordinate(targetX, targetY)) {
 					player.loseLife();
 					board.removeDeadMonster(monster);
 					notMonster = false;
@@ -55,9 +57,9 @@ public class BoardController {
 					}
 				}
 			}
+			board.changePlayerPos(targetX, targetY);
 			player.setX(targetX);
 			player.setY(targetY);
-			board.changePlayerPos(targetX,targetY);
 			monsterMove();
 		}
 		hasInput = false;
@@ -211,14 +213,17 @@ public class BoardController {
 
 			monsterIntend = items[0].getValue();
 
-			boolean empty = true;
+			boolean empty = false;
 			Monster mstr = null;
 			int index = 0;
 
 			while (!empty) {
+				if (index >= 3) {
+					break;
+				}
 				empty = true;
 				for (Monster mon : board.getMonsters()) {
-					if (mon.equals(monsterIntend[0], monsterIntend[1])) {
+					if (mon.equalsCoordinate(monsterIntend[0], monsterIntend[1])) {
 						index++;
 						mstr = mon;
 						monsterIntend = items[index].getValue();
@@ -236,16 +241,19 @@ public class BoardController {
 						}
 					}
 				}
+				mstr = null;
 			}
 
-			Random random = new Random();
-			int rand = random.nextInt(2);
-			if (rand == 0) {
-				moveX(m, monsterIntend, monster);
-				moveY(m, monsterIntend, monster);
-			} else {
-				moveY(m, monsterIntend, monster);
-				moveX(m, monsterIntend, monster);
+			if (index < 3) {
+				Random random = new Random();
+				int rand = random.nextInt(2);
+				if (rand == 0) {
+					moveX(m, monsterIntend, monster);
+					moveY(m, monsterIntend, monster);
+				} else {
+					moveY(m, monsterIntend, monster);
+					moveX(m, monsterIntend, monster);
+				}
 			}
 
 		}
@@ -254,7 +262,7 @@ public class BoardController {
 
 	private boolean ifEmpty(int x, int y) {
 		for (Monster mon : board.getMonsters()) {
-			if (mon.equals(x, y)) {
+			if (mon.equalsCoordinate(x, y)) {
 				return false;
 			}
 		}

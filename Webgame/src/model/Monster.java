@@ -48,7 +48,7 @@ public class Monster {
 		return false;
 	}
 	
-	public boolean equals(int mx, int my) {
+	public boolean equalsCoordinate(int mx, int my) {
 		if (mx == x && my == y) {
 			return true;
 		}

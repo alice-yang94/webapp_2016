@@ -47,7 +47,7 @@ public class SimpleBoardRenderer implements Renderer {
 			y = (int) (monster.getY() * cellSize);
 			g.fillOval(x + 2, y + 2, cellSize - 4, cellSize - 4);
 		}
-
+		
 		// render seeds
 		g.setColor(Color.yellow);
 		for (Seed seed : board.getSeeds()) {
