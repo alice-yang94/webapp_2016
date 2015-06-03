@@ -113,6 +113,8 @@ public class Board {
 	public void changePlayerPos(int x, int y) {
 		board[player.getY()][player.getX()] = null;
 		board[y][x] = player;
+		player.setX(x);
+		player.setY(y);
 	}
 	
 	public boolean changeMonsterPos(Monster m, int newx, int newy) {   

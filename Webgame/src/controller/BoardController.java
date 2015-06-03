@@ -54,11 +54,10 @@ public class BoardController {
 				}
 			}
 			board.changePlayerPos(targetX, targetY);
-			player.setX(targetX);
-			player.setY(targetY);
 			monsterMove();
 			
-			board.printAllCoodinateOfMonsters();
+			System.out.println(player.getX() + " " + player.getY());
+//			board.printAllCoodinateOfMonsters();
 			board.printAllMonsterOnBoard();
 		}
 		hasInput = false;
