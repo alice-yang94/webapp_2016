@@ -33,6 +33,10 @@ public class Board {
 		// add player to the center of board
 		board[(int) player.getY()][player.getX()] = player;
 
+		generateMonsterAndSeed(numOfMonsters);
+	}
+
+	public void generateMonsterAndSeed(int numOfMonsters) throws Exception {
 		// add number of monsters with seeds related to player's level
 		for (int i = 0; i < numOfMonsters; i++) {
 			// generate monsters
@@ -97,7 +101,7 @@ public class Board {
 		numOfMonsters--;
 
 	}
-	
+
 	public void clearMonsterWhenHitBySeed(Monster deadMonster) {
 		board[deadMonster.getY()][deadMonster.getX()] = null;
 		numOfMonsters--;
@@ -121,8 +125,8 @@ public class Board {
 		player.setX(x);
 		player.setY(y);
 	}
-	
-	public boolean changeMonsterPos(Monster m, int newx, int newy) {   
+
+	public boolean changeMonsterPos(Monster m, int newx, int newy) {
 		board[m.getY()][m.getX()] = null;
 		if (board[newy][newx] == null) {
 			board[newy][newx] = m;
@@ -143,11 +147,10 @@ public class Board {
 	public Object getObject(int x, int y) {
 		return board[y][x];
 	}
-	
-	
-	public void printAllCoodinateOfMonsters() {   //for testing
+
+	public void printAllCoodinateOfMonsters() { // for testing
 		System.out.println("Monster List");
-		for (Monster monster: monsters) {
+		for (Monster monster : monsters) {
 			System.out.println(monster.getX() + " " + monster.getY());
 		}
 		System.out.println();
@@ -155,14 +158,14 @@ public class Board {
 		System.out.println();
 	}
 
-
 	public void printAllMonsterOnBoard() {
-		System.out.println("Monster on board");	
+		System.out.println("Monster on board");
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
 				if (board[j][i] instanceof Monster) {
 					Monster monster = (Monster) board[j][i];
-					System.out.println(i + " " + j + "     " + monster.getX() + " " + monster.getY());
+					System.out.println(i + " " + j + "     " + monster.getX()
+							+ " " + monster.getY());
 				}
 			}
 		}
@@ -170,5 +173,5 @@ public class Board {
 		System.out.println();
 		System.out.println();
 	}
-	
+
 }
