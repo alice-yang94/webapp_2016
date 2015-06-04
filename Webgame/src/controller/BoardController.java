@@ -37,9 +37,6 @@ public class BoardController {
 				Monster monster = iter.next();
 				if (monster.equalsCoordinate(targetX, targetY)) {
 					if (!playerLoseLife()) {
-//						board.removeDeadMonster(monster);
-						iter.remove();
-						board.clearMonsterWhenHitBySeed(monster);
 						break;
 					}
 
