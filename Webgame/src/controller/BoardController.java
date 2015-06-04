@@ -19,6 +19,7 @@ public class BoardController {
 
 	public static final int INITIAL_COUNTER = 0;
 	public static final int SEED_COUNTER = 2;
+	public static final int MONSTER_INC_NUMBER = 3;
 
 	public BoardController(Board board) {
 		this.board = board;
@@ -30,11 +31,10 @@ public class BoardController {
 		if (hasInput) {
 			boolean notMonster = true;
 
+			// if player meets monster, player loselife, monster die
 			Iterator<Monster> iter = board.getMonsters().iterator();
 			while (iter.hasNext()) {
 				Monster monster = iter.next();
-
-				// if player meets monster, player loselife, monster die
 				if (monster.equalsCoordinate(targetX, targetY)) {
 					if (!playerLoseLife()) {
 //						board.removeDeadMonster(monster);
@@ -46,16 +46,13 @@ public class BoardController {
 					notMonster = false;
 					break;
 				}
-
-				// if space is pressed within 2 rounds, hit monster
-				if (seedCounter > 0) {
-					hitMonster(monster);
-				}
 			}
 
 			// if the grid contains seed, player gets a bullet
 			if (notMonster) {
-				for (Seed seed : board.getSeeds()) {
+				Iterator<Seed> iterS = board.getSeeds().iterator();
+				while (iterS.hasNext()) {
+					Seed seed = iterS.next();
 					if (seed.equals(targetX, targetY)) {
 						player.winBullets();
 						board.removeUsedSeeds(seed);
@@ -63,6 +60,12 @@ public class BoardController {
 					}
 				}
 			}
+
+			// if space is pressed within 2 rounds, hit monster on the cross
+			if (seedCounter > 0) {
+				hitMonster();
+			}
+
 			board.changePlayerPos(targetX, targetY);
 			monsterMove();
 
@@ -123,34 +126,28 @@ public class BoardController {
 
 	public void pressSpace() throws Exception {
 		if (player.decreaseBullets()) {
-			seedCounter = SEED_COUNTER;
-			Iterator<Monster> iter = board.getMonsters().iterator();
-			while (iter.hasNext()) {
-				Monster monster = iter.next();
-
-				if (seedCounter > 0) {
-					if (monster.getX() == player.getX()
-							|| monster.getY() == player.getY()) {
-						if (monster.loseLife()) {
-							seedCounter--;
-						} else {
-							iter.remove();
-							board.clearMonsterWhenHitBySeed(monster);
-						}
-					}
-				} else {
-					break;
-				}
-			}
+			seedCounter = 2;
+			hitMonster();
 		}
 	}
 
-	public void hitMonster(Monster monster) throws Exception {
-		if (monster.getX() == player.getX() || monster.getY() == player.getY()) {
-			if (monster.loseLife()) {
-				seedCounter--;
+	public void hitMonster() throws Exception {
+		Iterator<Monster> iter = board.getMonsters().iterator();
+		while (iter.hasNext()) {
+			Monster monster = iter.next();
+
+			if (seedCounter > 0) {
+				if (monster.getX() == player.getX()
+						|| monster.getY() == player.getY()) {
+					if (monster.loseLife()) {
+						seedCounter--;
+					} else {
+						iter.remove();
+						board.clearMonsterWhenHitBySeed(monster);
+					}
+				}
 			} else {
-				board.removeDeadMonster(monster);
+				break;
 			}
 		}
 	}
@@ -220,7 +217,9 @@ public class BoardController {
 	}
 
 	public void monsterMove() {
-		for (Monster monster : board.getMonsters()) {
+		Iterator<Monster> iter = board.getMonsters().iterator();
+		while (iter.hasNext()) {
+			Monster monster = iter.next();
 			int monsterX = monster.getX();
 			int monsterY = monster.getY();
 
@@ -247,7 +246,9 @@ public class BoardController {
 					break;
 				}
 				empty = true;
-				for (Monster mon : board.getMonsters()) {
+				Iterator<Monster> iterM = board.getMonsters().iterator();
+				while (iterM.hasNext()) {
+					Monster mon = iterM.next();
 					if (mon.equalsCoordinate(monsterIntend[0], monsterIntend[1])) {
 						index++;
 						mstr = mon;
@@ -257,7 +258,9 @@ public class BoardController {
 					}
 				}
 				if (mstr == null) {
-					for (Seed sd : board.getSeeds()) {
+					Iterator<Seed> iterS = board.getSeeds().iterator();
+					while (iterS.hasNext()) {
+						Seed sd = iterS.next();
 						if (sd.equals(monsterIntend[0], monsterIntend[1])) {
 							index++;
 							monsterIntend = items[index].getValue();
@@ -286,13 +289,17 @@ public class BoardController {
 	}
 
 	private boolean ifEmpty(int x, int y) {
-		for (Monster mon : board.getMonsters()) {
+		Iterator<Monster> iter = board.getMonsters().iterator();
+		while (iter.hasNext()) {
+			Monster mon = iter.next();
 			if (mon.equalsCoordinate(x, y)) {
 				return false;
 			}
 		}
 
-		for (Seed sd : board.getSeeds()) {
+		Iterator<Seed> iterS = board.getSeeds().iterator();
+		while (iterS.hasNext()) {
+			Seed sd = iterS.next();
 			if (sd.equals(x, y)) {
 				return false;
 			}
@@ -323,6 +330,11 @@ public class BoardController {
 				board.changeMonsterPos(monster, m[0], m[1] - 1);
 			}
 		}
+	}
+
+	public void addMonsters() throws Exception {
+		board.generateMonsterAndSeed(MONSTER_INC_NUMBER);
+		
 	}
 
 }

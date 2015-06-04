@@ -38,11 +38,10 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 		Graphics g = screen.getGraphics();
 		Graphics appletG = getGraphics();
 
-//		long delta = 01;
+		long delta = 01;
+		long lastTime = System.nanoTime();
 		
 		while (true) {
-//			long lastTime = System.nanoTime();
-			
 			g.setColor(Color.black);
 			g.fillRect(0, 0, 750, 750);
 
@@ -57,9 +56,17 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 
     		appletG.drawImage(screen, 0, 0, null);
 
-//			delta = System.nanoTime() - lastTime;
-//			if (delta < 20000000L) {
-//				try {
+			delta = System.nanoTime() - lastTime;
+			if (delta > 2000000000L) {
+				try {
+					lastTime += 2000000000L;
+					gc.addMonsters();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}				
+				//				try {
 //					Thread.sleep((20000000L - delta) / 1000000L);
 //				} catch (InterruptedException e) {
 //					// TODO Auto-generated catch block

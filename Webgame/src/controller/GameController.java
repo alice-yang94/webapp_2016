@@ -59,4 +59,8 @@ public class GameController {
 		renderer.render(g);
 	}
 	
+	public void addMonsters() throws Exception {
+		controller.addMonsters();
+	}
+	
 }
