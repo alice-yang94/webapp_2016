@@ -36,8 +36,10 @@ public class BoardController {
 			while (iter.hasNext()) {
 				Monster monster = iter.next();
 				if (monster.equalsCoordinate(targetX, targetY)) {
-					player.loseLife();
-					board.removeDeadMonster(monster);
+					if (!playerLoseLife()) {
+						break;
+					}
+
 					notMonster = false;
 					break;
 				}
@@ -154,13 +156,15 @@ public class BoardController {
 		return false;
 	}
 
-	private void playerLoseLife() {
+	private boolean playerLoseLife() {
+		System.out.println("lose");
 		if (player.loseLife()) { // still have life
 			hasInput = false; // invalid move, has to wait another input
-		} else {
-
-			// TODO: restart the game
-
+			return true;
+		} else { // restart game
+			System.out.println("die");
+			board.clearEverything();
+			return false;
 		}
 	}
 

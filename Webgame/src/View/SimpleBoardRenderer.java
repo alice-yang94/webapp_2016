@@ -2,6 +2,7 @@ package View;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Iterator;
 
 import model.Board;
 import model.Monster;
@@ -42,7 +43,9 @@ public class SimpleBoardRenderer implements Renderer {
 
 		// render monsters
 		g.setColor(Color.green);
-		for (Monster monster : board.getMonsters()) {
+		Iterator<Monster> iter = board.getMonsters().iterator();
+		while (iter.hasNext()) {
+			Monster monster = iter.next();
 			x = (int) (monster.getX() * cellSize);
 			y = (int) (monster.getY() * cellSize);
 			g.fillOval(x + 2, y + 2, cellSize - 4, cellSize - 4);
@@ -50,7 +53,9 @@ public class SimpleBoardRenderer implements Renderer {
 		
 		// render seeds
 		g.setColor(Color.yellow);
-		for (Seed seed : board.getSeeds()) {
+		Iterator<Seed> seedIter = board.getSeeds().iterator();
+		while (seedIter.hasNext()) {
+			Seed seed = seedIter.next();
 			x = (int) (seed.getX() * cellSize);
 			y = (int) (seed.getY() * cellSize);
 			g.fillOval(x + 2, y + 2, cellSize - 4, cellSize - 4);
