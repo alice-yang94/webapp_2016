@@ -65,6 +65,7 @@ public class GameController {
 
 	public void moveMonsters() {
 		controller.monsterMove();
+		controller.ifDie();
 	}
 	
 	public void removeDueSeeds() throws Exception {

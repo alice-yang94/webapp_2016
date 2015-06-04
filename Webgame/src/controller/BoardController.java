@@ -162,10 +162,14 @@ public class BoardController {
 			hasInput = false; // invalid move, has to wait another input
 			return true;
 		} else { // restart game
-			System.out.println("die");
-			board.clearEverything();
+			playerDie();
 			return false;
 		}
+	}
+
+	private void playerDie() {
+		System.out.println("die");
+		board.clearEverything();
 	}
 
 	private int getDistance(int[] a1, int[] a2) {
@@ -286,7 +290,28 @@ public class BoardController {
 			}
 
 		}
-
+	}
+	
+	public void ifDie() {
+		int px = player.getX();
+		int py = player.getY();
+		Iterator<Monster> iterM = board.getMonsters().iterator();
+		int count = 0;
+		while (iterM.hasNext()) {
+			Monster monster = iterM.next();
+			if (monster.equalsCoordinate(px + 1, py)
+					|| monster.equalsCoordinate(px - 1, py)
+					|| monster.equalsCoordinate(px, py + 1)
+					|| monster.equalsCoordinate(px, py - 1)) {
+				count++;
+			}
+			if (count == 4) {
+				while (playerLoseLife()) {
+					playerLoseLife();
+				}
+				break;
+			}
+		}
 	}
 
 	private boolean ifEmpty(int x, int y) {
