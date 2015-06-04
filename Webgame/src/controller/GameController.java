@@ -62,5 +62,13 @@ public class GameController {
 	public void addMonsters() throws Exception {
 		controller.addMonsters();
 	}
+
+	public void moveMonsters() {
+		controller.monsterMove();
+	}
+	
+	public void removeDueSeeds() throws Exception {
+		controller.removeDueSeeds();
+	}
 	
 }

@@ -4,10 +4,12 @@ public class Seed {
 
 		private int x;
 		private int y;
+		private long bornTime;
 		
-		public Seed(int x, int y) {
+		public Seed(int x, int y, long bornTime) {
 			this.setX(x);
 			this.setY(y);
+			this.bornTime = bornTime;
 		}
 
 		public int getX() {
@@ -31,5 +33,9 @@ public class Seed {
 				return true;
 			}
 			return false;
+		}
+		
+		public long getBornTime() {
+			return bornTime;
 		}
 }

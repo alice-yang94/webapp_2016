@@ -211,6 +211,7 @@ public class BoardController {
 
 	public void monsterMove() {
 		Iterator<Monster> iter = board.getMonsters().iterator();
+		int px, py;
 		while (iter.hasNext()) {
 			Monster monster = iter.next();
 			int monsterX = monster.getX();
@@ -218,11 +219,14 @@ public class BoardController {
 
 			int[] monsterIntend = null;
 
+			px = player.getX();
+			py = player.getY();
+
 			// int[0] = x, int[1] = y
-			int[] up = { targetX, targetY - 1 };
-			int[] down = { targetX, targetY + 1 };
-			int[] left = { targetX - 1, targetY };
-			int[] right = { targetX + 1, targetY };
+			int[] up = { px, py - 1 };
+			int[] down = { px, py + 1 };
+			int[] left = { px - 1, py };
+			int[] right = { px + 1, py };
 
 			int[] m = { monsterX, monsterY };
 
@@ -327,7 +331,17 @@ public class BoardController {
 
 	public void addMonsters() throws Exception {
 		board.generateMonsterAndSeed(MONSTER_INC_NUMBER);
-		
 	}
 
+	public synchronized void removeDueSeeds() throws Exception {
+		Iterator<Seed> iterS = board.getSeeds().iterator();
+		while (iterS.hasNext()) {
+			Seed seed = iterS.next();
+			if ((System.nanoTime() - seed.getBornTime()) > 6000000000L) {
+				board.removeUsedSeeds(seed);
+				removeDueSeeds();
+				break;
+			}
+		}
+	}
 }

@@ -36,9 +36,9 @@ public class Board {
 		generateMonsterAndSeed(numOfMonsters);
 	}
 
-	public void generateMonsterAndSeed(int numOfMonsters) throws Exception {
+	public void generateMonsterAndSeed(int numOfM) throws Exception {
 		// add number of monsters with seeds related to player's level
-		for (int i = 0; i < numOfMonsters; i++) {
+		for (int i = 0; i < numOfM; i++) {
 			// generate monsters
 			int x = random.nextInt(WIDTH);
 			int y = random.nextInt(HEIGHT);
@@ -57,16 +57,14 @@ public class Board {
 					sx = generateNeighbourPoint(x);
 					sy = generateNeighbourPoint(y);
 				}
-				board[sy][sx] = new Seed(sx, sy);
+				board[sy][sx] = new Seed(sx, sy, System.nanoTime());
 				seeds.add((Seed) board[sy][sx]);
 				numOfSeeds++;
 
 				if (Math.abs(x - sx) > 2 || Math.abs(y - sy) > 2) {
 					throw new Exception("Exception: incorrect seed generated!!");
 				}
-
 			}
-
 		}
 	}
 
@@ -82,7 +80,7 @@ public class Board {
 		return monsters;
 	}
 
-	public List<Seed> getSeeds() {
+	public synchronized List<Seed> getSeeds() {
 		return seeds;
 	}
 

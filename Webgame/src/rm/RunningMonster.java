@@ -61,6 +61,8 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 				try {
 					lastTime += 2000000000L;
 					gc.addMonsters();
+					gc.moveMonsters();
+					gc.removeDueSeeds();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
