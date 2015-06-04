@@ -7,7 +7,7 @@ public class Player {
 	private int level;
 	private int life;
 	private int bullets;
-	private final int[] bulletsByLevel = {70, 60, 50, 40, 30};
+	private final int[] bulletsByLevel = {5, 4, 3, 2, 1};
 	private final int MAXLIFE = 3;
 	
 	public Player(int level) {

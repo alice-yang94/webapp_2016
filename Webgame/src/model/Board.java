@@ -97,6 +97,11 @@ public class Board {
 		numOfMonsters--;
 
 	}
+	
+	public void clearMonsterWhenHitBySeed(Monster deadMonster) {
+		board[deadMonster.getY()][deadMonster.getX()] = null;
+		numOfMonsters--;
+	}
 
 	public void removeUsedSeeds(Seed seed) throws Exception {
 		board[seed.getY()][seed.getX()] = null;
