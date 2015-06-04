@@ -16,7 +16,8 @@ public class BoardController {
 
 	private int targetX, targetY, seedCounter;
 	private boolean hasInput = false; // true if player input on keyboard
-
+    private boolean endGame = false;
+	
 	public static final int INITIAL_COUNTER = 0;
 	public static final int SEED_COUNTER = 2;
 	public static final int MONSTER_INC_NUMBER = 3;
@@ -158,11 +159,14 @@ public class BoardController {
 
 	private boolean playerLoseLife() {
 		System.out.println("lose");
+		if (endGame) {
+			playerDie();
+		}
 		if (player.loseLife()) { // still have life
 			hasInput = false; // invalid move, has to wait another input
 			return true;
 		} else { // restart game
-			playerDie();
+			endGame = true;
 			return false;
 		}
 	}
