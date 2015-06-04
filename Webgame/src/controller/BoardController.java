@@ -29,15 +29,20 @@ public class BoardController {
 	public void update(int time) throws Exception {
 		if (hasInput) {
 			boolean notMonster = true;
-			
+
 			Iterator<Monster> iter = board.getMonsters().iterator();
 			while (iter.hasNext()) {
 				Monster monster = iter.next();
-				
+
 				// if player meets monster, player loselife, monster die
 				if (monster.equalsCoordinate(targetX, targetY)) {
-					player.loseLife();
-					board.removeDeadMonster(monster);
+					if (!playerLoseLife()) {
+//						board.removeDeadMonster(monster);
+						iter.remove();
+						board.clearMonsterWhenHitBySeed(monster);
+						break;
+					}
+
 					notMonster = false;
 					break;
 				}
@@ -118,7 +123,7 @@ public class BoardController {
 
 	public void pressSpace() throws Exception {
 		if (player.decreaseBullets()) {
-			seedCounter = 2;
+			seedCounter = SEED_COUNTER;
 			Iterator<Monster> iter = board.getMonsters().iterator();
 			while (iter.hasNext()) {
 				Monster monster = iter.next();
@@ -157,13 +162,15 @@ public class BoardController {
 		return false;
 	}
 
-	private void playerLoseLife() {
+	private boolean playerLoseLife() {
+		System.out.println("lose");
 		if (player.loseLife()) { // still have life
 			hasInput = false; // invalid move, has to wait another input
-		} else {
-
-			// TODO: restart the game
-
+			return true;
+		} else { // restart game
+			System.out.println("die");
+			board.clearEverything();
+			return false;
 		}
 	}
 

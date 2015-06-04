@@ -144,6 +144,18 @@ public class Board {
 		return board[y][x];
 	}
 	
+	public void clearEverything() {
+		for (int i = 0; i < WIDTH; i++) {
+			for (int j = 0; j < HEIGHT; j++) {
+				board[j][i] = null;
+			}
+		}
+		monsters.clear();
+		seeds.clear();
+		numOfMonsters = 0;
+		numOfSeeds = 0;
+	}
+	
 	
 	public void printAllCoodinateOfMonsters() {   //for testing
 		System.out.println("Monster List");
