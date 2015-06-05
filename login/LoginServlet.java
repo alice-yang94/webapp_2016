@@ -40,12 +40,12 @@ public class LoginServlet extends HttpServlet {
       String password2 = request.getParameter("password2");
 
       if (!usernameNotUsed(username)) {
-        response.sendRedirect("create.html");
+        response.sendError(response.SC_BAD_REQUEST, "Username already in use");
         return;
       }
 
       if (!password.equals(password2)) {
-        response.sendRedirect("create.html");
+        response.sendError(response.SC_BAD_REQUEST, "The passwords don't match");
         return;
       }
 
