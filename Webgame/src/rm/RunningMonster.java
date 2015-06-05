@@ -56,7 +56,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
     		appletG.drawImage(screen, 0, 0, null);
 
 			delta = System.nanoTime() - lastTime;
-			if (delta > 2000000000L) {
+			if (delta > 2000000000L && gc.isPlayerAlive()) {
 				try {
 					lastTime += 2000000000L;
 					gc.addMonsters();
