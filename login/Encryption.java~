@@ -12,10 +12,6 @@ public class Encryption {
 
   private static final String hardKey = "E8726B4EDEBA34F9";
 
-  /**
-   * returns the given string, encrypted using the hard key and a
-   * generated salt value, and the salt value used
-   */
   public static PasswordPair encrypt(String text) {
     text = encryptString(text, hardKey);
 
@@ -25,10 +21,6 @@ public class Encryption {
     return new PasswordPair(text, salt);
   }
 
-  /**
-   * returns the given string, encrypted with the hard key and the
-   * given salt value
-   */
   public static String encryptString(String text, String key) {
     byte[] encryptedText = null;
     try {
