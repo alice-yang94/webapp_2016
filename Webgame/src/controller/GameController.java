@@ -72,4 +72,7 @@ public class GameController {
 		controller.removeDueSeeds();
 	}
 	
+	public boolean isPlayerAlive() {
+		return player.isAlive();
+	}
 }

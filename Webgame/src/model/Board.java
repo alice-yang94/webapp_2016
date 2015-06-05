@@ -155,10 +155,15 @@ public class Board {
 		}
 		monsters.clear();
 		seeds.clear();
+		board[player.getY()][player.getX()] = null;
+		player = null;
 		numOfMonsters = 0;
 		numOfSeeds = 0;
 	}
 	
+	public boolean hasPlayer() {
+		return player != null;
+	}
 	
 //	public void printAllCoodinateOfMonsters() {   //for testing
 //		System.out.println("Monster List");
