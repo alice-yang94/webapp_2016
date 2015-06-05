@@ -30,7 +30,6 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void run() {
-
 		setSize(750, 750);
 
 		BufferedImage screen = new BufferedImage(750, 750,

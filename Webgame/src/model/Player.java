@@ -67,4 +67,10 @@ public class Player {
 	public int getLevel() {
 		return level;
 	}
+	
+	public boolean isAlive() {
+		System.out.println(life);
+		return life >= 1;
+	}
+
 }
