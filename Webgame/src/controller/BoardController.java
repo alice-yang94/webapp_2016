@@ -64,12 +64,14 @@ public class BoardController {
 				hitMonster();
 			}
 
+			if (board.hasPlayer()) {
 			board.changePlayerPos(targetX, targetY);
+			}
 			monsterMove();
-
-			// System.out.println(player.getX() + " " + player.getY());
-			// board.printAllCoodinateOfMonsters();
-			// board.printAllMonsterOnBoard();
+			
+//			 System.out.println(player.getX() + " " + player.getY());
+//			 board.printAllCoodinateOfMonsters();
+//			 board.printAllMonsterOnBoard();
 		}
 		hasInput = false;
 	}
