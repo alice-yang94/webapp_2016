@@ -165,30 +165,30 @@ public class Board {
 		return player != null;
 	}
 	
-//	public void printAllCoodinateOfMonsters() {   //for testing
-//		System.out.println("Monster List");
-//		for (Monster monster : monsters) {
-//			System.out.println(monster.getX() + " " + monster.getY());
-//		}
-//		System.out.println();
-//		System.out.println();
-//		System.out.println();
-//	}
-//
-//	public void printAllMonsterOnBoard() {
-//		System.out.println("Monster on board");
-//		for (int i = 0; i < WIDTH; i++) {
-//			for (int j = 0; j < HEIGHT; j++) {
-//				if (board[j][i] instanceof Monster) {
-//					Monster monster = (Monster) board[j][i];
-//					System.out.println(i + " " + j + "     " + monster.getX()
-//							+ " " + monster.getY());
-//				}
-//			}
-//		}
-//		System.out.println();
-//		System.out.println();
-//		System.out.println();
-//	}
+	public void printAllCoodinateOfMonsters() {   //for testing
+		System.out.println("Monster List");
+		for (Monster monster : monsters) {
+			System.out.println(monster.getX() + " " + monster.getY());
+		}
+		System.out.println();
+		System.out.println();
+		System.out.println();
+	}
+
+	public void printAllMonsterOnBoard() {
+		System.out.println("Monster on board");
+		for (int i = 0; i < WIDTH; i++) {
+			for (int j = 0; j < HEIGHT; j++) {
+				if (board[j][i] instanceof Monster) {
+					Monster monster = (Monster) board[j][i];
+					System.out.println(i + " " + j + "     " + monster.getX()
+							+ " " + monster.getY());
+				}
+			}
+		}
+		System.out.println();
+		System.out.println();
+		System.out.println();
+	}
 
 }
