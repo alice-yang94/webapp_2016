@@ -35,6 +35,7 @@ public class Board {
 
 		generateMonsterAndSeed(numOfMonsters);
 	}
+	
 
 	public void generateMonsterAndSeed(int numOfM) throws Exception {
 		// add number of monsters with seeds related to player's level

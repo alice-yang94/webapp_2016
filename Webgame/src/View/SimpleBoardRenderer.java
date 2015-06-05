@@ -19,6 +19,8 @@ public class SimpleBoardRenderer implements Renderer {
 
 	@Override
 	public void render(Graphics g) {
+		
+		if (board.getPlayer().isAlive()) { 
 		// render the board
 		int cellSize = 25;
 		g.setColor(Color.blue);
@@ -60,6 +62,7 @@ public class SimpleBoardRenderer implements Renderer {
 			y = (int) (seed.getY() * cellSize);
 			g.fillOval(x + 2, y + 2, cellSize - 4, cellSize - 4);
 		}
+	}
 	}
 
 }
