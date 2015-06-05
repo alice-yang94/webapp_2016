@@ -63,6 +63,16 @@ public class SimpleBoardRenderer implements Renderer {
 				y = (int) (seed.getY() * cellSize);
 				g.fillOval(x + 2, y + 2, cellSize - 4, cellSize - 4);
 			}
+			
+			g.setColor(Color.white);
+			g.fillRect(750, 0, 150, 750);
+			g.setColor(Color.black);
+			char[] name = "Player name:".toCharArray();
+			g.drawChars(name, 0, 12, 790, 50);
+			char[] playerName = player.getName().toCharArray();
+			g.drawChars(playerName, 0, playerName.length, 790, 80);
+			
+			
 		}
 	}
 

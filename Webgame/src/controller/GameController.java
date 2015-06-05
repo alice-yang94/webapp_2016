@@ -16,10 +16,11 @@ public class GameController {
 	private BoardController controller;
 	
 	private int level = 3;   //TODO:Connect to database to get level
+	private String name = "PlayerA";  //TODO: Connect to database to get level
 	private int centerPoint = 14;
 	
 	public GameController() throws Exception {
-		player = new Player(level);
+		player = new Player(level, name);
 		player.setX(centerPoint);
 		player.setY(centerPoint);
 		board = new Board(player);

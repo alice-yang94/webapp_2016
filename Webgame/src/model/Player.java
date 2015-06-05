@@ -9,11 +9,13 @@ public class Player {
 	private int bullets;
 	private final int[] bulletsByLevel = {5, 4, 3, 2, 1};
 	private final int MAXLIFE = 3;
+	private final String name;
 	
-	public Player(int level) {
+	public Player(int level, String name) {
 		this.level = level;
 		life = MAXLIFE;
 		bullets = bulletsByLevel[level];
+		this.name = name;
 	}
 	
 	public int getX() {
@@ -71,6 +73,10 @@ public class Player {
 	
 	public boolean isAlive() {
 		return life >= 1;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }
