@@ -12,22 +12,37 @@ public class Encryption {
 
   private static final String hardKey = "E8726B4EDEBA34F9";
 
+  private String password;
+  private String salt;
+
+  public Encryption(String password, String salt) {
+    this.password = password;
+    this.salt = salt;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public String getSalt() {
+    return salt;
+  }
+
   /**
    * returns the given string, encrypted using the hard key and a
    * generated salt value, and the salt value used
    */
-  public static PasswordPair encrypt(String text) {
+  public static Encryption encrypt(String text) {
     text = encryptString(text, hardKey);
 
-    String salt = String.valueOf(System.currentTimeMillis());
-    text = encryptString(text, salt);
+    String newSalt = String.valueOf(System.currentTimeMillis());
+    text = encryptString(text, newSalt);
 
-    return new PasswordPair(text, salt);
+    return new Encryption(text, newSalt);
   }
 
   /**
-   * returns the given string, encrypted with the hard key and the
-   * given salt value
+   * returns the given string, encrypted with the given key
    */
   public static String encryptString(String text, String key) {
     byte[] encryptedText = null;

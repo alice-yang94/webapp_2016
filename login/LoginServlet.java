@@ -24,13 +24,20 @@ public class LoginServlet extends HttpServlet {
       String username = request.getParameter("username");
       String password = request.getParameter("password");
       
-      PasswordPair storedPasswordPair = getUserPasswordPair(username);
+      Encryption storedPasswordPair = getUserPasswordPair(username);
+
+      if (!usernameNotUsed(username)) {
+        response.sendError(response.SC_BAD_REQUEST, "The username doesn't exist");
+        response.sendRedirect("login.html");
+      }
+
       String storedPassword = storedPasswordPair.getPassword();
       String storedSalt = storedPasswordPair.getSalt();
 
       if (password.equals(Encryption.encryptString(storedPassword, storedSalt))) {
         response.sendRedirect("main.html");
       } else {
+        response.sendError(response.SC_BAD_REQUEST, "The password is incorrect");
         response.sendRedirect("login.html");
       }
 
@@ -40,16 +47,18 @@ public class LoginServlet extends HttpServlet {
       String password2 = request.getParameter("password2");
 
       if (!usernameNotUsed(username)) {
+        response.sendError(response.SC_BAD_REQUEST, "Username already in use");
         response.sendRedirect("create.html");
         return;
       }
 
       if (!password.equals(password2)) {
+        response.sendError(response.SC_BAD_REQUEST, "The passwords don't match");
         response.sendRedirect("create.html");
         return;
       }
 
-      PasswordPair encryptedPasswordPair = Encryption.encrypt(password);
+      Encryption encryptedPasswordPair = Encryption.encrypt(password);
       String salt = encryptedPasswordPair.getSalt();
 
       addUserToDB(username, password, salt);
@@ -110,7 +119,7 @@ public class LoginServlet extends HttpServlet {
    * returns the password associated with the given username
    * returns null if the username is not in the database or on exception
    */
-  private PasswordPair getUserPasswordPair(String username) {
+  private Encryption getUserPasswordPair(String username) {
     try {
       Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
       
@@ -122,7 +131,7 @@ public class LoginServlet extends HttpServlet {
         String password = rs.getString("password");
         String salt = rs.getString("salt");
         conn.close();
-        return new PasswordPair(password, salt);
+        return new Encryption(password, salt);
       } else { // username not in database
         conn.close();
         return null;

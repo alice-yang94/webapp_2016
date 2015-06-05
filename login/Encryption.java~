@@ -12,15 +12,39 @@ public class Encryption {
 
   private static final String hardKey = "E8726B4EDEBA34F9";
 
-  public static PasswordPair encrypt(String text) {
+  private String password;
+  private String salt;
+
+  public Encryption(String password, String salt) {
+    this.password = password;
+    this.salt = salt;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public String getSalt() {
+    return salt;
+  }
+
+  /**
+   * returns the given string, encrypted using the hard key and a
+   * generated salt value, and the salt value used
+   */
+  public static Encryption encrypt(String text) {
     text = encryptString(text, hardKey);
 
     String salt = String.valueOf(System.currentTimeMillis());
     text = encryptString(text, salt);
 
-    return new PasswordPair(text, salt);
+    return new Encryption(text, salt);
   }
 
+  /**
+   * returns the given string, encrypted with the hard key and the
+   * given salt value
+   */
   public static String encryptString(String text, String key) {
     byte[] encryptedText = null;
     try {
