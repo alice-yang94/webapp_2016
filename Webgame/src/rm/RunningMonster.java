@@ -30,7 +30,6 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void run() {
-
 		setSize(750, 750);
 
 		BufferedImage screen = new BufferedImage(750, 750,
@@ -57,7 +56,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
     		appletG.drawImage(screen, 0, 0, null);
 
 			delta = System.nanoTime() - lastTime;
-			if (delta > 2000000000L) {
+			if (delta > 2000000000L && gc.isPlayerAlive()) {
 				try {
 					lastTime += 2000000000L;
 					gc.addMonsters();

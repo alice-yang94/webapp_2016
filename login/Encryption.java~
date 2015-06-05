@@ -35,14 +35,15 @@ public class Encryption {
   public static Encryption encrypt(String text) {
     text = encryptString(text, hardKey);
 
-    String newSalt = String.valueOf(System.currentTimeMillis());
-    text = encryptString(text, newSalt);
+    String salt = String.valueOf(System.currentTimeMillis());
+    text = encryptString(text, salt);
 
-    return new Encryption(text, newSalt);
+    return new Encryption(text, salt);
   }
 
   /**
-   * returns the given string, encrypted with the given key
+   * returns the given string, encrypted with the hard key and the
+   * given salt value
    */
   public static String encryptString(String text, String key) {
     byte[] encryptedText = null;

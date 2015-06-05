@@ -25,6 +25,7 @@ public class Player {
 	}
 
 	public int getY() {
+		System.out.println("dsdf");
 		return y;
 	}
 
@@ -63,8 +64,13 @@ public class Player {
 		}
 		return false;
 	}
-
+	
 	public int getLevel() {
 		return level;
 	}
+	
+	public boolean isAlive() {
+		return life >= 1;
+	}
+
 }

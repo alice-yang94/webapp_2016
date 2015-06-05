@@ -35,6 +35,7 @@ public class Board {
 
 		generateMonsterAndSeed(numOfMonsters);
 	}
+	
 
 	public void generateMonsterAndSeed(int numOfM) throws Exception {
 		// add number of monsters with seeds related to player's level
@@ -154,10 +155,15 @@ public class Board {
 		}
 		monsters.clear();
 		seeds.clear();
+		board[player.getY()][player.getX()] = null;
+		player = null;
 		numOfMonsters = 0;
 		numOfSeeds = 0;
 	}
 	
+	public boolean hasPlayer() {
+		return player != null;
+	}
 	
 //	public void printAllCoodinateOfMonsters() {   //for testing
 //		System.out.println("Monster List");

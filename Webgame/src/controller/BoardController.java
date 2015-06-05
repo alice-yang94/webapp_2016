@@ -172,6 +172,7 @@ public class BoardController {
 	}
 
 	private void playerDie() {
+		player.setLife(0);
 		System.out.println("die");
 		board.clearEverything();
 	}
@@ -281,7 +282,8 @@ public class BoardController {
 				mstr = null;
 			}
 
-			if (index < 3) {
+			if (!(monsterIntend[0] == player.getX() && monsterIntend[1] == player.getY())) {
+							if (index < 3) {
 				Random random = new Random();
 				int rand = random.nextInt(2);
 				if (rand == 0) {
@@ -292,6 +294,8 @@ public class BoardController {
 					moveX(m, monsterIntend, monster);
 				}
 			}
+			}
+
 
 		}
 	}
