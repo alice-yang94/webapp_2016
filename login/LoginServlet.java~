@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
       String username = request.getParameter("username");
       String password = request.getParameter("password");
       
-      PasswordPair storedPasswordPair = getUserPasswordPair(username);
+      Encryption storedPasswordPair = getUserPasswordPair(username);
       String storedPassword = storedPasswordPair.getPassword();
       String storedSalt = storedPasswordPair.getSalt();
 
@@ -45,11 +45,11 @@ public class LoginServlet extends HttpServlet {
       }
 
       if (!password.equals(password2)) {
-        response.sendRedirect("create.html");
+        response.sendError(response.SC_BAD_REQUEST, "The passwords don't match");
         return;
       }
 
-      PasswordPair encryptedPasswordPair = Encryption.encrypt(password);
+      Encryption encryptedPasswordPair = Encryption.encrypt(password);
       String salt = encryptedPasswordPair.getSalt();
 
       addUserToDB(username, password, salt);

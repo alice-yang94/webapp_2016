@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
       String username = request.getParameter("username");
       String password = request.getParameter("password");
       
-      PasswordPair storedPasswordPair = getUserPasswordPair(username);
+      Encryption storedPasswordPair = getUserPasswordPair(username);
       String storedPassword = storedPasswordPair.getPassword();
       String storedSalt = storedPasswordPair.getSalt();
 
@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
         return;
       }
 
-      PasswordPair encryptedPasswordPair = Encryption.encrypt(password);
+      Encryption encryptedPasswordPair = Encryption.encrypt(password);
       String salt = encryptedPasswordPair.getSalt();
 
       addUserToDB(username, password, salt);
@@ -110,7 +110,7 @@ public class LoginServlet extends HttpServlet {
    * returns the password associated with the given username
    * returns null if the username is not in the database or on exception
    */
-  private PasswordPair getUserPasswordPair(String username) {
+  private Encryption getUserPasswordPair(String username) {
     try {
       Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
       
@@ -122,7 +122,7 @@ public class LoginServlet extends HttpServlet {
         String password = rs.getString("password");
         String salt = rs.getString("salt");
         conn.close();
-        return new PasswordPair(password, salt);
+        return new Encryption(password, salt);
       } else { // username not in database
         conn.close();
         return null;
