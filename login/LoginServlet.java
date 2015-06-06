@@ -34,6 +34,7 @@ public class LoginServlet extends HttpServlet {
       String storedPassword = storedPasswordPair.getPassword();
       String storedSalt = storedPasswordPair.getSalt();
 
+      //should password and storedPassword be swapped here? storedPassword should already be encrypted?
       if (password.equals(Encryption.encryptString(storedPassword, storedSalt))) {
         response.sendRedirect("main.html");
       } else {
@@ -60,8 +61,9 @@ public class LoginServlet extends HttpServlet {
 
       Encryption encryptedPasswordPair = Encryption.encrypt(password);
       String salt = encryptedPasswordPair.getSalt();
+      String encryptedPassword = encryptedPasswordPair.getPassword();
 
-      addUserToDB(username, password, salt);
+      addUserToDB(username, encryptedPassword, salt);
 
       response.sendRedirect("login.html");
 
