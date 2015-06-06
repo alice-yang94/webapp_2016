@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Main</title>
+     <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <link href="main.css" rel="stylesheet">
+  </head>
+
+  <body onload="getHighScores()">
+
+    <br />
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-1">
+        </div>
+
+        <div class="col-md-8">
+          <embed id="webgame"
+                type="application/x-java-applet;version=1.7"
+                width="750" height="750" 
+                archive="webgame.jar"
+                code="rm.RunningMonster.class" />
+        </div>
+
+        <div class="col-md-3">
+          <div class="panel panel-default">
+            <div class="panel-heading">High Scores: </div>
+            <div class="panel-body" id="scoreboard"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      function getHighScores() {
+        $.get('main', function(data) {
+          var content;
+          var scorers;
+
+          content = data;
+
+          $('#scoreboard').html(content);
+        });
+      }
+    </script>
+
+  </body>
+</html>
