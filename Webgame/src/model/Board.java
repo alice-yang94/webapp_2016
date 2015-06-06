@@ -148,6 +148,7 @@ public class Board {
 	}
 	
 	public void clearEverything() {
+		player.setLife(0);
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
 				board[j][i] = null;
@@ -162,6 +163,8 @@ public class Board {
 	}
 	
 	public boolean hasPlayer() {
+		boolean bool = (player != null);
+		System.out.println(bool);
 		return player != null;
 	}
 	

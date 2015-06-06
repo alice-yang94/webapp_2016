@@ -71,6 +71,15 @@ public class SimpleBoardRenderer implements Renderer {
 			g.drawChars(name, 0, 12, 790, 50);
 			char[] playerName = player.getName().toCharArray();
 			g.drawChars(playerName, 0, playerName.length, 790, 80);
+			char[] level = "Player level:".toCharArray();
+			g.drawChars(level, 0, 13, 790, 120);
+			int playerlev = player.getLevel();
+			char[] playerLevel = Integer.toString(playerlev).toCharArray();
+			g.drawChars(playerLevel, 0, 1, 790, 150);
+			char[] life = "Player life:".toCharArray();
+			g.drawChars(life, 0, 11, 790, 190);
+			char[] playerLife = Integer.toString(player.getLife()).toCharArray();
+			g.drawChars(playerLife, 0, 1, 790, 210);
 			
 			
 		}

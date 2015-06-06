@@ -27,7 +27,6 @@ public class Player {
 	}
 
 	public int getY() {
-		System.out.println("dsdf");
 		return y;
 	}
 
@@ -45,9 +44,10 @@ public class Player {
 
 	public boolean loseLife() {
 		if (life > 1) {
-			life--;
+			setLife(life - 1);
 			return true;
 		}
+		setLife(0);
 		return false;
 	}
 	
@@ -72,7 +72,7 @@ public class Player {
 	}
 	
 	public boolean isAlive() {
-		return life >= 1;
+		return life > 0;
 	}
 
 	public String getName() {

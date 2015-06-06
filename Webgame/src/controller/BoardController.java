@@ -16,8 +16,8 @@ public class BoardController {
 
 	private int targetX, targetY, seedCounter;
 	private boolean hasInput = false; // true if player input on keyboard
-    private boolean endGame = false;
-	
+	private boolean endGame = false;
+
 	public static final int INITIAL_COUNTER = 0;
 	public static final int SEED_COUNTER = 2;
 	public static final int MONSTER_INC_NUMBER = 3;
@@ -41,6 +41,7 @@ public class BoardController {
 						break;
 					}
 
+					iter.remove();
 					notMonster = false;
 					break;
 				}
@@ -65,15 +66,17 @@ public class BoardController {
 			}
 
 			if (board.hasPlayer()) {
-			board.changePlayerPos(targetX, targetY);
+				board.changePlayerPos(targetX, targetY);
+
 			}
-			monsterMove();
-			
-//			 System.out.println(player.getX() + " " + player.getY());
-//			 board.printAllCoodinateOfMonsters();
-//			 board.printAllMonsterOnBoard();
+
+				monsterMove();
+			// System.out.println(player.getX() + " " + player.getY());
+			// board.printAllCoodinateOfMonsters();
+			// board.printAllMonsterOnBoard();
 		}
 		hasInput = false;
+
 	}
 
 	public void pressUp() {
@@ -160,7 +163,6 @@ public class BoardController {
 	}
 
 	private boolean playerLoseLife() {
-		System.out.println("lose");
 		if (endGame) {
 			playerDie();
 		}
@@ -174,7 +176,6 @@ public class BoardController {
 	}
 
 	private void playerDie() {
-		player.setLife(0);
 		System.out.println("die");
 		board.clearEverything();
 	}
@@ -284,24 +285,24 @@ public class BoardController {
 				mstr = null;
 			}
 
-			if (!(monsterIntend[0] == player.getX() && monsterIntend[1] == player.getY())) {
-							if (index < 3) {
-				Random random = new Random();
-				int rand = random.nextInt(2);
-				if (rand == 0) {
-					moveX(m, monsterIntend, monster);
-					moveY(m, monsterIntend, monster);
-				} else {
-					moveY(m, monsterIntend, monster);
-					moveX(m, monsterIntend, monster);
+			if (!(monsterIntend[0] == player.getX() && monsterIntend[1] == player
+					.getY())) {
+				if (index < 3) {
+					Random random = new Random();
+					int rand = random.nextInt(2);
+					if (rand == 0) {
+						moveX(m, monsterIntend, monster);
+						moveY(m, monsterIntend, monster);
+					} else {
+						moveY(m, monsterIntend, monster);
+						moveX(m, monsterIntend, monster);
+					}
 				}
 			}
-			}
-
 
 		}
 	}
-	
+
 	public void ifDie() {
 		int px = player.getX();
 		int py = player.getY();
