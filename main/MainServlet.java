@@ -3,8 +3,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.sql.*;
 
-'<div class=\"well well-sm\"><b>' + i + ': '+ scorers[i-1].uname + '</b><br />' + scorers[i-1].score + '</div>'
-
 public class MainServlet extends HttpServlet {
 
   private final String dbConnString = "jdbc:postgresql://db.doc.ic.ac.uk/g1427101_u";
@@ -12,12 +10,12 @@ public class MainServlet extends HttpServlet {
   private final String dbPassword   = "ZfOfLyHLTA";
 
   /**
-   * handles https GET messages relating to the login system
+   * handles https GET messages for scoreboard data
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response)
     throws IOException, ServletException {
 
-    String res;
+    String res = "";
 
     try {
       Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
@@ -33,8 +31,10 @@ public class MainServlet extends HttpServlet {
       }
 
       conn.close();
-    } catch (Exception e) {
-      //return;
+    } catch (Exception e) { //print dummy data as database could not be accessed
+      for (int x = 1; x < 10; x++) {
+        res += "<div class=\"well well-sm\"><b>" + x + ": player</b><br />999999</div>";
+      }
     }
 
     response.setContentType("text/html");

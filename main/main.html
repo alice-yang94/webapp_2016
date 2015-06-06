@@ -21,15 +21,16 @@
     <div class="container">
       <div class="row">
 
-        <div class="col-md-1">
+        <div class="col-md">
         </div>
 
-        <div class="col-md-8">
-          <embed id="webgame"
-                type="application/x-java-applet;version=1.7"
-                width="750" height="750" 
-                archive="webgame.jar"
-                code="rm.RunningMonster.class" />
+        <div class="col-md-9">
+          <div class="well well-lg" id="mainWell">
+            <center>
+              <button type="button" class="btn btn-success btn-lg" 
+                      onclick="startGame()">Play Game</button>
+            </center>
+          </div>
         </div>
 
         <div class="col-md-3">
@@ -46,12 +47,18 @@
       function getHighScores() {
         $.get('main', function(data) {
           var content;
-          var scorers;
 
           content = data;
 
           $('#scoreboard').html(content);
         });
+      }
+    </script>
+    <script type="text/javascript">
+      function startGame() {
+        var content = "<center><embed id=\"webgame\" type=\"application/x-java-applet;version=1.7\" width=\"750\" height=\"750\" archive=\"webgame.jar\" code=\"rm.RunningMonster.class\" /> </center>";
+
+        $('#mainWell').html(content);
       }
     </script>
 
