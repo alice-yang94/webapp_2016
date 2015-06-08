@@ -16,7 +16,7 @@ public class BoardController {
 
 	private int targetX, targetY, seedCounter;
 	private boolean hasInput = false; // true if player input on keyboard
-	private boolean endGame = false;
+	private int endGame = 0;
 
 	public static final int INITIAL_COUNTER = 0;
 	public static final int SEED_COUNTER = 2;
@@ -29,7 +29,7 @@ public class BoardController {
 	}
 
 	public void update(int time) throws Exception {
-		if (hasInput) {
+		if (hasInput || endGame > 0) {
 			boolean notMonster = true;
 
 			// if player meets monster, player loselife, monster die
@@ -70,13 +70,13 @@ public class BoardController {
 
 			}
 
-				monsterMove();
+			monsterMove();
+			ifDie();
 			// System.out.println(player.getX() + " " + player.getY());
 			// board.printAllCoodinateOfMonsters();
 			// board.printAllMonsterOnBoard();
 		}
 		hasInput = false;
-
 	}
 
 	public void pressUp() {
@@ -163,22 +163,20 @@ public class BoardController {
 	}
 
 	private boolean playerLoseLife() {
-		if (endGame) {
-			playerDie();
+		if (endGame >= 300) {
+			board.clearEverything();
 		}
 		if (player.loseLife()) { // still have life
 			hasInput = false; // invalid move, has to wait another input
 			return true;
 		} else { // restart game
-			endGame = true;
+			System.out.println("dfsssffdsdfssddsfdsfd");
+			endGame++;
 			return false;
 		}
 	}
-
-	private void playerDie() {
-		System.out.println("die");
-		board.clearEverything();
-	}
+	
+	
 
 	private int getDistance(int[] a1, int[] a2) {
 		int x = Math.abs(a1[0] - a2[0]);

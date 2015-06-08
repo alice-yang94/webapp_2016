@@ -66,7 +66,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}				
+			}
 				//				try {
 //					Thread.sleep((20000000L - delta) / 1000000L);
 //				} catch (InterruptedException e) {
