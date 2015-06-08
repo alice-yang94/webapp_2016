@@ -40,24 +40,23 @@ public class SimpleBoardRenderer implements Renderer {
 			}
 
 			// render player
-			g.setColor(Color.red);
+			BufferedImage imgp = getImage("player.png");
 			Player player = board.getPlayer();
 			int x = (int) (player.getX() * cellSize);
 			int y = (int) (player.getY() * cellSize);
-			g.fillOval(x + 2, y + 2, cellSize - 4, cellSize - 4);
+			g.drawImage(imgp, x-5, y-5, x+34, y+34, 
+					0, 0, imgp.getWidth(), imgp.getHeight(), null);
 
-			// render square on player
-			g.setColor(Color.white);
-			g.fillRect(x + 10, y + 10, cellSize - 20, cellSize - 20);
 
 			// render monsters
-			g.setColor(Color.green);
+			BufferedImage imgm = getImage("monster.png");	
 			Iterator<Monster> iter = board.getMonsters().iterator();
 			while (iter.hasNext()) {
 				Monster monster = iter.next();
 				x = (int) (monster.getX() * cellSize);
 				y = (int) (monster.getY() * cellSize);
-				g.fillOval(x + 2, y + 2, cellSize - 4, cellSize - 4);
+				g.drawImage(imgm, x+2, y+2, x+27, y+27, 
+					0, 0, imgm.getWidth(), imgm.getHeight(), null);
 			}
 
 			// render seeds
@@ -89,15 +88,11 @@ public class SimpleBoardRenderer implements Renderer {
 			g.drawChars(playerLife, 0, 1, 790, 210);
 			
 		} else {    //die
-//			g.setColor(Color.white);
-//			g.setFont(new Font("TimesRoman", Font.BOLD, 72));
-//			char[] gameOver = "GAME OVER".toCharArray();
-//			g.drawChars(gameOver, 0, 9, 100, 300);
+			g.setColor(Color.white);
+			g.setFont(new Font("TimesRoman", Font.BOLD, 72));
+			char[] gameOver = "GAME OVER".toCharArray();
+			g.drawChars(gameOver, 0, 9, 100, 300);
 
-			BufferedImage img = getImage("monster.png");
-
-			g.drawImage(img, 0, 0, 25, 25, 0, 0, img.getWidth(),
-					img.getHeight(), null);
 		}
 	}
 	

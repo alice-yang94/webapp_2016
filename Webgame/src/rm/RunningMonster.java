@@ -44,11 +44,9 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 			g.setColor(Color.black);
 			g.fillRect(0, 0, 750, 750);
 
-//			gc.update((float)(delta / 1000000000.0));
 			try {
 				gc.update(TIMESLICE);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			gc.view(g);
@@ -56,27 +54,17 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
     		appletG.drawImage(screen, 0, 0, null);
 
 			delta = System.nanoTime() - lastTime;
-			if (delta > 2000000000L && gc.isPlayerAlive()) {
+			if (delta > 4000000000L && gc.isPlayerAlive()) {
 				try {
-					lastTime += 2000000000L;
+					lastTime += 4000000000L;
 					gc.addMonsters();
 					gc.moveMonsters();
 					gc.removeDueSeeds();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-				//				try {
-//					Thread.sleep((20000000L - delta) / 1000000L);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-			
-			
-			
+		
 			if (!isActive()) {
 				return;
 			}
@@ -90,8 +78,6 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -99,15 +85,12 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 		try {
 			eventHandler(e);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

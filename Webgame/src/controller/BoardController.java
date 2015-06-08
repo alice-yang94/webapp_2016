@@ -70,12 +70,12 @@ public class BoardController {
 				board.changePlayerPos(targetX, targetY);
 
 			}
-
+			
+			if (endGame == 0) {
 			monsterMove();
+			}
 			ifDie();
-			// System.out.println(player.getX() + " " + player.getY());
-			// board.printAllCoodinateOfMonsters();
-			// board.printAllMonsterOnBoard();
+
 		}
 		hasInput = false;
 	}
@@ -164,7 +164,7 @@ public class BoardController {
 	}
 
 	private boolean playerLoseLife() {
-		if (endGame >= 300) {
+		if (endGame >= 10) {
 			board.clearEverything();
 		}
 		if (player.loseLife()) { // still have life
