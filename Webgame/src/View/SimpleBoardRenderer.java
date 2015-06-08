@@ -3,16 +3,12 @@ package View;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 import model.Board;
 import model.Monster;
@@ -73,7 +69,7 @@ public class SimpleBoardRenderer implements Renderer {
 				y = (int) (seed.getY() * cellSize);
 				g.fillOval(x + 2, y + 2, cellSize - 4, cellSize - 4);
 			}
-			
+
 			g.setColor(Color.white);
 			g.fillRect(750, 0, 150, 750);
 			g.setColor(Color.black);
@@ -88,16 +84,31 @@ public class SimpleBoardRenderer implements Renderer {
 			g.drawChars(playerLevel, 0, 1, 790, 150);
 			char[] life = "Player life:".toCharArray();
 			g.drawChars(life, 0, 11, 790, 190);
-			char[] playerLife = Integer.toString(player.getLife()).toCharArray();
+			char[] playerLife = Integer.toString(player.getLife())
+					.toCharArray();
 			g.drawChars(playerLife, 0, 1, 790, 210);
-			
 			
 		} else {    //die
 //			g.setColor(Color.white);
 //			g.setFont(new Font("TimesRoman", Font.BOLD, 72));
 //			char[] gameOver = "GAME OVER".toCharArray();
 //			g.drawChars(gameOver, 0, 9, 100, 300);
+
+			BufferedImage img = null;
+			String currentDirectory = this.getClass().getProtectionDomain()
+					.getCodeSource().getLocation().getPath();
+			String cd = currentDirectory.substring(0,
+					currentDirectory.length() - 4);
+
+			try {
+				img = ImageIO.read(new File(cd + "src/images/monster.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			g.drawImage(img, 0, 0, 25, 25, 0, 0, img.getWidth(),
+					img.getHeight(), null);
 		}
 	}
-
 }
