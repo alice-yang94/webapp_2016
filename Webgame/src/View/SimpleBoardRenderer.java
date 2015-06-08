@@ -94,21 +94,24 @@ public class SimpleBoardRenderer implements Renderer {
 //			char[] gameOver = "GAME OVER".toCharArray();
 //			g.drawChars(gameOver, 0, 9, 100, 300);
 
-			BufferedImage img = null;
-			String currentDirectory = this.getClass().getProtectionDomain()
-					.getCodeSource().getLocation().getPath();
-			String cd = currentDirectory.substring(0,
-					currentDirectory.length() - 4);
-
-			try {
-				img = ImageIO.read(new File(cd + "src/images/monster.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			BufferedImage img = getImage("monster.png");
 
 			g.drawImage(img, 0, 0, 25, 25, 0, 0, img.getWidth(),
 					img.getHeight(), null);
 		}
+	}
+	
+	private BufferedImage getImage(String name) {
+		String currentDirectory = this.getClass().getProtectionDomain()
+				.getCodeSource().getLocation().getPath();
+		String imaged = currentDirectory.substring(0,
+				currentDirectory.length() - 4);
+
+		try {
+			return ImageIO.read(new File(imaged + "src/images/" + name));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
