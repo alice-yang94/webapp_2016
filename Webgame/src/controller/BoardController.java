@@ -38,6 +38,7 @@ public class BoardController {
 				Monster monster = iter.next();
 				if (monster.equalsCoordinate(targetX, targetY)) {
 					if (!playerLoseLife()) {
+						endGame++;
 						break;
 					}
 
@@ -170,7 +171,6 @@ public class BoardController {
 			hasInput = false; // invalid move, has to wait another input
 			return true;
 		} else { // restart game
-			System.out.println("dfsssffdsdfssddsfdsfd");
 			endGame++;
 			return false;
 		}

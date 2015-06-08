@@ -1,8 +1,18 @@
 package View;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 import model.Board;
 import model.Monster;
@@ -82,6 +92,11 @@ public class SimpleBoardRenderer implements Renderer {
 			g.drawChars(playerLife, 0, 1, 790, 210);
 			
 			
+		} else {    //die
+//			g.setColor(Color.white);
+//			g.setFont(new Font("TimesRoman", Font.BOLD, 72));
+//			char[] gameOver = "GAME OVER".toCharArray();
+//			g.drawChars(gameOver, 0, 9, 100, 300);
 		}
 	}
 

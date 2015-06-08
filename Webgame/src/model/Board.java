@@ -163,8 +163,6 @@ public class Board {
 	}
 	
 	public boolean hasPlayer() {
-		boolean bool = (player != null);
-		System.out.println(bool);
 		return player != null;
 	}
 	
