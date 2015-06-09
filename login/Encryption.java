@@ -1,5 +1,3 @@
-package login;
-
 /* Encryption imports */
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;

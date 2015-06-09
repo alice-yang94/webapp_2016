@@ -14,51 +14,48 @@
     <link href="main.css" rel="stylesheet">
   </head>
 
-  <body onload="getHighScores()">
+  <body onload="loadLobby()">
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="" onclick="loadLobby()">The Hunted</a>
+        </div>
+        <div>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../login/login.html"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
     <br />
 
     <div class="container">
-      <div class="row">
-
-        <div class="col-md">
-        </div>
-
-        <div class="col-md-9">
-          <div class="well well-lg" id="mainWell">
-            <center>
-              <button type="button" class="btn btn-success btn-lg" 
-                      onclick="startGame()">Play Game</button>
-            </center>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="panel panel-default">
-            <div class="panel-heading">High Scores: </div>
-            <div class="panel-body" id="scoreboard"></div>
-          </div>
-        </div>
+      <div class="row" id="mainRow">
 
       </div>
     </div>
 
     <script type="text/javascript">
-      function getHighScores() {
-        $.get('main', function(data) {
-          var content;
-
-          content = data;
-
-          $('#scoreboard').html(content);
+      function loadOwnRecentGames() {
+        $.get('main', {action:"userGames"}, function(data) {
+          $('#lobbyWell').html(data);
         });
       }
-    </script>
-    <script type="text/javascript">
-      function startGame() {
-        var content = "<center><embed id=\"webgame\" type=\"application/x-java-applet;version=1.7\" width=\"750\" height=\"750\" code=\"Webgame.src.rm.RunningMonster.class\" /></center>";
 
-        $('#mainWell').html(content);
+      function getHighScores() {
+        $.get('main', {action:"highScores"}, function(data) {
+          $('#scoreboard').html(data);
+        });
+      }
+
+      function loadLobby() {
+        $('#mainRow').load("lobby_content.html");
+      }
+
+      function startGame() {
+        $('#mainRow').load("game_content.html");
       }
     </script>
 

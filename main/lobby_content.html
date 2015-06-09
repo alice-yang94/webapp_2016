@@ -1,0 +1,19 @@
+<div class="col-md-9">
+  <div class="well well-lg" id="lobbyWell">
+    <center>
+      <button type="button" class="btn btn-success btn-lg" 
+              onclick="startGame()">Play Game</button>
+
+      <button type="button" class="btn btn-success btn-lg"
+              onclick="loadOwnRecentGames()">View My Recent Games</button>
+
+    </center>
+  </div>
+</div>
+
+<div class="col-md-3">
+  <div class="panel panel-default" onload="getHighScores()">
+    <div class="panel-heading">High Scores: </div>
+    <div class="panel-body" id="scoreboard"></div>
+  </div>
+</div>
