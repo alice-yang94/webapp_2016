@@ -60,19 +60,16 @@ public class BoardController {
 					}
 				}
 			}
-
-			// if space is pressed within 2 rounds, hit monster on the cross
-			if (seedCounter > 0) {
-				hitMonster();
-			}
-
-			if (board.hasPlayer()) {
-				board.changePlayerPos(targetX, targetY);
-
-			}
-			
 			if (endGame == 0) {
-			monsterMove();
+				// if space is pressed within 2 rounds, hit monster on the cross
+				if (seedCounter > 0) {
+					hitMonster();
+				}
+
+				if (board.hasPlayer()) {
+					board.changePlayerPos(targetX, targetY);
+				}
+				monsterMove();
 			}
 			ifDie();
 
@@ -175,8 +172,6 @@ public class BoardController {
 			return false;
 		}
 	}
-	
-	
 
 	private int getDistance(int[] a1, int[] a2) {
 		int x = Math.abs(a1[0] - a2[0]);

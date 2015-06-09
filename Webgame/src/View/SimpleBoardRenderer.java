@@ -29,7 +29,7 @@ public class SimpleBoardRenderer implements Renderer {
 		if (board.hasPlayer()) {
 			// render the board
 			int cellSize = 25;
-			g.setColor(Color.blue);
+			g.setColor(Color.LIGHT_GRAY);
 			for (int i = 0; i < Board.WIDTH; i++) {
 				g.drawLine(i * cellSize, 0, i * cellSize, Board.HEIGHT
 						* cellSize);
@@ -40,7 +40,7 @@ public class SimpleBoardRenderer implements Renderer {
 			}
 
 			// render player
-			BufferedImage imgp = getImage("player.png");
+			BufferedImage imgp = getImage("player.jpeg");
 			Player player = board.getPlayer();
 			int x = (int) (player.getX() * cellSize);
 			int y = (int) (player.getY() * cellSize);
@@ -88,7 +88,7 @@ public class SimpleBoardRenderer implements Renderer {
 			g.drawChars(playerLife, 0, 1, 790, 210);
 			
 		} else {    //die
-			g.setColor(Color.white);
+			g.setColor(Color.red);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 72));
 			char[] gameOver = "GAME OVER".toCharArray();
 			g.drawChars(gameOver, 0, 9, 100, 300);

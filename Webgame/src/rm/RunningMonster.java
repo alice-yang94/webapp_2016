@@ -6,6 +6,13 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import model.Board;
+import model.Player;
 
 import controller.GameController;
 
@@ -41,8 +48,12 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 		long lastTime = System.nanoTime();
 		
 		while (true) {
-			g.setColor(Color.black);
+			g.setColor(Color.white);
 			g.fillRect(0, 0, 750, 750);
+//			BufferedImage background = getImage("bg.JPG");
+//			g.drawImage(background, 0, 0, 750, 750, 
+//					0, 0, background.getWidth(), background.getHeight(), null);
+//			
 
 			try {
 				gc.update(TIMESLICE);
@@ -93,4 +104,17 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 	public void keyReleased(KeyEvent e) {
 	}
 
+	private BufferedImage getImage(String name) {
+		String currentDirectory = this.getClass().getProtectionDomain()
+				.getCodeSource().getLocation().getPath();
+		String imaged = currentDirectory.substring(0,
+				currentDirectory.length() - 4);
+
+		try {
+			return ImageIO.read(new File(imaged + "src/images/" + name));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
