@@ -1,3 +1,4 @@
 Database Configuration:
 
-create table users (username varchar(20), password varchar(20));
+create table users (username varchar(20), password varchar(20), salt varchar(20));
+create table completedGames (username varchar(20), dateCompleted date, score integer);
