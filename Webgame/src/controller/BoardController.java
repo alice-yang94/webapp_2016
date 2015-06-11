@@ -62,15 +62,10 @@ public class BoardController {
 				}
 			}
 			if (endGame == 0) {
-				// if space is pressed within 2 rounds, hit monster on the cross
-//				if (seedCounter > 0) {
-//					hitMonster();
-//				}
 				if (board.hasPlayer()) {
 					board.changePlayerPos(targetX, targetY);
-
 				}
-					monsterMove();
+				monsterMove();
 			}
 			ifDie();
 

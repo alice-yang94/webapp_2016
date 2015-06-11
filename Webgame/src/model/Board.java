@@ -83,7 +83,7 @@ public class Board {
 		return result;
 	}
 
-	public List<Monster> getMonsters() {
+	public synchronized List<Monster> getMonsters() {
 		return monsters;
 	}
 
@@ -129,7 +129,7 @@ public class Board {
 
 	}
 
-	public void clearMonsterWhenHitBySeed(Monster deadMonster) {
+	public synchronized void clearMonsterWhenHitBySeed(Monster deadMonster) {
 		board[deadMonster.getY()][deadMonster.getX()] = null;
 		numOfMonsters--;
 	}

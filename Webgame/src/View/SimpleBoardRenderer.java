@@ -2,7 +2,9 @@ package View;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -111,22 +113,38 @@ public class SimpleBoardRenderer implements Renderer {
 				char[] playerLevel = Integer.toString(playerlev).toCharArray();
 				g.drawChars(playerLevel, 0, 1, 790, 150);
 
+				// show player life
+				BufferedImage imgl = getImage("life.png");
+				g.drawImage(imgl, 790, 180, 835, 215, 0, 0, imgl.getWidth(),
+						imgl.getHeight(), null);
+				g.setFont(new Font ("Serif", Font.BOLD, 25));
+				char[] playerLife = (" * ".concat(Integer.toString(player.getLife())
+						)).toCharArray();
+				g.drawChars(playerLife, 0, playerLife.length, 835, 205);
 				
-//				char[] life = "Player life:".toCharArray();
-//				g.drawChars(life, 0, 11, 790, 190);
 				
-				BufferedImage imgl = getImage("life.jpg");
-				
-				g.drawImage(imgl, 790, 210, 810, 230, 0, 0,
-						imgl.getWidth(), imgl.getHeight(), null);
-
-				char[] playerLife = Integer.toString(player.getLife())
+				//show bullet number
+				g.drawImage(imgs, 790, 230, 835, 275, 0, 0, imgs.getWidth(),
+						imgs.getHeight(), null);
+				char[] bulletNumber = (" * ".concat(Integer.toString(player.getBullets())))
 						.toCharArray();
-				g.drawChars(playerLife, 0, 1, 790, 210);
-				char[] playerBullet = "Player Bullets:".toCharArray();
-				g.drawChars(playerBullet, 0, 15, 790, 250);
-				char[] bulletNumber = Integer.toString(player.getBullets()).toCharArray();
-				g.drawChars(bulletNumber, 0, bulletNumber.length, 790, 280);
+				g.drawChars(bulletNumber, 0, bulletNumber.length, 835, 260);
+				
+				
+				
+				try {
+				     GraphicsEnvironment ge = 
+				         GraphicsEnvironment.getLocalGraphicsEnvironment();
+				     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(getDir() + "src/fonts/" + "JOKERMAN.TTF")));
+				} catch (IOException|FontFormatException e) {
+				     //Handle exception
+				}
+				
+				g.setColor(Color.black);
+				g.setFont(new Font("JOKERMAN", Font.PLAIN, 36));
+				char[] pressEnter = "Press Enter To Restart".toCharArray();
+				g.drawChars(pressEnter, 0, 22, 250, 400);
+				
 			} else { // die
 				g.setColor(Color.red);
 				g.setFont(new Font("TimesRoman", Font.BOLD, 72));
@@ -141,23 +159,25 @@ public class SimpleBoardRenderer implements Renderer {
 			BufferedImage background = getImage("bg.JPG");
 			g.drawImage(background, 0, 0, 900, 750, 0, 0,
 					background.getWidth(), background.getHeight(), null);
-			
-			
-
 		}
 	}
 
-	private BufferedImage getImage(String name) {
+	private String getDir() {
 		String currentDirectory = this.getClass().getProtectionDomain()
 				.getCodeSource().getLocation().getPath();
-		String imaged = currentDirectory.substring(0,
+		String dir = currentDirectory.substring(0,
 				currentDirectory.length() - 4);
-
+		return dir;
+	}
+	
+	private BufferedImage getImage(String name) {
+		String dir = getDir();
 		try {
-			return ImageIO.read(new File(imaged + "src/images/" + name));
+			return ImageIO.read(new File(dir + "src/images/" + name));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
 }
