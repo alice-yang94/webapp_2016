@@ -63,9 +63,9 @@ public class BoardController {
 			}
 			if (endGame == 0) {
 				// if space is pressed within 2 rounds, hit monster on the cross
-				if (seedCounter > 0) {
-					hitMonster();
-				}
+//				if (seedCounter > 0) {
+//					hitMonster();
+//				}
 				if (board.hasPlayer()) {
 					board.changePlayerPos(targetX, targetY);
 
@@ -234,7 +234,7 @@ public class BoardController {
 		return items;
 	}
 
-	public void monsterMove() {
+	public synchronized void monsterMove() {
 		Iterator<Monster> iter = board.getMonsters().iterator();
 		int px, py;
 		while (iter.hasNext()) {
@@ -397,7 +397,7 @@ public class BoardController {
 		}
 	}
 
-	public void addMonsters() throws Exception {
+	public synchronized void addMonsters() throws Exception {
 		board.generateMonsterAndSeed(MONSTER_INC_NUMBER);
 	}
 
