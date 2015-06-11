@@ -11,18 +11,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import model.Board;
-import model.Player;
-
 import controller.GameController;
 
 public class RunningMonster extends Applet implements Runnable, KeyListener {
 
 	//default serialVersionUID
 	private static final long serialVersionUID = 1L;
-
-	// board will be updated every TIMESLICE
-	public static final int TIMESLICE = 10000000;
 
 	private GameController gc;
 	
@@ -49,18 +43,14 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 		
 		while (true) {
 			g.setColor(Color.white);
-			g.fillRect(0, 0, 750, 750);
-//			BufferedImage background = getImage("bg.JPG");
-//			g.drawImage(background, 0, 0, 750, 750, 
-//					0, 0, background.getWidth(), background.getHeight(), null);
-//			
-
+			g.fillRect(0, 0, 750, 750);		
+			gc.view(g);
 			try {
-				gc.update(TIMESLICE);
+				gc.update();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			gc.view(g);
+			
 
     		appletG.drawImage(screen, 0, 0, null);
 
@@ -104,17 +94,5 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 	public void keyReleased(KeyEvent e) {
 	}
 
-	private BufferedImage getImage(String name) {
-		String currentDirectory = this.getClass().getProtectionDomain()
-				.getCodeSource().getLocation().getPath();
-		String imaged = currentDirectory.substring(0,
-				currentDirectory.length() - 4);
 
-		try {
-			return ImageIO.read(new File(imaged + "src/images/" + name));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 }

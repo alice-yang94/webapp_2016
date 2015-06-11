@@ -8,9 +8,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+
 import javax.imageio.ImageIO;
 
 import model.Board;
+import model.Emit;
 import model.Monster;
 import model.Player;
 import model.Seed;
@@ -40,33 +42,59 @@ public class SimpleBoardRenderer implements Renderer {
 			}
 
 			// render player
-			BufferedImage imgp = getImage("player.jpeg");
 			Player player = board.getPlayer();
-			int x = (int) (player.getX() * cellSize);
-			int y = (int) (player.getY() * cellSize);
-			g.drawImage(imgp, x-5, y-5, x+34, y+34, 
-					0, 0, imgp.getWidth(), imgp.getHeight(), null);
+			int px = player.getX();
+			int py = player.getY();
 
+			BufferedImage imgp = getImage("player.jpeg");
 
-			// render monsters
-			BufferedImage imgm = getImage("monster.png");	
-			Iterator<Monster> iter = board.getMonsters().iterator();
-			while (iter.hasNext()) {
-				Monster monster = iter.next();
-				x = (int) (monster.getX() * cellSize);
-				y = (int) (monster.getY() * cellSize);
-				g.drawImage(imgm, x+2, y+2, x+27, y+27, 
-					0, 0, imgm.getWidth(), imgm.getHeight(), null);
-			}
+			int x = (int) (px * cellSize);
+			int y = (int) (py * cellSize);
+			g.drawImage(imgp, x - 5, y - 5, x + 34, y + 34, 0, 0,
+					imgp.getWidth(), imgp.getHeight(), null);
 
 			// render seeds
-			g.setColor(Color.yellow);
+			BufferedImage imgs = getImage("watermelon.png");
 			Iterator<Seed> seedIter = board.getSeeds().iterator();
 			while (seedIter.hasNext()) {
 				Seed seed = seedIter.next();
 				x = (int) (seed.getX() * cellSize);
 				y = (int) (seed.getY() * cellSize);
-				g.fillOval(x + 2, y + 2, cellSize - 4, cellSize - 4);
+				g.drawImage(imgs, x + 2, y + 2, x + 27, y + 27, 0, 0,
+						imgs.getWidth(), imgs.getHeight(), null);
+			}
+
+			// render emitting seeds
+			g.setColor(Color.black);
+			int size = board.getEmitSeedsTo().size();
+
+			Iterator<Emit> eIter = board.getEmitSeedsTo().iterator();
+			while (eIter.hasNext()) {
+				Emit e = eIter.next();
+				int d = e.incD();
+
+				if (d + px < 750) {
+					x = (int) (px * cellSize);
+					y = (int) (py * cellSize);
+
+					g.fillOval(x + 12, y + 12 - d, 7, 7);// py-d
+					g.fillOval(x + 12, y + 12 + d, 7, 7);// py+d
+					g.fillOval(x + 12 - d, y + 12, 7, 7);// px-d
+					g.fillOval(x + 12 + d, y + 12, 7, 7);// px+d
+				} else {
+					eIter.remove();
+				}
+			}
+
+			// render monsters
+			BufferedImage imgm = getImage("monster.png");
+			Iterator<Monster> iter = board.getMonsters().iterator();
+			while (iter.hasNext()) {
+				Monster monster = iter.next();
+				x = (int) (monster.getX() * cellSize);
+				y = (int) (monster.getY() * cellSize);
+				g.drawImage(imgm, x + 2, y + 2, x + 27, y + 27, 0, 0,
+						imgm.getWidth(), imgm.getHeight(), null);
 			}
 
 			g.setColor(Color.white);
@@ -86,8 +114,8 @@ public class SimpleBoardRenderer implements Renderer {
 			char[] playerLife = Integer.toString(player.getLife())
 					.toCharArray();
 			g.drawChars(playerLife, 0, 1, 790, 210);
-			
-		} else {    //die
+
+		} else { // die
 			g.setColor(Color.red);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 72));
 			char[] gameOver = "GAME OVER".toCharArray();
@@ -95,7 +123,7 @@ public class SimpleBoardRenderer implements Renderer {
 
 		}
 	}
-	
+
 	private BufferedImage getImage(String name) {
 		String currentDirectory = this.getClass().getProtectionDomain()
 				.getCodeSource().getLocation().getPath();

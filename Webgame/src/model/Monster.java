@@ -7,7 +7,7 @@ public class Monster {
 	private int x;
 	private int y;
 	private int life;
-	private final int MAXLIFE = 9;
+	private final int MAXLIFE = 3;
 	private Random randomGenerator = new Random();
 	
 	public Monster(int x, int y) {

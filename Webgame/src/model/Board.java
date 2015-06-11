@@ -14,10 +14,14 @@ public class Board {
 	private Object[][] board;
 	private List<Monster> monsters = new ArrayList<Monster>();
 	private List<Seed> seeds = new ArrayList<Seed>();
+	private List<Emit> emitSeedsTo = new ArrayList<Emit>();
+	
 	private Player player;
 	private int numOfMonsters;
 	private int numOfSeeds;
-
+	
+	
+	
 	public Board(Player player) throws Exception {
 		this.player = player;
 		int level = player.getLevel();
@@ -34,6 +38,7 @@ public class Board {
 		board[(int) player.getY()][player.getX()] = player;
 
 		generateMonsterAndSeed(numOfMonsters);
+		
 	}
 	
 
@@ -87,6 +92,18 @@ public class Board {
 
 	public Player getPlayer() {
 		return player;
+	}	
+	
+	public void addEmitSeedsTo() {
+		emitSeedsTo.add(new Emit());
+	}
+	
+	public List<Emit> getEmitSeedsTo() {
+		return emitSeedsTo;
+	}
+	
+	public void removeEmit(Emit e) {
+		emitSeedsTo.remove(e);
 	}
 
 	public void removeDeadMonster(Monster deadMonster) throws Exception {

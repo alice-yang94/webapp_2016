@@ -34,15 +34,15 @@ public class Player {
 		this.y = y;
 	}
 	
-	public int getLife() {
+	public synchronized int getLife() {
 		return life;
 	}
 
-	public void setLife(int life) {
+	public synchronized void setLife(int life) {
 		this.life = life;
 	}
 
-	public boolean loseLife() {
+	public synchronized boolean loseLife() {
 		if (life > 1) {
 			setLife(life - 1);
 			return true;
@@ -51,15 +51,15 @@ public class Player {
 		return false;
 	}
 	
-	public int getBullets() {
+	public synchronized int getBullets() {
 		return bullets;
 	}
 
-	public void winBullets() {
+	public synchronized void winBullets() {
 		bullets++;
 	}
 	
-	public boolean decreaseBullets() {
+	public synchronized boolean decreaseBullets() {
 		if (bullets > 0) {
 			bullets--;
 			return true;

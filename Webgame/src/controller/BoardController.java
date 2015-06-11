@@ -1,7 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import model.Board;
@@ -28,7 +30,7 @@ public class BoardController {
 		player = board.getPlayer();
 	}
 
-	public void update(int time) throws Exception {
+	public synchronized void update() throws Exception {
 		if (hasInput || endGame > 0) {
 			boolean notMonster = true;
 
@@ -125,21 +127,24 @@ public class BoardController {
 		}
 	}
 
-	public void pressSpace() throws Exception {
+	public synchronized void pressSpace() throws Exception {
 		if (player.decreaseBullets()) {
 			seedCounter = 2;
 			hitMonster();
 		}
 	}
 
-	public void hitMonster() throws Exception {
+	public synchronized void hitMonster() throws Exception {
 		Iterator<Monster> iter = board.getMonsters().iterator();
 		while (iter.hasNext()) {
 			Monster monster = iter.next();
 
 			if (seedCounter > 0) {
-				if (monster.getX() == player.getX()
-						|| monster.getY() == player.getY()) {
+				int mx = monster.getX();
+				int my = monster.getY();
+				int px = player.getX();
+				int py = player.getY();
+				if (mx == px || my == py) {
 					if (monster.loseLife()) {
 						seedCounter--;
 					} else {
@@ -151,6 +156,9 @@ public class BoardController {
 				break;
 			}
 		}
+
+		board.addEmitSeedsTo();
+
 	}
 
 	private boolean withinIndexMove(int x) {

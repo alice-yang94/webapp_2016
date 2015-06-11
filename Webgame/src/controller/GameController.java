@@ -53,8 +53,8 @@ public class GameController {
 		return false;
 	}
 	
-	public void update(int time) throws Exception {
-		controller.update(time);
+	public void update() throws Exception {
+		controller.update();
 	}
 	
 	public void view(Graphics g) {
