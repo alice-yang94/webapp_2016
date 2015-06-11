@@ -98,52 +98,44 @@ public class SimpleBoardRenderer implements Renderer {
 					g.drawImage(imgm, x + 2, y + 2, x + 27, y + 27, 0, 0,
 							imgm.getWidth(), imgm.getHeight(), null);
 				}
-
-				g.setFont(new Font("TimesRoman", Font.BOLD, 14));
-				g.setColor(Color.white);
-				g.fillRect(750, 0, 150, 750);
-				g.setColor(Color.black);
-				char[] name = "Player Name:".toCharArray();
-				g.drawChars(name, 0, 12, 790, 50);
-				char[] playerName = player.getName().toCharArray();
-				g.drawChars(playerName, 0, playerName.length, 790, 80);
-				char[] level = "Player Level:".toCharArray();
-				g.drawChars(level, 0, 13, 790, 120);
-				int playerlev = player.getLevel();
-				char[] playerLevel = Integer.toString(playerlev).toCharArray();
-				g.drawChars(playerLevel, 0, 1, 790, 150);
-
-				// show player life
-				BufferedImage imgl = getImage("life.png");
-				g.drawImage(imgl, 790, 180, 835, 215, 0, 0, imgl.getWidth(),
-						imgl.getHeight(), null);
-				g.setFont(new Font ("Serif", Font.BOLD, 25));
-				char[] playerLife = (" * ".concat(Integer.toString(player.getLife())
-						)).toCharArray();
-				g.drawChars(playerLife, 0, playerLife.length, 835, 205);
-				
-				
-				//show bullet number
-				g.drawImage(imgs, 790, 230, 835, 275, 0, 0, imgs.getWidth(),
-						imgs.getHeight(), null);
-				char[] bulletNumber = (" * ".concat(Integer.toString(player.getBullets())))
-						.toCharArray();
-				g.drawChars(bulletNumber, 0, bulletNumber.length, 835, 260);
-				
-				
 				
 				try {
 				     GraphicsEnvironment ge = 
 				         GraphicsEnvironment.getLocalGraphicsEnvironment();
 				     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(getDir() + "src/fonts/" + "JOKERMAN.TTF")));
 				} catch (IOException|FontFormatException e) {
-				     //Handle exception
 				}
 				
+				g.setFont(new Font("JOKERMAN", Font.BOLD, 18));
+				g.setColor(Color.white);
+				g.fillRect(750, 0, 150, 750);
 				g.setColor(Color.black);
-				g.setFont(new Font("JOKERMAN", Font.PLAIN, 36));
-				char[] pressEnter = "Press Enter To Restart".toCharArray();
-				g.drawChars(pressEnter, 0, 22, 250, 400);
+				char[] name = "Player Name:".toCharArray();
+				g.drawChars(name, 0, 12, 760, 50);
+				char[] playerName = player.getName().toCharArray();
+				g.drawChars(playerName, 0, playerName.length, 790, 80);
+				char[] level = "Player Level:".toCharArray();
+				g.drawChars(level, 0, 13, 760, 120);
+				int playerlev = player.getLevel();
+				char[] playerLevel = Integer.toString(playerlev).toCharArray();
+				g.drawChars(playerLevel, 0, 1, 810, 150);
+
+				// show player life
+				BufferedImage imgl = getImage("life.png");
+				g.drawImage(imgl, 790, 300, 835, 335, 0, 0, imgl.getWidth(),
+						imgl.getHeight(), null);
+				g.setFont(new Font ("JOKERMAN", Font.BOLD, 25));
+				char[] playerLife = (" * ".concat(Integer.toString(player.getLife())
+						)).toCharArray();
+				g.drawChars(playerLife, 0, playerLife.length, 835, 328);
+				
+				
+				//show bullet number
+				g.drawImage(imgs, 790, 400, 835, 445, 0, 0, imgs.getWidth(),
+						imgs.getHeight(), null);
+				char[] bulletNumber = (" * ".concat(Integer.toString(player.getBullets())))
+						.toCharArray();
+				g.drawChars(bulletNumber, 0, bulletNumber.length, 835, 440);
 				
 			} else { // die
 				g.setColor(Color.red);
