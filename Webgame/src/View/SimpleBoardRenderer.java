@@ -26,7 +26,7 @@ public class SimpleBoardRenderer implements Renderer {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public synchronized void render(Graphics g) {
 
 		if (board.canStart()) {
 			if (board.hasPlayer()) {
@@ -67,7 +67,6 @@ public class SimpleBoardRenderer implements Renderer {
 
 				// render emitting seeds
 				g.setColor(Color.black);
-				int size = board.getEmitSeedsTo().size();
 
 				Iterator<Emit> eIter = board.getEmitSeedsTo().iterator();
 				while (eIter.hasNext()) {

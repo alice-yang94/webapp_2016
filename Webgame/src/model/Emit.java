@@ -9,7 +9,8 @@ public class Emit {
 	}
 
 	public synchronized int incD() {
-		return d++;
+		d+=5;
+		return d;
 	}
 
 	public synchronized int getD() {
