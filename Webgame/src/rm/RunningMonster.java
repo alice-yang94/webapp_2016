@@ -10,25 +10,21 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
-import model.Board;
-import model.Player;
-
 import controller.GameController;
 
 public class RunningMonster extends Applet implements Runnable, KeyListener {
 
-	//default serialVersionUID
+	// default serialVersionUID
 	private static final long serialVersionUID = 1L;
 
 	// board will be updated every TIMESLICE
 	public static final int TIMESLICE = 10000000;
 
 	private GameController gc;
-	
+
 	public RunningMonster() throws Exception {
-		 gc = new GameController();
-		 addKeyListener(this);
+		gc = new GameController();
+		addKeyListener(this);
 	}
 
 	public void start() {
@@ -46,15 +42,15 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 
 		long delta = 01;
 		long lastTime = System.nanoTime();
-		
+
+//		BufferedImage background = getImage("bg.PNG");
+//		g.drawImage(background, 0, 0, 900, 750, 0, 0, background.getWidth(),
+//				background.getHeight(), null);
+
+
 		while (true) {
 			g.setColor(Color.white);
-			g.fillRect(0, 0, 750, 750);
-//			BufferedImage background = getImage("bg.JPG");
-//			g.drawImage(background, 0, 0, 750, 750, 
-//					0, 0, background.getWidth(), background.getHeight(), null);
-//			
-
+			g.fillRect(0, 0, 900, 750);
 			try {
 				gc.update(TIMESLICE);
 			} catch (Exception e) {
@@ -62,7 +58,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 			}
 			gc.view(g);
 
-    		appletG.drawImage(screen, 0, 0, null);
+			appletG.drawImage(screen, 0, 0, null);
 
 			delta = System.nanoTime() - lastTime;
 			if (delta > 4000000000L && gc.isPlayerAlive()) {
@@ -75,14 +71,14 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 					e.printStackTrace();
 				}
 			}
-		
+
 			if (!isActive()) {
 				return;
 			}
 		}
 
 	}
-	
+
 	public boolean eventHandler(KeyEvent e) throws Exception {
 		return gc.eventHandler(e);
 	}

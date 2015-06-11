@@ -34,6 +34,13 @@ public class Player {
 		this.y = y;
 	}
 	
+	public void reborn() {
+		x = 14;
+		y = 14;
+		life = MAXLIFE;
+		bullets = bulletsByLevel[level];
+	}
+	
 	public int getLife() {
 		return life;
 	}
