@@ -102,21 +102,24 @@ public class SimpleBoardRenderer implements Renderer {
 				g.setColor(Color.white);
 				g.fillRect(750, 0, 150, 750);
 				g.setColor(Color.black);
-				char[] name = "Player name:".toCharArray();
+				char[] name = "Player Name:".toCharArray();
 				g.drawChars(name, 0, 12, 790, 50);
 				char[] playerName = player.getName().toCharArray();
 				g.drawChars(playerName, 0, playerName.length, 790, 80);
-				char[] level = "Player level:".toCharArray();
+				char[] level = "Player Level:".toCharArray();
 				g.drawChars(level, 0, 13, 790, 120);
 				int playerlev = player.getLevel();
 				char[] playerLevel = Integer.toString(playerlev).toCharArray();
 				g.drawChars(playerLevel, 0, 1, 790, 150);
-				char[] life = "Player life:".toCharArray();
+				char[] life = "Player Life:".toCharArray();
 				g.drawChars(life, 0, 11, 790, 190);
 				char[] playerLife = Integer.toString(player.getLife())
 						.toCharArray();
 				g.drawChars(playerLife, 0, 1, 790, 210);
-
+				char[] playerBullet = "Player Bullets:".toCharArray();
+				g.drawChars(playerBullet, 0, 15, 790, 250);
+				char[] bulletNumber = Integer.toString(player.getBullets()).toCharArray();
+				g.drawChars(bulletNumber, 0, bulletNumber.length, 790, 280);
 			} else { // die
 				g.setColor(Color.red);
 				g.setFont(new Font("TimesRoman", Font.BOLD, 72));
@@ -131,6 +134,8 @@ public class SimpleBoardRenderer implements Renderer {
 			BufferedImage background = getImage("bg.JPG");
 			g.drawImage(background, 0, 0, 900, 750, 0, 0,
 					background.getWidth(), background.getHeight(), null);
+			
+			
 
 		}
 	}
