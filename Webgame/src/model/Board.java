@@ -95,15 +95,15 @@ public class Board {
 		return player;
 	}
 
-	public void addEmitSeedsTo() {
+	public synchronized void addEmitSeedsTo() {
 		emitSeedsTo.add(new Emit());
 	}
 
-	public List<Emit> getEmitSeedsTo() {
+	public synchronized List<Emit> getEmitSeedsTo() {
 		return emitSeedsTo;
 	}
 
-	public void removeEmit(Emit e) {
+	public synchronized void removeEmit(Emit e) {
 		emitSeedsTo.remove(e);
 	}
 

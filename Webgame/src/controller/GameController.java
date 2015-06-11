@@ -16,7 +16,7 @@ public class GameController {
 	private Renderer renderer;
 	private BoardController controller;
 	
-	private int level = 3;   //TODO:Connect to database to get level
+	private int level = 2;   //TODO:Connect to database to get level
 	private String name = "PlayerA";  //TODO: Connect to database to get level
 	private int centerPoint = 14;
 	

@@ -1,9 +1,7 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import model.Board;
@@ -45,6 +43,7 @@ public class BoardController {
 					}
 
 					iter.remove();
+					board.clearMonsterWhenHitBySeed(monster);
 					notMonster = false;
 					break;
 				}
