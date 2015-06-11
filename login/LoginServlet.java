@@ -35,6 +35,10 @@ public class LoginServlet extends HttpServlet {
 
       //should password and storedPassword be swapped here? storedPassword should already be encrypted?
       if (storedPassword.equals(Encryption.encryptLoginAttempt(password, storedSalt))) {
+        Cookie ck = new Cookie("username", username);
+        ck.setPath("/");
+
+        response.addCookie(ck);
         response.sendRedirect("/main/main.html");
       } else {
         //response.sendError(response.SC_BAD_REQUEST, "The password is incorrect");

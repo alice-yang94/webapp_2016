@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Main</title>
+    <title>The Hunted</title>
      <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
@@ -51,11 +51,23 @@
       }
 
       function loadLobby() {
+        getHighScores();
         $('#mainRow').load("lobby_content.html");
       }
 
       function startGame() {
         $('#mainRow').load("game_content.html");
+      }
+
+      function getUsername() {
+        var name = "username";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length+1,c.length);
+        }
+        return "whoops";
       }
     </script>
 

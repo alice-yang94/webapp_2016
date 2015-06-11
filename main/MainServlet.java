@@ -22,7 +22,12 @@ public class MainServlet extends HttpServlet {
     if ("userGames".equals(action)) {
       Cookie ck[] = request.getCookies();
       String username = "";
-      if (ck != null) username = ck[0].getValue();
+      for (Cookie c : ck) {
+        if (c.getName().equals("username")) {
+          username = c.getValue();
+          break;
+        }
+      }
 
 
       res += "<h1>" + username + "'s recent games: </h1><br />";
