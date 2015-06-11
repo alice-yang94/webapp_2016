@@ -24,19 +24,20 @@ public class LoginServlet extends HttpServlet {
       
       Encryption storedPasswordPair = getUserPasswordPair(username);
 
-      if (!usernameNotUsed(username)) {
-        response.sendError(response.SC_BAD_REQUEST, "The username doesn't exist");
+      if (usernameNotUsed(username)) {
+        //response.sendError(response.SC_BAD_REQUEST, "The username doesn't exist");
         response.sendRedirect("login.html");
+        return;
       }
 
       String storedPassword = storedPasswordPair.getPassword();
       String storedSalt = storedPasswordPair.getSalt();
 
       //should password and storedPassword be swapped here? storedPassword should already be encrypted?
-      if (password.equals(Encryption.encryptString(storedPassword, storedSalt))) {
-        response.sendRedirect("main.html");
+      if (storedPassword.equals(Encryption.encryptLoginAttempt(password, storedSalt))) {
+        response.sendRedirect("/main/main.html");
       } else {
-        response.sendError(response.SC_BAD_REQUEST, "The password is incorrect");
+        //response.sendError(response.SC_BAD_REQUEST, "The password is incorrect");
         response.sendRedirect("login.html");
       }
 
@@ -46,13 +47,13 @@ public class LoginServlet extends HttpServlet {
       String password2 = request.getParameter("password2");
 
       if (!usernameNotUsed(username)) {
-        response.sendError(response.SC_BAD_REQUEST, "Username already in use");
+        //response.sendError(response.SC_BAD_REQUEST, "Username already in use");
         response.sendRedirect("create.html");
         return;
       }
 
       if (!password.equals(password2)) {
-        response.sendError(response.SC_BAD_REQUEST, "The passwords don't match");
+        //response.sendError(response.SC_BAD_REQUEST, "The passwords don't match");
         response.sendRedirect("create.html");
         return;
       }
@@ -83,7 +84,7 @@ public class LoginServlet extends HttpServlet {
 
       conn.close();
     } catch (Exception e) {
-      //
+      assert(false);
     }
   }
 
