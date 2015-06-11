@@ -15,14 +15,14 @@ import controller.GameController;
 
 public class RunningMonster extends Applet implements Runnable, KeyListener {
 
-	//default serialVersionUID
+	// default serialVersionUID
 	private static final long serialVersionUID = 1L;
 
 	private GameController gc;
-	
+
 	public RunningMonster() throws Exception {
-		 gc = new GameController();
-		 addKeyListener(this);
+		gc = new GameController();
+		addKeyListener(this);
 	}
 
 	public void start() {
@@ -40,19 +40,19 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 
 		long delta = 01;
 		long lastTime = System.nanoTime();
-		
+
 		while (true) {
 			g.setColor(Color.white);
-			g.fillRect(0, 0, 750, 750);		
-			gc.view(g);
+
+			g.fillRect(0, 0, 900, 750);
+
 			try {
 				gc.update();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-
-    		appletG.drawImage(screen, 0, 0, null);
+			gc.view(g);
+			appletG.drawImage(screen, 0, 0, null);
 
 			delta = System.nanoTime() - lastTime;
 			if (delta > 4000000000L && gc.isPlayerAlive()) {
@@ -65,14 +65,14 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 					e.printStackTrace();
 				}
 			}
-		
+
 			if (!isActive()) {
 				return;
 			}
 		}
 
 	}
-	
+
 	public boolean eventHandler(KeyEvent e) throws Exception {
 		return gc.eventHandler(e);
 	}
@@ -93,6 +93,5 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 	}
-
 
 }

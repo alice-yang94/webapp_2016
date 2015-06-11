@@ -67,11 +67,11 @@ public class BoardController {
 				if (seedCounter > 0) {
 					hitMonster();
 				}
-
 				if (board.hasPlayer()) {
 					board.changePlayerPos(targetX, targetY);
+
 				}
-				monsterMove();
+					monsterMove();
 			}
 			ifDie();
 
@@ -134,6 +134,15 @@ public class BoardController {
 		}
 	}
 
+	public void pressEnter() throws Exception { // restart the game or start
+		board.setStart(true);
+		if (!board.hasPlayer()) {
+			board.restartBoard();
+			endGame = 0;
+		}
+
+	}
+
 	public synchronized void hitMonster() throws Exception {
 		Iterator<Monster> iter = board.getMonsters().iterator();
 		while (iter.hasNext()) {
@@ -169,7 +178,7 @@ public class BoardController {
 	}
 
 	private boolean playerLoseLife() {
-		if (endGame >= 10) {
+		if (endGame >= 20) {
 			board.clearEverything();
 		}
 		if (player.loseLife()) { // still have life
@@ -323,7 +332,26 @@ public class BoardController {
 				}
 				break;
 			}
+			if (count == 3 && (isInBoarder(px) || isInBoarder(py))) {
+				while (playerLoseLife()) {
+					playerLoseLife();
+				}
+				break;
+			}
+			if (count == 2 && (isInBoarder(px) && isInBoarder(py))) {
+				while (playerLoseLife()) {
+					playerLoseLife();
+				}
+				break;
+			}
 		}
+	}
+
+	private boolean isInBoarder(int n) {
+		if (n == 0 || n == 29) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean ifEmpty(int x, int y) {

@@ -26,6 +26,13 @@ public class Encryption {
     return salt;
   }
 
+  public static String encryptLoginAttempt(String text, String salt) {
+    text = encryptString(text, hardKey);
+    text = encryptString(text, salt); 
+    
+    return text;   
+  }
+
   /**
    * returns the given string, encrypted using the hard key and a
    * generated salt value, and the salt value used

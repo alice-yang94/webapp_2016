@@ -1,23 +1,23 @@
 package model;
 
 public class Player {
-	
+
 	private int x;
 	private int y;
 	private int level;
 	private int life;
 	private int bullets;
-	private final int[] bulletsByLevel = {5, 4, 3, 2, 1};
+	private final int[] bulletsByLevel = { 5, 4, 3, 2, 1 };
 	private final int MAXLIFE = 3;
 	private final String name;
-	
+
 	public Player(int level, String name) {
 		this.level = level;
 		life = MAXLIFE;
 		bullets = bulletsByLevel[level];
 		this.name = name;
 	}
-	
+
 	public int getX() {
 		return x;
 	}
@@ -33,7 +33,14 @@ public class Player {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+
+	public void reborn() {
+		x = 14;
+		y = 14;
+		life = MAXLIFE;
+		bullets = bulletsByLevel[level];
+	}
+
 	public synchronized int getLife() {
 		return life;
 	}
@@ -50,7 +57,7 @@ public class Player {
 		setLife(0);
 		return false;
 	}
-	
+
 	public synchronized int getBullets() {
 		return bullets;
 	}
@@ -58,7 +65,7 @@ public class Player {
 	public synchronized void winBullets() {
 		bullets++;
 	}
-	
+
 	public synchronized boolean decreaseBullets() {
 		if (bullets > 0) {
 			bullets--;
@@ -66,11 +73,11 @@ public class Player {
 		}
 		return false;
 	}
-	
+
 	public int getLevel() {
 		return level;
 	}
-	
+
 	public boolean isAlive() {
 		return life > 0;
 	}

@@ -14,19 +14,21 @@ public class Board {
 	private Object[][] board;
 	private List<Monster> monsters = new ArrayList<Monster>();
 	private List<Seed> seeds = new ArrayList<Seed>();
+
 	private List<Emit> emitSeedsTo = new ArrayList<Emit>();
-	
+	private Player constantPlayer;
 	private Player player;
 	private int numOfMonsters;
 	private int numOfSeeds;
-	
-	
-	
+	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
+	private boolean canStart;
+
 	public Board(Player player) throws Exception {
+		constantPlayer = player;
 		this.player = player;
 		int level = player.getLevel();
 		board = new Object[HEIGHT][WIDTH];
-		numOfMonsters = level * level;
+		numOfMonsters = numberOfMonstersInLevel[level];
 
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
@@ -38,9 +40,8 @@ public class Board {
 		board[(int) player.getY()][player.getX()] = player;
 
 		generateMonsterAndSeed(numOfMonsters);
-		
+
 	}
-	
 
 	public void generateMonsterAndSeed(int numOfM) throws Exception {
 		// add number of monsters with seeds related to player's level
@@ -92,18 +93,28 @@ public class Board {
 
 	public Player getPlayer() {
 		return player;
-	}	
-	
+	}
+
 	public void addEmitSeedsTo() {
 		emitSeedsTo.add(new Emit());
 	}
-	
+
 	public List<Emit> getEmitSeedsTo() {
 		return emitSeedsTo;
 	}
-	
+
 	public void removeEmit(Emit e) {
 		emitSeedsTo.remove(e);
+	}
+
+	public void restartBoard() throws Exception { // constant player won't
+													// change in the process
+		player = constantPlayer;
+		player.reborn();
+		board[14][14] = player;
+		int level = player.getLevel();
+		int numberOfMonster = numberOfMonstersInLevel[level];
+		generateMonsterAndSeed(numberOfMonster);
 	}
 
 	public void removeDeadMonster(Monster deadMonster) throws Exception {
@@ -163,7 +174,7 @@ public class Board {
 	public Object getObject(int x, int y) {
 		return board[y][x];
 	}
-	
+
 	public void clearEverything() {
 		player.setLife(0);
 		for (int i = 0; i < WIDTH; i++) {
@@ -173,17 +184,26 @@ public class Board {
 		}
 		monsters.clear();
 		seeds.clear();
+		emitSeedsTo.clear();
 		board[player.getY()][player.getX()] = null;
 		player = null;
 		numOfMonsters = 0;
 		numOfSeeds = 0;
 	}
-	
+
 	public boolean hasPlayer() {
 		return player != null;
 	}
-	
-	public void printAllCoodinateOfMonsters() {   //for testing
+
+	public void setStart(boolean start) {
+		canStart = start;
+	}
+
+	public boolean canStart() {
+		return canStart;
+	}
+
+	public void printAllCoodinateOfMonsters() { // for testing
 		System.out.println("Monster List");
 		for (Monster monster : monsters) {
 			System.out.println(monster.getX() + " " + monster.getY());

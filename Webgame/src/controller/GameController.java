@@ -49,6 +49,8 @@ public class GameController {
 			break;
 		case KeyEvent.VK_SPACE:
 			controller.pressSpace();
+		case KeyEvent.VK_ENTER:
+			controller.pressEnter();
 		}
 		return false;
 	}
