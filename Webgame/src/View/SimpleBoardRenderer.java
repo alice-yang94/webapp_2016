@@ -139,11 +139,11 @@ public class SimpleBoardRenderer implements Renderer {
 				
 			} else { // die
 				g.setColor(Color.red);
-				g.setFont(new Font("TimesRoman", Font.BOLD, 72));
+				g.setFont(new Font("JOKERMAN", Font.BOLD, 72));
 				char[] gameOver = "GAME OVER".toCharArray();
 				g.drawChars(gameOver, 0, 9, 200, 300);
 				g.setColor(Color.black);
-				g.setFont(new Font("TimesRoman", Font.PLAIN, 36));
+				g.setFont(new Font("JOKERMAN", Font.PLAIN, 36));
 				char[] pressEnter = "Press Enter To Restart".toCharArray();
 				g.drawChars(pressEnter, 0, 22, 250, 400);
 			}

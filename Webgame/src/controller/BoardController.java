@@ -17,6 +17,7 @@ public class BoardController {
 	private int targetX, targetY, seedCounter;
 	private boolean hasInput = false; // true if player input on keyboard
 	private int endGame = 0;
+	private int killedMonster = 0;
 
 	public static final int INITIAL_COUNTER = 0;
 	public static final int SEED_COUNTER = 2;
@@ -44,11 +45,14 @@ public class BoardController {
 
 					iter.remove();
 					board.clearMonsterWhenHitBySeed(monster);
+					killedMonster++;
 					notMonster = false;
 					break;
 				}
 			}
-
+			
+			
+			
 			// if the grid contains seed, player gets a bullet
 			if (notMonster) {
 				Iterator<Seed> iterS = board.getSeeds().iterator();
@@ -63,6 +67,11 @@ public class BoardController {
 			}
 			if (endGame == 0) {
 				if (board.hasPlayer()) {
+					// player wins if he kills the certain amount of monster
+					if (killedMonster == board.getMonsterToKill()) {
+						// TODO: SHOW WIN MSG AND CLEAREVERYTHING, RESTART AND
+						// GOTO NEXT LEVEL
+					}
 					board.changePlayerPos(targetX, targetY);
 				}
 				monsterMove();
@@ -153,6 +162,7 @@ public class BoardController {
 					} else {
 						iter.remove();
 						board.clearMonsterWhenHitBySeed(monster);
+						killedMonster++;
 					}
 				}
 			} else {

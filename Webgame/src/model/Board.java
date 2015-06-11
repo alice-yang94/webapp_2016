@@ -21,6 +21,7 @@ public class Board {
 	private int numOfMonsters;
 	private int numOfSeeds;
 	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
+	private final int[] killMonsterInLevel = { 10, 20, 30, 40, 50 };
 	private boolean canStart;
 
 	public Board(Player player) throws Exception {
@@ -83,6 +84,10 @@ public class Board {
 		return result;
 	}
 
+	public synchronized int getMonsterToKill() {
+		return killMonsterInLevel[player.getLevel()];
+	}
+	
 	public synchronized List<Monster> getMonsters() {
 		return monsters;
 	}
