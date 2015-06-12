@@ -48,7 +48,7 @@ public class SimpleBoardRenderer implements Renderer {
 								* cellSize);
 					}
 				}
-
+				g.drawLine(750, 0, 750, 750);
 				// render player
 				Player player = board.getPlayer();
 				int px = player.getX();
@@ -115,6 +115,8 @@ public class SimpleBoardRenderer implements Renderer {
 				g.setFont(new Font("JOKERMAN", Font.BOLD, 18));
 				g.setColor(Color.white);
 				g.fillRect(750, 0, 150, 750);
+				g.setColor(Color.LIGHT_GRAY);
+				g.drawLine(750, 0, 750, 750);
 				g.setColor(Color.black);
 				char[] name = "Player Name:".toCharArray();
 				g.drawChars(name, 0, 12, 760, 50);
