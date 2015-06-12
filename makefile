@@ -21,7 +21,7 @@ install: $(SERVLET_CLASSES)
 
 webgame.jar: $(WEBGAME_CLASSES)
 			echo "Permissions: sandbox" >> manifest.txt
-			jar cmf manifest.txt main/webgame.jar -C main/Webgame/src /controller/ -C main/Webgame/src /model/ -C main/Webgame/src /rm/ -C main/Webgame/src /View/ -C main/Webgame/src /images/ -C main/Webgame/src /fonts/
+			jar cmf manifest.txt main/webgame.jar -C $(RM_CP) /controller/ -C $(RM_CP) /model/ -C $(RM_CP) /rm/ -C $(RM_CP) /View/
 			rm -rf manifest.txt
 			jarsigner -keystore keystore.jks main/webgame.jar hunted
 			jarsigner -verify -verbose main/webgame.jar

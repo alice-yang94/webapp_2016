@@ -9,6 +9,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -104,13 +105,13 @@ public class SimpleBoardRenderer implements Renderer {
 							imgm.getWidth(), imgm.getHeight(), null);
 				}
 
-				try {
+				/*try {
 					GraphicsEnvironment ge = GraphicsEnvironment
 							.getLocalGraphicsEnvironment();
 					ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,
-							new File(getDir() + "src/fonts/" + "JOKERMAN.TTF")));
+							new File("fonts/" + "JOKERMAN.TTF")));
 				} catch (IOException | FontFormatException e) {
-				}
+				} */
 
 				g.setFont(new Font("JOKERMAN", Font.BOLD, 18));
 				g.setColor(Color.white);
@@ -201,21 +202,18 @@ public class SimpleBoardRenderer implements Renderer {
 	}
 
 	private String getDir() {
-		String currentDirectory = this.getClass().getProtectionDomain()
+		String dir = this.getClass().getProtectionDomain()
 				.getCodeSource().getLocation().getPath();
-		String dir = currentDirectory.substring(0,
-				currentDirectory.length() - 4);
 		return dir;
 	}
 
-	private BufferedImage getImage(String name) {
-		String dir = getDir();
-		try {
-			return ImageIO.read(new File(dir + "src/images/" + name));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    private BufferedImage getImage(String name) {
+        try {
+            return ImageIO.read(this.getClass().getResource("images/" + name));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
