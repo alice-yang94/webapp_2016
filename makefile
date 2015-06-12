@@ -1,23 +1,29 @@
-CONTROLLER_SRC  = Webgame/src/controller
-MODEL_SRC       = Webgame/src/model
-RM_SRC          = Webgame/src/rm
-VIEW_SRC        = Webgame/src/View
+CONTROLLER_SRC  = main/Webgame/src/controller
+MODEL_SRC       = main/Webgame/src/model
+RM_SRC          = main/Webgame/src/rm
+VIEW_SRC        = main/Webgame/src/View
 WEBGAME_CLASSES = $(CONTROLLER_SRC)/*.class $(MODEL_SRC)/*.class $(RM_SRC)/*.class $(VIEW_SRC)/*.class
 
 LOGIN_SRC       = login
 MAIN_SRC        = main
 SERVLET_CLASSES = $(LOGIN_SRC)/*.class $(MAIN_SRC)/*.class
 
-RM_CP           = Webgame/src
-SERVLET_CP			= WEB-INF/classes
+RM_CP           = main/Webgame/src
+SERVLET_CP		= WEB-INF/classes
 
-all: $(WEBGAME_CLASSES) $(SERVLET_CLASSES) install
+all: $(WEBGAME_CLASSES) $(SERVLET_CLASSES) webgame.jar install
 
 clean: 
-			rm -rf $(WEBGAME_CLASSES) $(SERVLET_CLASSES) $(SERVLET_CP)/*.class rm/*.class
+			rm -rf $(WEBGAME_CLASSES) $(SERVLET_CLASSES) $(SERVLET_CP)/*.class rm/*.class main/webgame.jar
 
 install: $(SERVLET_CLASSES)
 			cp $(SERVLET_CLASSES) $(SERVLET_CP)
+
+webgame.jar: $(WEBGAME_CLASSES)
+			echo "Permissions: sandbox" >> manifest.txt
+			jar cmf manifest.txt main/webgame.jar $(WEBGAME_CLASSES)
+			rm -rf manifest.txt
+			jarsigner -keystore keystore.jks main/webgame.jar hunted
 
 $(CONTROLLER_SRC)/*.class: $(CONTROLLER_SRC)/*.java
 			javac -cp $(RM_CP) $(CONTROLLER_SRC)/*.java
