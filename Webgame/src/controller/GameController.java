@@ -55,8 +55,8 @@ public class GameController {
 		return false;
 	}
 	
-	public void update() throws Exception {
-		controller.update();
+	public void update(long initialTime) throws Exception {
+		controller.update(initialTime);
 	}
 	
 	public void view(Graphics g) {

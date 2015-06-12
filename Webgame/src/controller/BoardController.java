@@ -17,7 +17,9 @@ public class BoardController {
 	private int targetX, targetY, seedCounter;
 	private boolean hasInput = false; // true if player input on keyboard
 	private int endGame = 0;
-	private int killedMonster = 0;
+	private static int killedMonster = 0;
+	public static boolean win = false;
+	public static long timeUsedToWin = -1;
 
 	public static final int INITIAL_COUNTER = 0;
 	public static final int SEED_COUNTER = 2;
@@ -29,7 +31,7 @@ public class BoardController {
 		player = board.getPlayer();
 	}
 
-	public synchronized void update() throws Exception {
+	public synchronized void update(long initialTime) throws Exception {
 		if (hasInput || endGame > 0) {
 			boolean notMonster = true;
 
@@ -68,7 +70,14 @@ public class BoardController {
 			if (endGame == 0) {
 				if (board.hasPlayer()) {
 					// player wins if he kills the certain amount of monster
-					if (killedMonster == board.getMonsterToKill()) {
+					if (killedMonster >= board.getMonsterToKill()) {
+						System.out.print(0);
+						timeUsedToWin = System.nanoTime() - initialTime;
+						win = true;
+						endGame++;
+						while(playerLoseLife()){
+							playerLoseLife();
+						}
 						// TODO: SHOW WIN MSG AND CLEAREVERYTHING, RESTART AND
 						// GOTO NEXT LEVEL
 					}
@@ -76,6 +85,11 @@ public class BoardController {
 				}
 				monsterMove();
 			}
+			if (endGame>0) {
+				endGame++;
+				playerLoseLife();
+			}
+			
 			ifDie();
 
 		}
@@ -416,5 +430,9 @@ public class BoardController {
 				break;
 			}
 		}
+	}
+	
+	public static synchronized int getMonsterkilled() {
+		return killedMonster;
 	}
 }

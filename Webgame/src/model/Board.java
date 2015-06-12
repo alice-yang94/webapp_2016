@@ -21,7 +21,7 @@ public class Board {
 	private int numOfMonsters;
 	private int numOfSeeds;
 	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
-	private final int[] killMonsterInLevel = { 10, 20, 30, 40, 50 };
+	private final int[] killMonsterInLevel = { 2, 2, 2, 2, 2 };//FIXME
 	private boolean canStart;
 
 	public Board(Player player) throws Exception {
@@ -44,7 +44,7 @@ public class Board {
 
 	}
 
-	public void generateMonsterAndSeed(int numOfM) throws Exception {
+	public synchronized void generateMonsterAndSeed(int numOfM) throws Exception {
 		// add number of monsters with seeds related to player's level
 		for (int i = 0; i < numOfM; i++) {
 			// generate monsters
@@ -180,8 +180,7 @@ public class Board {
 		return board[y][x];
 	}
 
-	public void clearEverything() {
-		player.setLife(0);
+	public synchronized void clearEverything() {
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
 				board[j][i] = null;
@@ -190,7 +189,6 @@ public class Board {
 		monsters.clear();
 		seeds.clear();
 		emitSeedsTo.clear();
-		board[player.getY()][player.getX()] = null;
 		player = null;
 		numOfMonsters = 0;
 		numOfSeeds = 0;
