@@ -181,7 +181,6 @@ public class Board {
 	}
 
 	public void clearEverything() {
-		player.setLife(0);
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
 				board[j][i] = null;
@@ -190,7 +189,6 @@ public class Board {
 		monsters.clear();
 		seeds.clear();
 		emitSeedsTo.clear();
-		board[player.getY()][player.getX()] = null;
 		player = null;
 		numOfMonsters = 0;
 		numOfSeeds = 0;

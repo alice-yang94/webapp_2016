@@ -76,6 +76,10 @@ public class BoardController {
 				}
 				monsterMove();
 			}
+			if (endGame > 0) {
+				endGame++;
+				playerLoseLife();
+			}
 			ifDie();
 
 		}
@@ -340,12 +344,14 @@ public class BoardController {
 				while (playerLoseLife()) {
 					playerLoseLife();
 				}
+//				endGame++;
 				break;
 			}
 			if (count == 2 && (isInBoarder(px) && isInBoarder(py))) {
 				while (playerLoseLife()) {
 					playerLoseLife();
 				}
+//				endGame++;
 				break;
 			}
 		}
