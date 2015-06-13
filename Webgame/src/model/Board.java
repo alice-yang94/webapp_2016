@@ -23,7 +23,6 @@ public class Board {
 	private int numOfSeeds;
 //	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
 	private final int[] numberOfMonstersInLevel = { 2, 30, 2, 2, 2};
-	private final int[] killMonsterInLevel = { 2, 2, 2, 2, 2 };//FIXME
 	private boolean canStart;
 
 	public Board(Player player) throws Exception {
@@ -141,17 +140,17 @@ public class Board {
 		generateMonsterAndSeed(numOfMonsters);
 	}
 
-	public void removeDeadMonster(Monster deadMonster) throws Exception {
-		int x = deadMonster.getX();
-		int y = deadMonster.getY();
-
-		if (!monsters.remove(deadMonster)) {
-			throw new Exception("The Game has Bugs!");
-		}
-		board[y][x] = null;
-		numOfMonsters--;
-
-	}
+//	public void removeDeadMonster(Monster deadMonster) throws Exception {
+//		int x = deadMonster.getX();
+//		int y = deadMonster.getY();
+//
+//		if (!monsters.remove(deadMonster)) {
+//			throw new Exception("The Game has Bugs!");
+//		}
+//		board[y][x] = null;
+//		numOfMonsters--;
+//
+//	}
 
 	public synchronized void clearMonsterWhenHitBySeed(Monster deadMonster) {
 		board[deadMonster.getY()][deadMonster.getX()] = null;

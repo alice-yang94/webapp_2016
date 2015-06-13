@@ -54,5 +54,11 @@ public class Monster {
 		}
 		return false;
 	}
+	
+	public Monster clone(){
+		Monster m = new Monster(x, y);
+        m.life = life;
+        return m;
+    }
 
 }

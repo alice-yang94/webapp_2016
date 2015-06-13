@@ -18,7 +18,7 @@ public class BoardController {
 	private Board board;
 	private Player player;
 
-	private int targetX, targetY, seedCounter;
+	private int targetX, targetY;
 	private boolean hasInput = false; // true if player input on keyboard
 	private int endGame = 0;
 	private static int killedMonster = 0;
@@ -34,7 +34,6 @@ public class BoardController {
 
 	public BoardController(Board board) {
 		this.board = board;
-		seedCounter = INITIAL_COUNTER;
 		player = board.getPlayer();
 		canAddMonsters = false;
 
@@ -167,7 +166,6 @@ public class BoardController {
 
 	public synchronized void pressSpace() throws Exception {
 		if (player.decreaseBullets()) {
-			seedCounter = 2;
 			hitMonster();
 		}
 	}
@@ -181,7 +179,7 @@ public class BoardController {
 		board.setStart(true);
 		canAddMonsters = true;
 	}
-	
+
 	public synchronized boolean canAddMonsters() {
 		return canAddMonsters;
 	}
@@ -200,23 +198,16 @@ public class BoardController {
 		Iterator<Monster> iter = board.getMonsters().iterator();
 		while (iter.hasNext()) {
 			Monster monster = iter.next();
-
-			if (seedCounter > 0) {
-				int mx = monster.getX();
-				int my = monster.getY();
-				int px = player.getX();
-				int py = player.getY();
-				if (mx == px || my == py) {
-					if (monster.loseLife()) {
-						seedCounter--;
-					} else {
-						board.getMonsters().remove(monster);
-						board.clearMonsterWhenHitBySeed(monster);
-						killedMonster++;
-					}
+			int mx = monster.getX();
+			int my = monster.getY();
+			int px = player.getX();
+			int py = player.getY();
+			if (mx == px || my == py) {
+				if (!monster.loseLife()) {
+					board.getMonsters().remove(monster);
+					board.clearMonsterWhenHitBySeed(monster);
+					killedMonster++;
 				}
-			} else {
-				break;
 			}
 		}
 
