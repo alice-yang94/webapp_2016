@@ -37,7 +37,7 @@ public class SimpleBoardRenderer implements Renderer {
 		imgl = getImage("life.png");
 		imgg = getImage("awesomenew.png");
 		background = getImage("green.JPG");
-		bg = getImage("bg.JPG");
+		bg = getImage("bg.png");
 		try {
 			GraphicsEnvironment ge = GraphicsEnvironment
 					.getLocalGraphicsEnvironment();
@@ -232,12 +232,23 @@ public class SimpleBoardRenderer implements Renderer {
 				}
 			}
 		} else { // the start game screen
+			count++;
 			g.drawImage(bg, 0, 0, 900, 750, 0, 0, bg.getWidth(),
 					bg.getHeight(), null);
-			g.setColor(Color.orange);
+			g.setColor(new Color(30,100,0));
 			g.setFont(new Font("JOKERMAN", Font.PLAIN, 90));
 			char[] thehunted = "THE HUNTED".toCharArray();
 			g.drawChars(thehunted, 0, thehunted.length, 160,300);
+			
+			addition = count/5;
+			g.setColor(new Color(255-addition,255-addition,255-addition));
+			g.setFont(new Font("JOKERMAN", Font.PLAIN, 36));
+			char[] pressEnter = "Press Enter To Start".toCharArray();
+			g.drawChars(pressEnter, 0, pressEnter.length, 500, 600);
+			
+			if (count == 1275) {
+				count = 0;
+			}
 
 		}
 	}

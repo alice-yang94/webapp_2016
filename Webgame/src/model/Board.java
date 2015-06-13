@@ -21,8 +21,8 @@ public class Board {
 	private int numOfMonsters;
 	private int numOfSeeds;
 //	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
-	private final int[] numberOfMonstersInLevel = { 2, 2, 2, 2, 2};
-	private final int[] killMonsterInLevel = { 2, 2, 2, 2, 2 };//FIXME
+	private final int[] numberOfMonstersInLevel = { 2, 40, 2, 2, 2};
+	private final int[] killMonsterInLevel = { 2, 40, 2, 2, 2 };//FIXME
 	private boolean canStart;
 
 	public Board(Player player) throws Exception {
