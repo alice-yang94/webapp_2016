@@ -20,7 +20,8 @@ public class Board {
 	private Player player;
 	private int numOfMonsters;
 	private int numOfSeeds;
-	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
+//	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
+	private final int[] numberOfMonstersInLevel = { 2, 2, 2, 2, 2};
 	private final int[] killMonsterInLevel = { 2, 2, 2, 2, 2 };//FIXME
 	private boolean canStart;
 
@@ -41,7 +42,6 @@ public class Board {
 		board[(int) player.getY()][player.getX()] = player;
 
 		generateMonsterAndSeed(numOfMonsters);
-
 	}
 
 	public synchronized void generateMonsterAndSeed(int numOfM) throws Exception {
