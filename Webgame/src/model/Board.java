@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Board {
 
@@ -12,8 +13,8 @@ public class Board {
 	private static Random random = new Random();
 
 	private Object[][] board;
-	private List<Monster> monsters = new ArrayList<Monster>();
-	private List<Seed> seeds = new ArrayList<Seed>();
+	private List<Monster> monsters = new CopyOnWriteArrayList<Monster>();
+	private List<Seed> seeds = new CopyOnWriteArrayList<Seed>();
 
 	private List<Emit> emitSeedsTo = new ArrayList<Emit>();
 	private Player constantPlayer;
@@ -22,6 +23,7 @@ public class Board {
 	private int numOfSeeds;
 //	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
 	private final int[] numberOfMonstersInLevel = { 2,2,2,2,2 };
+
 	private boolean canStart;
 
 	public Board(Player player) throws Exception {
@@ -88,7 +90,7 @@ public class Board {
 	}
 
 	public synchronized int getMonsterToKill() {
-		return (player.getLevel() + 0) * 10;//FIXME:0->1
+		return (player.getLevel() + 1) * 10;
 	}
 
 	public synchronized List<Monster> getMonsters() {
@@ -139,17 +141,17 @@ public class Board {
 		generateMonsterAndSeed(numOfMonsters);
 	}
 
-	public void removeDeadMonster(Monster deadMonster) throws Exception {
-		int x = deadMonster.getX();
-		int y = deadMonster.getY();
-
-		if (!monsters.remove(deadMonster)) {
-			throw new Exception("The Game has Bugs!");
-		}
-		board[y][x] = null;
-		numOfMonsters--;
-
-	}
+//	public void removeDeadMonster(Monster deadMonster) throws Exception {
+//		int x = deadMonster.getX();
+//		int y = deadMonster.getY();
+//
+//		if (!monsters.remove(deadMonster)) {
+//			throw new Exception("The Game has Bugs!");
+//		}
+//		board[y][x] = null;
+//		numOfMonsters--;
+//
+//	}
 
 	public synchronized void clearMonsterWhenHitBySeed(Monster deadMonster) {
 		board[deadMonster.getY()][deadMonster.getX()] = null;
