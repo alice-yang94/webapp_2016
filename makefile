@@ -21,6 +21,7 @@ install: $(SERVLET_CLASSES)
 
 webgame.jar: $(WEBGAME_CLASSES)
 			echo "Permissions: sandbox" >> manifest.txt
+			echo "Application-Name: The Hunted" >> manifest.txt
 			jar cmf manifest.txt main/webgame.jar -C $(RM_CP) /controller/ -C $(RM_CP) /model/ -C $(RM_CP) /rm/ -C $(RM_CP) /View/
 			rm -rf manifest.txt
 			jarsigner -keystore keystore.jks main/webgame.jar hunted

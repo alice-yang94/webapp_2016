@@ -20,7 +20,9 @@ public class GameController {
 	private String name = "PlayerA";  //TODO: Connect to database to get level
 	private int centerPoint = 14;
 	
-	public GameController() throws Exception {
+	public GameController(String username) throws Exception {
+    name = username;
+
 		player = new Player(level, name);
 		player.setX(centerPoint);
 		player.setY(centerPoint);

@@ -15,83 +15,87 @@ import controller.GameController;
 
 public class RunningMonster extends Applet implements Runnable, KeyListener {
 
-	// default serialVersionUID
-	private static final long serialVersionUID = 1L;
+    // default serialVersionUID
+    private static final long serialVersionUID = 1L;
 
-	private GameController gc;
+    private GameController gc;
 
-	public RunningMonster() throws Exception {
-		gc = new GameController();
-		addKeyListener(this);
-	}
+    public void init() {
+        try {
+            gc = new GameController(getParameter("username"));
+            addKeyListener(this);
+        } catch (Exception e) {
 
-	public void start() {
-		new Thread(this).start();
-	}
+        }
+    }
 
-	@Override
-	public void run() {
-		setSize(900, 750);
+    public void start() {
+        new Thread(this).start();
+    }
 
-		BufferedImage screen = new BufferedImage(900, 750,
-				BufferedImage.TYPE_INT_RGB);
-		Graphics g = screen.getGraphics();
-		Graphics appletG = getGraphics();
+    @Override
+    public void run() {
+        setSize(900, 750);
 
-		long delta = 01;
-		long lastTime = System.nanoTime();
+        BufferedImage screen = new BufferedImage(900, 750,
+                BufferedImage.TYPE_INT_RGB);
+        Graphics g = screen.getGraphics();
+        Graphics appletG = getGraphics();
 
-		while (true) {
-			g.setColor(Color.white);
+        long delta = 01;
+        long lastTime = System.nanoTime();
 
-			g.fillRect(0, 0, 900, 750);
+        while (true) {
+            g.setColor(Color.white);
 
-			try {
-				gc.update(System.nanoTime());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			gc.view(g);
-			appletG.drawImage(screen, 0, 0, null);
+            g.fillRect(0, 0, 900, 750);
 
-			delta = System.nanoTime() - lastTime;
-			if (delta > 3000000000L && gc.isPlayerAlive()) {
-				try {
-					lastTime += 3000000000L;
-					gc.addMonsters();
-					gc.moveMonsters();
-					gc.removeDueSeeds();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+            try {
+                gc.update(System.nanoTime());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            gc.view(g);
+            appletG.drawImage(screen, 0, 0, null);
 
-			if (!isActive()) {
-				return;
-			}
-		}
+            delta = System.nanoTime() - lastTime;
+            if (delta > 3000000000L && gc.isPlayerAlive()) {
+                try {
+                    lastTime += 3000000000L;
+                    gc.addMonsters();
+                    gc.moveMonsters();
+                    gc.removeDueSeeds();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
-	}
+            if (!isActive()) {
+                return;
+            }
+        }
 
-	public boolean eventHandler(KeyEvent e) throws Exception {
-		return gc.eventHandler(e);
-	}
+    }
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
+    public boolean eventHandler(KeyEvent e) throws Exception {
+        return gc.eventHandler(e);
+    }
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		try {
-			eventHandler(e);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	}
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-	}
+    @Override
+    public void keyPressed(KeyEvent e) {
+        try {
+            eventHandler(e);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
 
 }
