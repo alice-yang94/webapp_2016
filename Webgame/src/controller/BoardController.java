@@ -40,7 +40,7 @@ public class BoardController {
 				timeUsedToWin = System.nanoTime() - initialTime;
 				win = true;
 				endGame++;
-				while(playerLoseLife()){
+				while (playerLoseLife()) {
 					playerLoseLife();
 				}
 				// TODO: SHOW WIN MSG AND CLEAREVERYTHING, RESTART AND
@@ -67,9 +67,7 @@ public class BoardController {
 					break;
 				}
 			}
-			
-			
-			
+
 			// if the grid contains seed, player gets a bullet
 			if (notMonster) {
 				Iterator<Seed> iterS = board.getSeeds().iterator();
@@ -155,12 +153,22 @@ public class BoardController {
 	}
 
 	public void pressEnter() throws Exception { // restart the game or start
-		board.setStart(true);		
+		board.setStart(true);
 		if (!board.hasPlayer()) {
 			board.restartBoard();
 			endGame = 0;
 		}
 
+	}
+
+	public void pressBack() throws Exception {// go to next level
+		if (win) {
+			board.setStart(true);
+			if (!board.hasPlayer()) {
+				board.startNextLevelBoard();
+				endGame = 0;
+			}
+		}
 	}
 
 	public synchronized void hitMonster() throws Exception {
@@ -358,14 +366,14 @@ public class BoardController {
 				while (playerLoseLife()) {
 					playerLoseLife();
 				}
-//				endGame++;
+				// endGame++;
 				break;
 			}
 			if (count == 2 && (isInBoarder(px) && isInBoarder(py))) {
 				while (playerLoseLife()) {
 					playerLoseLife();
 				}
-//				endGame++;
+				// endGame++;
 				break;
 			}
 		}
@@ -437,8 +445,9 @@ public class BoardController {
 			}
 		}
 	}
-	
+
 	public static synchronized int getMonsterkilled() {
 		return killedMonster;
 	}
+
 }

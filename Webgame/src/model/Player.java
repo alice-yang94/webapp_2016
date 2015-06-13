@@ -77,6 +77,10 @@ public class Player {
 	public int getLevel() {
 		return level;
 	}
+	
+	public int incLevel() {
+		return level++;
+	}
 
 	public boolean isAlive() {
 		return life > 0;

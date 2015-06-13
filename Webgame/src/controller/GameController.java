@@ -90,8 +90,13 @@ public class GameController {
 			break;
 		case KeyEvent.VK_SPACE:
 			controller.pressSpace();
+			break;
 		case KeyEvent.VK_ENTER:
 			controller.pressEnter();
+			break;
+		case KeyEvent.VK_BACK_SPACE:
+			controller.pressBack();
+			break;
 		}
 		return false;
 	}

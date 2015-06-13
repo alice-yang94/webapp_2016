@@ -29,7 +29,7 @@ public class SimpleBoardRenderer implements Renderer {
 	private int newcount = 0;
 	private int counter = 0;
 	private int addition = 0;
-	BufferedImage bg, imgp, imgs, imgm, imgl, imgg, background;
+	BufferedImage bg, imgp, imgs, imgm, imgl, imgg, imgscroll, background;
 
 	public SimpleBoardRenderer(Board board) {
 		this.board = board;
@@ -94,7 +94,7 @@ public class SimpleBoardRenderer implements Renderer {
 				while (eIter.hasNext()) {
 					Emit e = eIter.next();
 					int d = e.getD();
-					if (counter%3 == 0) {
+					if (counter % 3 == 0) {
 						d = e.incD();
 					}
 
@@ -182,15 +182,15 @@ public class SimpleBoardRenderer implements Renderer {
 							imgp.getWidth(), imgp.getHeight(), null);
 
 					// watermelon slices
-					for (int i = 0; i < 6; i++) {
+					for (int i = 0; i < 7; i++) {
 						g.drawImage(imgs, (i * 150) + addition, 100, 40
-								+ (i * 150) + addition, 140, 0, 0, imgs.getWidth(),
-								imgs.getHeight(), null);
+								+ (i * 150) + addition, 140, 0, 0,
+								imgs.getWidth(), imgs.getHeight(), null);
 					}
-					for (int i = 0; i < 6; i++) {
+					for (int i = 0; i < 7; i++) {
 						g.drawImage(imgs, (i * 150) + addition, 620, 40
-								+ (i * 150) + addition, 660, 0, 0, imgs.getWidth(),
-								imgs.getHeight(), null);
+								+ (i * 150) + addition, 660, 0, 0,
+								imgs.getWidth(), imgs.getHeight(), null);
 					}
 
 					if (count > 900) {
@@ -204,29 +204,30 @@ public class SimpleBoardRenderer implements Renderer {
 					g.setFont(new Font("JOKERMAN", Font.BOLD, 72));
 					char[] gameOver = "GAME OVER".toCharArray();
 					g.drawChars(gameOver, 0, 9, 200, 300);
-
-					g.setColor(Color.black);
+					
 					addition = count / 10;
+					g.setColor(Color.black);
 					g.setFont(new Font("JOKERMAN", Font.PLAIN, 36 + addition));
 					char[] pressEnter = "Press Enter To Restart".toCharArray();
 					g.drawChars(pressEnter, 0, 22, 240 - (addition * 5), 400);
-					
-//					// monsters
-//					for (int i = 0; i < 6; i++) {
-//						g.drawImage(imgm, (i * 150) + addition, 100, 40
-//								+ (i * 150) + addition, 140, 0, 0, imgm.getWidth(),
-//								imgm.getHeight(), null);
-//					}
-//					for (int i = 0; i < 6; i++) {
-//						g.drawImage(imgm, (i * 150) + addition, 620, 40
-//								+ (i * 150) + addition, 660, 0, 0, imgm.getWidth(),
-//								imgm.getHeight(), null);
-//					}
-//
-//					if (count > 900) {
-//						count = -900;
-//					}
-					
+
+					// monsters
+					newcount++;
+					for (int i = 0; i < 7; i++) {
+						g.drawImage(imgm, (i * 150) + (newcount / 10), 100, 40
+								+ (i * 150) + (newcount / 10), 150, 0, 0,
+								imgm.getWidth(), imgm.getHeight(), null);
+					}
+					for (int i = 0; i < 7; i++) {
+						g.drawImage(imgm, (i * 150) + (newcount / 10), 620, 40
+								+ (i * 150) + (newcount / 10), 670, 0, 0,
+								imgm.getWidth(), imgm.getHeight(), null);
+					}
+
+					if (newcount > 1000) {
+						newcount = -900;
+					}
+
 					if (count < 200) {
 						count++;
 					}
@@ -235,6 +236,11 @@ public class SimpleBoardRenderer implements Renderer {
 		} else { // the start game screen
 			g.drawImage(bg, 0, 0, 900, 750, 0, 0, bg.getWidth(),
 					bg.getHeight(), null);
+			g.setColor(Color.orange);
+			g.setFont(new Font("JOKERMAN", Font.PLAIN, 90));
+			char[] thehunted = "THE HUNTED".toCharArray();
+			g.drawChars(thehunted, 0, thehunted.length, 160,300);
+
 		}
 	}
 

@@ -46,7 +46,8 @@ public class Board {
 
 	}
 
-	public synchronized void generateMonsterAndSeed(int numOfM) throws Exception {
+	public synchronized void generateMonsterAndSeed(int numOfM)
+			throws Exception {
 		// add number of monsters with seeds related to player's level
 		for (int i = 0; i < numOfM; i++) {
 			// generate monsters
@@ -60,7 +61,7 @@ public class Board {
 			monsters.add((Monster) board[y][x]);
 
 			// generate seeds
-			if (random.nextInt(2) == 1) {
+			if (random.nextInt(3) > 0) {
 				int sx = generateNeighbourPoint(x);
 				int sy = generateNeighbourPoint(y);
 				while (board[sy][sx] != null) {
@@ -87,9 +88,9 @@ public class Board {
 	}
 
 	public synchronized int getMonsterToKill() {
-		return (player.getLevel()+1)*10;
+		return (player.getLevel() + 1) * 10;
 	}
-	
+
 	public synchronized List<Monster> getMonsters() {
 		return monsters;
 	}
@@ -122,6 +123,20 @@ public class Board {
 		int level = player.getLevel();
 		int numberOfMonster = numberOfMonstersInLevel[level];
 		generateMonsterAndSeed(numberOfMonster);
+	}
+
+	public void startNextLevelBoard() throws Exception { // constant player won't
+		// change in the process
+		player = constantPlayer;
+		int level = player.incLevel();
+		player.reborn();
+		board[14][14] = player;
+		if (level > 4) {
+			numOfMonsters = 40;
+		} else {
+			numOfMonsters = numberOfMonstersInLevel[level];
+		}
+		generateMonsterAndSeed(numOfMonsters);
 	}
 
 	public void removeDeadMonster(Monster deadMonster) throws Exception {
@@ -181,7 +196,6 @@ public class Board {
 	public Object getObject(int x, int y) {
 		return board[y][x];
 	}
-
 
 	public synchronized void clearEverything() {
 		for (int i = 0; i < WIDTH; i++) {
