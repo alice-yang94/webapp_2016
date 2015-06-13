@@ -22,7 +22,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
         	gc = new GameController("Player1");
             addKeyListener(this);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -62,7 +62,6 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
             }
             
             if (delta > 3000000000L && gc.isPlayerAlive()) {
-
             	try {
                     lastTime = System.nanoTime();
                     gc.addMonsters();

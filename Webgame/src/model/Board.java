@@ -30,8 +30,11 @@ public class Board {
 		this.player = player;
 		int level = player.getLevel();
 		board = new Object[HEIGHT][WIDTH];
-		numOfMonsters = numberOfMonstersInLevel[level];
-
+		if (level > 4) {
+			numOfMonsters = 40;
+		} else {
+			numOfMonsters = numberOfMonstersInLevel[level];
+		}
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
 				board[j][i] = null;
@@ -85,7 +88,7 @@ public class Board {
 	}
 
 	public synchronized int getMonsterToKill() {
-		return killMonsterInLevel[player.getLevel()];
+		return (player.getLevel()+1)*10;
 	}
 	
 	public synchronized List<Monster> getMonsters() {
