@@ -20,9 +20,7 @@ public class Board {
 	private Player player;
 	private int numOfMonsters;
 	private int numOfSeeds;
-//	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
-	private final int[] numberOfMonstersInLevel = { 2, 40, 2, 2, 2};
-	private final int[] killMonsterInLevel = { 2, 40, 2, 2, 2 };//FIXME
+	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
 	private boolean canStart;
 
 	public Board(Player player) throws Exception {
@@ -89,7 +87,7 @@ public class Board {
 	}
 
 	public synchronized int getMonsterToKill() {
-		return (player.getLevel() + 1) * 10;
+		return (player.getLevel() + 0) * 10;//FIXME:0->1
 	}
 
 	public synchronized List<Monster> getMonsters() {
