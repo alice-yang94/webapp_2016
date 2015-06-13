@@ -80,7 +80,7 @@ public class BoardController {
 						break;
 					}
 
-					iter.remove();
+					board.getMonsters().remove(monster);
 					board.clearMonsterWhenHitBySeed(monster);
 					killedMonster++;
 					notMonster = false;
@@ -210,7 +210,7 @@ public class BoardController {
 					if (monster.loseLife()) {
 						seedCounter--;
 					} else {
-						iter.remove();
+						board.getMonsters().remove(monster);
 						board.clearMonsterWhenHitBySeed(monster);
 						killedMonster++;
 					}
@@ -232,7 +232,7 @@ public class BoardController {
 	}
 
 	private synchronized boolean playerLoseLife() {
-		if (endGame >= 20) {
+		if (endGame >= 1200) {
 			board.clearEverything();
 			killedMonster = 0;
 			canAddMonsters = false;

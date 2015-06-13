@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Board {
 
@@ -12,8 +13,8 @@ public class Board {
 	private static Random random = new Random();
 
 	private Object[][] board;
-	private List<Monster> monsters = new ArrayList<Monster>();
-	private List<Seed> seeds = new ArrayList<Seed>();
+	private List<Monster> monsters = new CopyOnWriteArrayList<Monster>();
+	private List<Seed> seeds = new CopyOnWriteArrayList<Seed>();
 
 	private List<Emit> emitSeedsTo = new ArrayList<Emit>();
 	private Player constantPlayer;
@@ -21,7 +22,7 @@ public class Board {
 	private int numOfMonsters;
 	private int numOfSeeds;
 //	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
-	private final int[] numberOfMonstersInLevel = { 2, 2, 2, 2, 2};
+	private final int[] numberOfMonstersInLevel = { 2, 30, 2, 2, 2};
 	private final int[] killMonsterInLevel = { 2, 2, 2, 2, 2 };//FIXME
 	private boolean canStart;
 
