@@ -18,6 +18,9 @@ public class LoginServlet extends HttpServlet {
     loadDBDriver();
     String action = request.getParameter("action");
 
+    PrintWriter out = response.getWriter();
+    response.setContentType("text/html");
+
     if ("login".equals(action)) { //Login
       String username = request.getParameter("username");
       String password = request.getParameter("password");
@@ -25,15 +28,15 @@ public class LoginServlet extends HttpServlet {
       Encryption storedPasswordPair = getUserPasswordPair(username);
 
       if (usernameNotUsed(username)) {
-        //response.sendError(response.SC_BAD_REQUEST, "The username doesn't exist");
-        response.sendRedirect("login.html");
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert(\"The username doesn't exist\");");
+        out.println("</script>");
         return;
       }
 
       String storedPassword = storedPasswordPair.getPassword();
       String storedSalt = storedPasswordPair.getSalt();
 
-      //should password and storedPassword be swapped here? storedPassword should already be encrypted?
       if (storedPassword.equals(Encryption.encryptLoginAttempt(password, storedSalt))) {
         Cookie ck = new Cookie("username", username);
         ck.setPath("/");
@@ -41,7 +44,14 @@ public class LoginServlet extends HttpServlet {
         response.addCookie(ck);
         response.sendRedirect("/main/main.html");
       } else {
-        //response.sendError(response.SC_BAD_REQUEST, "The password is incorrect");
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert(\"The password is incorrect\");");
+        out.println("</script>");
+        try {
+          Thread.sleep(5000);
+        } catch (InterruptedException e) {
+
+        }
         response.sendRedirect("login.html");
       }
 
@@ -51,15 +61,17 @@ public class LoginServlet extends HttpServlet {
       String password2 = request.getParameter("password2");
 
       if (!usernameNotUsed(username)) {
-        //response.sendError(response.SC_BAD_REQUEST, "Username already in use");
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert(\"Username already in use\");");
+        out.println("</script>");
         response.sendRedirect("create.html");
-        return;
       }
 
       if (!password.equals(password2)) {
-        //response.sendError(response.SC_BAD_REQUEST, "The passwords don't match");
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert(\"The passwords don't match\");");
+        out.println("</script>");
         response.sendRedirect("create.html");
-        return;
       }
 
       Encryption encryptedPasswordPair = Encryption.encrypt(password);
