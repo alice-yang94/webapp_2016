@@ -21,8 +21,7 @@ public class GameController {
 	private int centerPoint = 14;
 	
 	public GameController(String username) throws Exception {
-    name = username;
-
+		name = username;
 		player = new Player(level, name);
 		player.setX(centerPoint);
 		player.setY(centerPoint);
