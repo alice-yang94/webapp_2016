@@ -62,7 +62,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
             delta = System.nanoTime() - lastTime;
             if (delta > 3000000000L && gc.isPlayerAlive()) {
                 try {
-                    lastTime += 3000000000L;
+                    lastTime += 3000000000L;//System.nanoTime();
                     gc.addMonsters();
                     gc.moveMonsters();
                     gc.removeDueSeeds();

@@ -26,10 +26,26 @@ public class SimpleBoardRenderer implements Renderer {
 
 	private Board board;
 	private int count = 0;
+	private int newcount = 0;
 	private int addition = 0;
+	BufferedImage bg, imgp, imgs, imgm, imgl, imgg, background;
 
 	public SimpleBoardRenderer(Board board) {
 		this.board = board;
+		imgp = getImage("player.jpeg");
+		imgs = getImage("watermelon.png");
+		imgm = getImage("monster.png");
+		imgl = getImage("life.png");
+		imgg = getImage("awesomenew.png");
+		background = getImage("green.JPG");
+		bg = getImage("bg.JPG");
+		try {
+			GraphicsEnvironment ge = GraphicsEnvironment
+					.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, this.getClass()
+					.getResource("fonts/" + "JOKERMAN.TTF").openStream()));
+		} catch (IOException | FontFormatException e) {
+		}
 	}
 
 	@Override
@@ -55,15 +71,12 @@ public class SimpleBoardRenderer implements Renderer {
 				int px = player.getX();
 				int py = player.getY();
 
-				BufferedImage imgp = getImage("player.jpeg");
-
 				int x = (int) (px * cellSize);
 				int y = (int) (py * cellSize);
 				g.drawImage(imgp, x - 5, y - 5, x + 34, y + 34, 0, 0,
 						imgp.getWidth(), imgp.getHeight(), null);
 
 				// render seeds
-				BufferedImage imgs = getImage("watermelon.png");
 				Iterator<Seed> seedIter = board.getSeeds().iterator();
 				while (seedIter.hasNext()) {
 					Seed seed = seedIter.next();
@@ -95,7 +108,6 @@ public class SimpleBoardRenderer implements Renderer {
 				}
 
 				// render monsters
-				BufferedImage imgm = getImage("monster.png");
 				Iterator<Monster> iter = board.getMonsters().iterator();
 				while (iter.hasNext()) {
 					Monster monster = iter.next();
@@ -104,14 +116,6 @@ public class SimpleBoardRenderer implements Renderer {
 					g.drawImage(imgm, x + 2, y + 2, x + 27, y + 27, 0, 0,
 							imgm.getWidth(), imgm.getHeight(), null);
 				}
-
-				try {
-					GraphicsEnvironment ge = GraphicsEnvironment
-							.getLocalGraphicsEnvironment();
-					ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,
-							this.getClass().getResource("fonts/" + "JOKERMAN.TTF").openStream()));
-				} catch (IOException | FontFormatException e) {
-				} 
 
 				g.setFont(new Font("JOKERMAN", Font.BOLD, 18));
 				g.setColor(Color.white);
@@ -130,7 +134,6 @@ public class SimpleBoardRenderer implements Renderer {
 				g.drawChars(playerLevel, 0, 1, 810, 150);
 
 				// show player life
-				BufferedImage imgl = getImage("life.png");
 				g.drawImage(imgl, 790, 300, 835, 335, 0, 0, imgl.getWidth(),
 						imgl.getHeight(), null);
 				g.setFont(new Font("JOKERMAN", Font.BOLD, 25));
@@ -158,60 +161,86 @@ public class SimpleBoardRenderer implements Renderer {
 
 			} else { // die or win
 				if (BoardController.win) {
+					g.drawImage(background, 0, 0, 900, 750, 0, 0,
+							background.getWidth(), background.getHeight(), null);
 
-	   				 g.setColor(Color.RED);
-	   				 g.setFont(new Font("JOKERMAN", Font.BOLD, 72));
-	   				 char[] youwin = "YOU WIN".toCharArray();
-	   				 g.drawChars(youwin, 0, youwin.length, 200, 300);
+					g.setColor(Color.RED);
+					g.setFont(new Font("JOKERMAN", Font.BOLD, 72));
+					char[] youwin = "YOU WIN".toCharArray();
+					g.drawChars(youwin, 0, youwin.length, 200, 300);
 
-	   				 BufferedImage imgg = getImage("awesome.jpg");
-	   				 g.drawImage(imgg, 600, 200, 750, 320, 0, 0,
-	   						 imgg.getWidth(), imgg.getHeight(), null);
+					g.drawImage(imgg, 600, 200, 750, 320, 0, 0,
+							imgg.getWidth(), imgg.getHeight(), null);
 
-	   				 count++;
-	   				 BufferedImage imgp = getImage("player.jpeg");
-	   				 g.drawImage(imgp, 600, 200, 750, 320, 0, 0,
-	   						 imgp.getWidth(), imgp.getHeight(), null);
+					count += 1;
+					addition = count / 10;
+					g.drawImage(imgp, 280, 350, 620, 680, 0, 0,
+							imgp.getWidth(), imgp.getHeight(), null);
 
-	   			 } else {
-	   				 BufferedImage background = getImage("green.JPG");
-	   				 g.drawImage(background, 0, 0, 900, 750, 0, 0,
-	   						 background.getWidth(), background.getHeight(), null);
-	   				 g.setColor(Color.gray);
-	   				 g.setFont(new Font("JOKERMAN", Font.BOLD, 72));
-	   				 char[] gameOver = "GAME OVER".toCharArray();
-	   				 g.drawChars(gameOver, 0, 9, 200, 300);
+					// watermelon slices
+					for (int i = 0; i < 6; i++) {
+						g.drawImage(imgs, (i * 150) + addition, 100, 40
+								+ (i * 150) + addition, 140, 0, 0, imgs.getWidth(),
+								imgs.getHeight(), null);
+					}
+					for (int i = 0; i < 6; i++) {
+						g.drawImage(imgs, (i * 150) + addition, 620, 40
+								+ (i * 150) + addition, 660, 0, 0, imgs.getWidth(),
+								imgs.getHeight(), null);
+					}
 
-	   				 g.setColor(Color.black);
-	   				 addition = count / 10;
-	   				 g.setFont(new Font("JOKERMAN", Font.PLAIN, 36 + addition));
-	   				 char[] pressEnter = "Press Enter To Restart".toCharArray();
-	   				 g.drawChars(pressEnter, 0, 22, 240 - (addition * 5), 400);
-	   				 if (count < 200) {
-	   					 count++;
-	   				 }
-	   			 }
+					if (count > 900) {
+						count = -900;
+					}
+
+				} else {
+					g.drawImage(background, 0, 0, 900, 750, 0, 0,
+							background.getWidth(), background.getHeight(), null);
+					g.setColor(Color.gray);
+					g.setFont(new Font("JOKERMAN", Font.BOLD, 72));
+					char[] gameOver = "GAME OVER".toCharArray();
+					g.drawChars(gameOver, 0, 9, 200, 300);
+
+					g.setColor(Color.black);
+					addition = count / 10;
+					g.setFont(new Font("JOKERMAN", Font.PLAIN, 36 + addition));
+					char[] pressEnter = "Press Enter To Restart".toCharArray();
+					g.drawChars(pressEnter, 0, 22, 240 - (addition * 5), 400);
+					
+//					// monsters
+//					for (int i = 0; i < 6; i++) {
+//						g.drawImage(imgm, (i * 150) + addition, 100, 40
+//								+ (i * 150) + addition, 140, 0, 0, imgm.getWidth(),
+//								imgm.getHeight(), null);
+//					}
+//					for (int i = 0; i < 6; i++) {
+//						g.drawImage(imgm, (i * 150) + addition, 620, 40
+//								+ (i * 150) + addition, 660, 0, 0, imgm.getWidth(),
+//								imgm.getHeight(), null);
+//					}
+//
+//					if (count > 900) {
+//						count = -900;
+//					}
+					
+					if (count < 200) {
+						count++;
+					}
+				}
 			}
 		} else { // the start game screen
-			BufferedImage background = getImage("bg.JPG");
-			g.drawImage(background, 0, 0, 900, 750, 0, 0,
-					background.getWidth(), background.getHeight(), null);
+			g.drawImage(bg, 0, 0, 900, 750, 0, 0, bg.getWidth(),
+					bg.getHeight(), null);
 		}
 	}
 
-	private String getDir() {
-		String dir = this.getClass().getProtectionDomain()
-				.getCodeSource().getLocation().getPath();
-		return dir;
+	private BufferedImage getImage(String name) {
+		try {
+			return ImageIO.read(this.getClass().getResource("images/" + name));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
-
-    private BufferedImage getImage(String name) {
-        try {
-            return ImageIO.read(this.getClass().getResource("images/" + name));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 }
