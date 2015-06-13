@@ -27,6 +27,7 @@ public class SimpleBoardRenderer implements Renderer {
 	private Board board;
 	private int count = 0;
 	private int newcount = 0;
+	private int counter = 0;
 	private int addition = 0;
 	BufferedImage bg, imgp, imgs, imgm, imgl, imgg, background;
 
@@ -88,11 +89,14 @@ public class SimpleBoardRenderer implements Renderer {
 
 				// render emitting seeds
 				g.setColor(Color.black);
-
+				counter++;
 				Iterator<Emit> eIter = board.getEmitSeedsTo().iterator();
 				while (eIter.hasNext()) {
 					Emit e = eIter.next();
-					int d = e.incD();
+					int d = e.getD();
+					if (counter%3 == 0) {
+						d = e.incD();
+					}
 
 					if (d + px < 750) {
 						x = (int) (px * cellSize);

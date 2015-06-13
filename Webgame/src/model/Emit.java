@@ -9,7 +9,7 @@ public class Emit {
 	}
 
 	public synchronized int incD() {
-		d+=5;
+		d+=1;
 		return d;
 	}
 
