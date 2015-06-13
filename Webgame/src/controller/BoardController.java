@@ -176,7 +176,6 @@ public class BoardController {
 			board.restartBoard();
 			endGame = 0;
 		}
-		board.setStart(true);
 		canAddMonsters = true;
 	}
 
@@ -191,6 +190,7 @@ public class BoardController {
 				board.startNextLevelBoard();
 				endGame = 0;
 			}
+			canAddMonsters = true;
 		}
 	}
 

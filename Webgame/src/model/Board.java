@@ -20,7 +20,8 @@ public class Board {
 	private Player player;
 	private int numOfMonsters;
 	private int numOfSeeds;
-	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
+//	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
+	private final int[] numberOfMonstersInLevel = { 2,2,2,2,2 };
 	private boolean canStart;
 
 	public Board(Player player) throws Exception {
