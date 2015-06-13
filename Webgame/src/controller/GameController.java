@@ -2,12 +2,10 @@ package controller;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
 import View.Renderer;
 import View.SimpleBoardRenderer;
 import model.Board;
@@ -122,7 +120,7 @@ public class GameController {
 		controller.removeDueSeeds();
 	}
 	
-	public boolean isPlayerAlive() {
-		return player.isAlive();
+	public synchronized boolean isPlayerAlive() {
+		return player.isAlive() && controller.canAddMonsters();
 	}
 }

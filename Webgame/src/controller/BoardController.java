@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import model.Board;
 import model.Monster;
 import model.Player;
@@ -24,11 +28,28 @@ public class BoardController {
 	public static final int INITIAL_COUNTER = 0;
 	public static final int SEED_COUNTER = 2;
 	public static final int MONSTER_INC_NUMBER = 3;
+	private AudioInputStream audioInputStream;
+	private Clip clip;
+	private boolean canAddMonsters;
 
 	public BoardController(Board board) {
 		this.board = board;
 		seedCounter = INITIAL_COUNTER;
 		player = board.getPlayer();
+		canAddMonsters = false;
+
+		try {
+			audioInputStream = AudioSystem.getAudioInputStream(this.getClass()
+					.getResource("music/backgroundMusic.wav"));
+			clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+		} catch (Exception ex) {
+			System.out.println("Error with playing sound.");
+			ex.printStackTrace();
+		}
+
+		clip.start();
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 
 	public synchronized void update(long initialTime) throws Exception {
@@ -36,7 +57,6 @@ public class BoardController {
 			win = false;
 			// player wins if he kills the certain amount of monster
 			if (killedMonster >= board.getMonsterToKill()) {
-				System.out.print(0);
 				timeUsedToWin = System.nanoTime() - initialTime;
 				win = true;
 				endGame++;
@@ -158,7 +178,12 @@ public class BoardController {
 			board.restartBoard();
 			endGame = 0;
 		}
-
+		board.setStart(true);
+		canAddMonsters = true;
+	}
+	
+	public synchronized boolean canAddMonsters() {
+		return canAddMonsters;
 	}
 
 	public void pressBack() throws Exception {// go to next level
@@ -206,10 +231,11 @@ public class BoardController {
 		return false;
 	}
 
-	private boolean playerLoseLife() {
+	private synchronized boolean playerLoseLife() {
 		if (endGame >= 20) {
 			board.clearEverything();
 			killedMonster = 0;
+			canAddMonsters = false;
 		}
 		if (player.loseLife()) { // still have life
 			hasInput = false; // invalid move, has to wait another input

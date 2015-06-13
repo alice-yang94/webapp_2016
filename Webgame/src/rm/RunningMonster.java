@@ -6,10 +6,6 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import controller.GameController;
 
@@ -60,9 +56,14 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
             appletG.drawImage(screen, 0, 0, null);
 
             delta = System.nanoTime() - lastTime;
+
+            if (!gc.isPlayerAlive()) {
+            	lastTime = System.nanoTime();
+            }
+            
             if (delta > 3000000000L && gc.isPlayerAlive()) {
-                try {
-                    lastTime += 3000000000L;//System.nanoTime();
+            	try {
+                    lastTime = System.nanoTime();
                     gc.addMonsters();
                     gc.moveMonsters();
                     gc.removeDueSeeds();
