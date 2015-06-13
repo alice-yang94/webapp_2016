@@ -105,13 +105,13 @@ public class SimpleBoardRenderer implements Renderer {
 							imgm.getWidth(), imgm.getHeight(), null);
 				}
 
-				/*try {
+				try {
 					GraphicsEnvironment ge = GraphicsEnvironment
 							.getLocalGraphicsEnvironment();
 					ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,
-							new File("fonts/" + "JOKERMAN.TTF")));
+							this.getClass().getResource("fonts/" + "JOKERMAN.TTF").openStream()));
 				} catch (IOException | FontFormatException e) {
-				} */
+				} 
 
 				g.setFont(new Font("JOKERMAN", Font.BOLD, 18));
 				g.setColor(Color.white);
@@ -158,41 +158,39 @@ public class SimpleBoardRenderer implements Renderer {
 
 			} else { // die or win
 				if (BoardController.win) {
-					BufferedImage background = getImage("green.JPG");
-					g.drawImage(background, 0, 0, 900, 750, 0, 0,
-							background.getWidth(), background.getHeight(), null);
-					
-					g.setColor(Color.orange);
-					g.setFont(new Font("JOKERMAN", Font.BOLD, 72));
-					char[] youwin = "YOU WIN".toCharArray();
-					g.drawChars(youwin, 0, youwin.length, 200, 300);
-					
-					BufferedImage imgg = getImage("awesome.jpg");
-					g.drawImage(imgg, 600, 200, 750, 320, 0, 0, imgg.getWidth(),
-							imgg.getHeight(), null);
-					
-					count++;
-					BufferedImage imgp = getImage("player.jpeg");
-					g.drawImage(imgp, 600, 200, 750, 320, 0, 0, imgp.getWidth(),
-							imgp.getHeight(), null);
-					
-					
-				} else {
 
-					g.setColor(Color.red);
-					g.setFont(new Font("JOKERMAN", Font.BOLD, 72));
-					char[] gameOver = "GAME OVER".toCharArray();
-					g.drawChars(gameOver, 0, 9, 200, 300);
+	   				 g.setColor(Color.RED);
+	   				 g.setFont(new Font("JOKERMAN", Font.BOLD, 72));
+	   				 char[] youwin = "YOU WIN".toCharArray();
+	   				 g.drawChars(youwin, 0, youwin.length, 200, 300);
 
-					g.setColor(Color.black);
-					addition = count / 10;
-					g.setFont(new Font("JOKERMAN", Font.PLAIN, 36 + addition));
-					char[] pressEnter = "Press Enter To Restart".toCharArray();
-					g.drawChars(pressEnter, 0, 22, 240 - (addition * 5), 400);
-					if (count < 200) {
-						count++;
-					}
-				}
+	   				 BufferedImage imgg = getImage("awesome.jpg");
+	   				 g.drawImage(imgg, 600, 200, 750, 320, 0, 0,
+	   						 imgg.getWidth(), imgg.getHeight(), null);
+
+	   				 count++;
+	   				 BufferedImage imgp = getImage("player.jpeg");
+	   				 g.drawImage(imgp, 600, 200, 750, 320, 0, 0,
+	   						 imgp.getWidth(), imgp.getHeight(), null);
+
+	   			 } else {
+	   				 BufferedImage background = getImage("green.JPG");
+	   				 g.drawImage(background, 0, 0, 900, 750, 0, 0,
+	   						 background.getWidth(), background.getHeight(), null);
+	   				 g.setColor(Color.gray);
+	   				 g.setFont(new Font("JOKERMAN", Font.BOLD, 72));
+	   				 char[] gameOver = "GAME OVER".toCharArray();
+	   				 g.drawChars(gameOver, 0, 9, 200, 300);
+
+	   				 g.setColor(Color.black);
+	   				 addition = count / 10;
+	   				 g.setFont(new Font("JOKERMAN", Font.PLAIN, 36 + addition));
+	   				 char[] pressEnter = "Press Enter To Restart".toCharArray();
+	   				 g.drawChars(pressEnter, 0, 22, 240 - (addition * 5), 400);
+	   				 if (count < 200) {
+	   					 count++;
+	   				 }
+	   			 }
 			}
 		} else { // the start game screen
 			BufferedImage background = getImage("bg.JPG");

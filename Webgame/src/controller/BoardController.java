@@ -32,6 +32,21 @@ public class BoardController {
 	}
 
 	public synchronized void update(long initialTime) throws Exception {
+		if (board.hasPlayer()) {
+			win = false;
+			// player wins if he kills the certain amount of monster
+			if (killedMonster >= board.getMonsterToKill()) {
+				System.out.print(0);
+				timeUsedToWin = System.nanoTime() - initialTime;
+				win = true;
+				endGame++;
+				while(playerLoseLife()){
+					playerLoseLife();
+				}
+				// TODO: SHOW WIN MSG AND CLEAREVERYTHING, RESTART AND
+				// GOTO NEXT LEVEL
+			}
+		}
 		if (hasInput || endGame > 0) {
 			boolean notMonster = true;
 
@@ -69,18 +84,6 @@ public class BoardController {
 			}
 			if (endGame == 0) {
 				if (board.hasPlayer()) {
-					// player wins if he kills the certain amount of monster
-					if (killedMonster >= board.getMonsterToKill()) {
-						System.out.print(0);
-						timeUsedToWin = System.nanoTime() - initialTime;
-						win = true;
-						endGame++;
-						while(playerLoseLife()){
-							playerLoseLife();
-						}
-						// TODO: SHOW WIN MSG AND CLEAREVERYTHING, RESTART AND
-						// GOTO NEXT LEVEL
-					}
 					board.changePlayerPos(targetX, targetY);
 				}
 				monsterMove();
@@ -152,7 +155,7 @@ public class BoardController {
 	}
 
 	public void pressEnter() throws Exception { // restart the game or start
-		board.setStart(true);
+		board.setStart(true);		
 		if (!board.hasPlayer()) {
 			board.restartBoard();
 			endGame = 0;
@@ -198,6 +201,7 @@ public class BoardController {
 	private boolean playerLoseLife() {
 		if (endGame >= 20) {
 			board.clearEverything();
+			killedMonster = 0;
 		}
 		if (player.loseLife()) { // still have life
 			hasInput = false; // invalid move, has to wait another input
