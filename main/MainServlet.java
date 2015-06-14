@@ -75,7 +75,7 @@ public class MainServlet extends HttpServlet {
         
         Statement statement = conn.createStatement();
         
-        ResultSet rs = statement.executeQuery("SELECT * FROM completedGames ORDER BY score DESC");
+        ResultSet rs = statement.executeQuery("SELECT * FROM completedGames ORDER BY score ASC");
         int i = 1;
         while (rs.next() && i < 10) {
           res += "<div class=\"well well-sm\"><b>" + i + ": " + rs.getString("username") +

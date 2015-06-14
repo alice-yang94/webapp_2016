@@ -76,7 +76,7 @@ public class BoardController {
       Calendar cal = Calendar.getInstance();
       Date date = new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
 
-      statement.executeUpdate("INSERT INTO completedGames VALUES ( DEFAULT, '" + username + "', " + date + ", " + killedMonster + ")");
+      statement.executeUpdate("INSERT INTO completedGames VALUES ( DEFAULT, '" + username + "', " + date + ", " + timeUsedToWin + ")");
 
       conn.close();
     } catch (Exception e) {
@@ -110,7 +110,7 @@ public class BoardController {
 
           statement.executeUpdate("DELETE FROM currentGame WHERE username = '" + username + "'");
 
-          statement.executeUpdate("INSERT INTO currentGame VALUES ('" + username + "', " + player.getLevel() + ", " + killedMonster + ")");
+          statement.executeUpdate("INSERT INTO currentGame VALUES ('" + username + "', " + player.getLevel() + ", " + timeUsedToWin + ")");
 
           conn.close();
         } catch (Exception e) {
