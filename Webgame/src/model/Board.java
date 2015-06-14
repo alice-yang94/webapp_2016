@@ -16,7 +16,7 @@ public class Board {
 	private List<Monster> monsters = new CopyOnWriteArrayList<Monster>();
 	private List<Seed> seeds = new CopyOnWriteArrayList<Seed>();
 
-	private List<Emit> emitSeedsTo = new ArrayList<Emit>();
+	private List<Emit> emitSeedsTo = new CopyOnWriteArrayList<Emit>();
 	private Player constantPlayer;
 	private Player player;
 	private int numOfMonsters;
@@ -160,9 +160,6 @@ public class Board {
 
 	public void removeUsedSeeds(Seed seed) throws Exception {
 		board[seed.getY()][seed.getX()] = null;
-		if (!seeds.remove(seed)) {
-			throw new Exception("The Game has bugs");
-		}
 		numOfSeeds--;
 	}
 

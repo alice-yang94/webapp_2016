@@ -107,7 +107,7 @@ public class SimpleBoardRenderer implements Renderer {
 						g.fillOval(x + 12 - d, y + 12, 7, 7);// px-d
 						g.fillOval(x + 12 + d, y + 12, 7, 7);// px+d
 					} else {
-						eIter.remove();
+						board.getEmitSeedsTo().remove(e);
 					}
 				}
 
