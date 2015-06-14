@@ -1,14 +1,14 @@
-CONTROLLER_SRC  = main/Webgame/src/controller
-MODEL_SRC       = main/Webgame/src/model
-RM_SRC          = main/Webgame/src/rm
-VIEW_SRC        = main/Webgame/src/View
+CONTROLLER_SRC  = Webgame/src/controller
+MODEL_SRC       = Webgame/src/model
+RM_SRC          = Webgame/src/rm
+VIEW_SRC        = Webgame/src/View
 WEBGAME_CLASSES = $(CONTROLLER_SRC)/*.class $(MODEL_SRC)/*.class $(RM_SRC)/*.class $(VIEW_SRC)/*.class
 
 LOGIN_SRC       = login
 MAIN_SRC        = main
 SERVLET_CLASSES = $(LOGIN_SRC)/*.class $(MAIN_SRC)/*.class
 
-RM_CP           = main/Webgame/src
+RM_CP           = Webgame/src
 SERVLET_CP		= WEB-INF/classes
 
 all: $(WEBGAME_CLASSES) $(SERVLET_CLASSES) webgame.jar install
@@ -24,8 +24,6 @@ webgame.jar: $(WEBGAME_CLASSES)
 			echo "Application-Name: The Hunted" >> manifest.txt
 			jar cmf manifest.txt main/webgame.jar -C $(RM_CP) /controller/ -C $(RM_CP) /model/ -C $(RM_CP) /rm/ -C $(RM_CP) /View/
 			rm -rf manifest.txt
-			jarsigner -keystore keystore.jks main/webgame.jar hunted
-			jarsigner -verify -verbose main/webgame.jar
 
 $(CONTROLLER_SRC)/*.class: $(CONTROLLER_SRC)/*.java
 			javac -cp $(RM_CP) $(CONTROLLER_SRC)/*.java
