@@ -24,6 +24,7 @@ public class BoardController {
 	private static int killedMonster = 0;
 	public static boolean win = false;
 	public static long timeUsedToWin = -1;
+	private long startTime = -1;
 
 	public static final int INITIAL_COUNTER = 0;
 	public static final int SEED_COUNTER = 2;
@@ -56,7 +57,7 @@ public class BoardController {
 			win = false;
 			// player wins if he kills the certain amount of monster
 			if (killedMonster >= board.getMonsterToKill()) {
-				timeUsedToWin = System.nanoTime() - initialTime;
+				timeUsedToWin = System.nanoTime() - startTime;
 				win = true;
 				endGame++;
 				while (playerLoseLife()) {
@@ -171,6 +172,7 @@ public class BoardController {
 	}
 
 	public void pressEnter() throws Exception { // restart the game or start
+		startTime = System.nanoTime();
 		board.setStart(true);
 		if (!board.hasPlayer()) {
 			board.restartBoard();

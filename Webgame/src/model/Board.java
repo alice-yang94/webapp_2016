@@ -90,7 +90,7 @@ public class Board {
 	}
 
 	public synchronized int getMonsterToKill() {
-		return (player.getLevel() + 1) * 10;
+		return (player.getLevel() + 1);//FIXME
 	}
 
 	public synchronized List<Monster> getMonsters() {

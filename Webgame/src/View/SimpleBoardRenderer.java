@@ -166,42 +166,62 @@ public class SimpleBoardRenderer implements Renderer {
 
 				count = 0;
 				addition = 0;
+				newcount = 0;
 
 			} else { // die or win
-				if (BoardController.win) {
+				if (BoardController.win) {//win
 					g.drawImage(background, 0, 0, 900, 750, 0, 0,
 							background.getWidth(), background.getHeight(), null);
 
 					g.setColor(Color.RED);
 					g.setFont(new Font("JOKERMAN", Font.BOLD, 72));
 					char[] youwin = "YOU WIN".toCharArray();
-					g.drawChars(youwin, 0, youwin.length, 200, 300);
+					g.drawChars(youwin, 0, youwin.length, 200, 200);
 
-					g.drawImage(imgg, 600, 200, 750, 320, 0, 0,
+					g.drawImage(imgg, 600, 100, 750, 220, 0, 0,
 							imgg.getWidth(), imgg.getHeight(), null);
 
 					count += 1;
 					addition = count / 10;
-					g.drawImage(imgp, 280, 350, 620, 680, 0, 0,
+					g.drawImage(imgp, 280, 330, 620, 660, 0, 0,
 							imgp.getWidth(), imgp.getHeight(), null);
 
 					// watermelon slices
 					for (int i = 0; i < 7; i++) {
-						g.drawImage(imgs, (i * 150) + addition, 100, 40
-								+ (i * 150) + addition, 140, 0, 0,
+						g.drawImage(imgs, (i * 150) + addition, 10, 40
+								+ (i * 150) + addition, 50, 0, 0,
 								imgs.getWidth(), imgs.getHeight(), null);
 					}
 					for (int i = 0; i < 7; i++) {
-						g.drawImage(imgs, (i * 150) + addition, 620, 40
-								+ (i * 150) + addition, 660, 0, 0,
+						g.drawImage(imgs, (i * 150) + addition, 700, 40
+								+ (i * 150) + addition, 740, 0, 0,
 								imgs.getWidth(), imgs.getHeight(), null);
 					}
 
 					if (count > 900) {
 						count = -900;
 					}
-
-				} else {
+					
+					//render how long takes to win
+					g.setColor(new Color(255,128,0));
+					g.setFont(new Font("JOKERMAN", Font.BOLD, 36));
+					float seconds = (float) ((float)(BoardController.timeUsedToWin/ 1000000)/1000.0);
+					char[] wintime = ("YOU SPENT " + seconds + "s TO WIN").toCharArray();
+					g.drawChars(wintime, 0, wintime.length, 180, 280);
+					
+					//render restart or next level
+					newcount++;
+					g.setColor(new Color(255 - (newcount / 5), 255 - (newcount / 5), 255 - (newcount / 5)));
+					g.setFont(new Font("JOKERMAN", Font.PLAIN, 30));
+					char[] pressEnter = "Press Enter To Restart".toCharArray();
+					g.drawChars(pressEnter, 0, 22, 35, 660);
+					char[] next = "Press Backspace To Next Level".toCharArray();
+					g.drawChars(next, 0, next.length, 415, 660);
+					if (newcount == 1275) {
+						newcount = 0;
+					}
+					
+				} else {//game over
 					g.drawImage(background, 0, 0, 900, 750, 0, 0,
 							background.getWidth(), background.getHeight(), null);
 					g.setColor(Color.gray);
@@ -241,7 +261,7 @@ public class SimpleBoardRenderer implements Renderer {
 			count++;
 			g.drawImage(bg, 0, 0, 900, 750, 0, 0, bg.getWidth(),
 					bg.getHeight(), null);
-			g.setColor(new Color(30, 100, 0));
+			g.setColor(new Color(100, 250, 0));
 			g.setFont(new Font("JOKERMAN", Font.PLAIN, 90));
 			char[] thehunted = "THE HUNTED".toCharArray();
 			g.drawChars(thehunted, 0, thehunted.length, 160, 300);
