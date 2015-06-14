@@ -94,7 +94,9 @@ public class BoardController {
 					Seed seed = iterS.next();
 					if (seed.equals(targetX, targetY)) {
 						player.winBullets();
+						board.getSeeds().remove(seed);
 						board.removeUsedSeeds(seed);
+
 						break;
 					}
 				}
@@ -223,7 +225,7 @@ public class BoardController {
 	}
 
 	private synchronized boolean playerLoseLife() {
-		if (endGame >= 1200) {
+		if (endGame >= 500) {
 			board.clearEverything();
 			killedMonster = 0;
 			canAddMonsters = false;
@@ -383,14 +385,12 @@ public class BoardController {
 				while (playerLoseLife()) {
 					playerLoseLife();
 				}
-				// endGame++;
 				break;
 			}
 			if (count == 2 && (isInBoarder(px) && isInBoarder(py))) {
 				while (playerLoseLife()) {
 					playerLoseLife();
 				}
-				// endGame++;
 				break;
 			}
 		}
@@ -456,6 +456,7 @@ public class BoardController {
 		while (iterS.hasNext()) {
 			Seed seed = iterS.next();
 			if ((System.nanoTime() - seed.getBornTime()) > 6000000000L) {
+				board.getSeeds().remove(seed);
 				board.removeUsedSeeds(seed);
 				removeDueSeeds();
 				break;
