@@ -8,9 +8,7 @@ import java.awt.GraphicsEnvironment;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -112,11 +110,7 @@ public class SimpleBoardRenderer implements Renderer {
 				}
 
 				// render monsters
-				List<Monster> ms = new ArrayList<Monster>();
-				for(Monster mst : board.getMonsters()) {
-				    ms.add(mst.clone());
-				}
-				Iterator<Monster> iter = ms.iterator();
+				Iterator<Monster> iter = board.getMonsters().iterator();
 				while (iter.hasNext()) {
 					Monster monster = iter.next();
 					x = (int) (monster.getX() * cellSize);

@@ -36,26 +36,61 @@ public class BoardController {
 	public static final int SEED_COUNTER = 2;
 	public static final int MONSTER_INC_NUMBER = 3;
 	private AudioInputStream audioInputStream;
+	private AudioInputStream ghostAudioInputStream;
+	private AudioInputStream clapInputStream;
 	private Clip clip;
+	private Clip ghostClip;
+	private Clip clapClip;
 	private boolean canAddMonsters;
+	private boolean playBackgroundMusic;
+	private int delayTime = 0;
+	private boolean playWinSound = false;
 
 	public BoardController(Board board) {
 		this.board = board;
 		player = board.getPlayer();
 		canAddMonsters = false;
-
+		playBackgroundMusic = false;
+		
+		try {
+			ghostAudioInputStream = AudioSystem.getAudioInputStream(this.getClass()
+					.getResource("music/ghost.wav"));
+            ghostClip = AudioSystem.getClip();
+			ghostClip.open(ghostAudioInputStream);
+		} catch (Exception ex) {
+			System.out.println("Error with playing sound.");
+			ex.printStackTrace();
+		}
+		ghostClip.start();
+		playClapSound();
+	}
+	
+	private void playBackgroundSound() {
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(this.getClass()
 					.getResource("music/backgroundMusic.wav"));
 			clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
+			
+		} catch (Exception ex) {
+			System.out.println("Error with playing sound.");
+			ex.printStackTrace();
+		}
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+	}
+	
+	private void playClapSound() {
+		try {
+			clapInputStream = AudioSystem.getAudioInputStream(this.getClass()
+					.getResource("music/clap.wav"));
+			clapClip = AudioSystem.getClip();
+			clapClip.open(clapInputStream);
 		} catch (Exception ex) {
 			System.out.println("Error with playing sound.");
 			ex.printStackTrace();
 		}
 
-		clip.start();
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 
   public void storeCompletedGame() {
@@ -85,12 +120,21 @@ public class BoardController {
   }
 
 	public synchronized void update(long initialTime) throws Exception {
+		delayTime++;
+		if (delayTime == 2000 && !playBackgroundMusic) {
+			playBackgroundSound();
+		}
 		if (board.hasPlayer()) {
 			win = false;
 			// player wins if he kills the certain amount of monster
 			if (killedMonster >= board.getMonsterToKill()) {
+				if (!playWinSound) {
+					clapClip.setFramePosition(0);
+				}
+				playWinSound = true;
 				timeUsedToWin = System.nanoTime() - startTime;
 				win = true;
+				clapClip.start();
 				endGame++;
 				while (playerLoseLife()) {
 					playerLoseLife();
@@ -133,6 +177,7 @@ public class BoardController {
 						break;
 					}
 
+					monster.playDieSound();
 					board.getMonsters().remove(monster);
 					board.clearMonsterWhenHitBySeed(monster);
 					killedMonster++;
@@ -227,6 +272,10 @@ public class BoardController {
 	}
 
 	public void pressEnter() throws Exception { // restart the game or start
+		if (!playBackgroundMusic) {
+			playBackgroundSound();
+		}
+		playBackgroundMusic = true;
 		startTime = System.nanoTime();
 		board.setStart(true);
 		if (!board.hasPlayer()) {
@@ -284,6 +333,7 @@ public class BoardController {
 			board.clearEverything();
 			killedMonster = 0;
 			canAddMonsters = false;
+			playWinSound = false;
 		}
 		if (player.loseLife()) { // still have life
 			hasInput = false; // invalid move, has to wait another input

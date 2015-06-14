@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -21,8 +20,8 @@ public class Board {
 	private Player player;
 	private int numOfMonsters;
 	private int numOfSeeds;
-//	private final int[] numberOfMonstersInLevel = { 5, 10, 15, 25, 36 };
-	private final int[] numberOfMonstersInLevel = { 2,2,2,2,2 };
+	private final int[] numberOfMonstersInLevel = { 15, 20, 25, 30, 35 };
+	// private final int[] numberOfMonstersInLevel = { 2,2,2,2,2 };
 
 	private boolean canStart;
 
@@ -34,7 +33,11 @@ public class Board {
 		if (level > 4) {
 			numOfMonsters = 40;
 		} else {
-			numOfMonsters = numberOfMonstersInLevel[level];
+			if (level < 5) {
+				numOfMonsters = numberOfMonstersInLevel[level];
+			} else {
+				numOfMonsters = 40;
+			}
 		}
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
@@ -90,7 +93,7 @@ public class Board {
 	}
 
 	public synchronized int getMonsterToKill() {
-		return (player.getLevel() + 1);//FIXME
+		return (player.getLevel() * 10);// FIXME
 	}
 
 	public synchronized List<Monster> getMonsters() {
@@ -127,7 +130,8 @@ public class Board {
 		generateMonsterAndSeed(numberOfMonster);
 	}
 
-	public void startNextLevelBoard() throws Exception { // constant player won't
+	public void startNextLevelBoard() throws Exception { // constant player
+															// won't
 		// change in the process
 		player = constantPlayer;
 		int level = player.incLevel();
@@ -141,17 +145,17 @@ public class Board {
 		generateMonsterAndSeed(numOfMonsters);
 	}
 
-//	public void removeDeadMonster(Monster deadMonster) throws Exception {
-//		int x = deadMonster.getX();
-//		int y = deadMonster.getY();
-//
-//		if (!monsters.remove(deadMonster)) {
-//			throw new Exception("The Game has Bugs!");
-//		}
-//		board[y][x] = null;
-//		numOfMonsters--;
-//
-//	}
+	// public void removeDeadMonster(Monster deadMonster) throws Exception {
+	// int x = deadMonster.getX();
+	// int y = deadMonster.getY();
+	//
+	// if (!monsters.remove(deadMonster)) {
+	// throw new Exception("The Game has Bugs!");
+	// }
+	// board[y][x] = null;
+	// numOfMonsters--;
+	//
+	// }
 
 	public synchronized void clearMonsterWhenHitBySeed(Monster deadMonster) {
 		board[deadMonster.getY()][deadMonster.getX()] = null;
@@ -220,32 +224,6 @@ public class Board {
 
 	public boolean canStart() {
 		return canStart;
-	}
-
-	public void printAllCoodinateOfMonsters() { // for testing
-		System.out.println("Monster List");
-		for (Monster monster : monsters) {
-			System.out.println(monster.getX() + " " + monster.getY());
-		}
-		System.out.println();
-		System.out.println();
-		System.out.println();
-	}
-
-	public void printAllMonsterOnBoard() {
-		System.out.println("Monster on board");
-		for (int i = 0; i < WIDTH; i++) {
-			for (int j = 0; j < HEIGHT; j++) {
-				if (board[j][i] instanceof Monster) {
-					Monster monster = (Monster) board[j][i];
-					System.out.println(i + " " + j + "     " + monster.getX()
-							+ " " + monster.getY());
-				}
-			}
-		}
-		System.out.println();
-		System.out.println();
-		System.out.println();
 	}
 
 }

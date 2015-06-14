@@ -2,6 +2,10 @@ package model;
 
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 public class Monster {
 	
 	private int x;
@@ -9,11 +13,23 @@ public class Monster {
 	private int life;
 	private final int MAXLIFE = 3;
 	private Random randomGenerator = new Random();
+	private AudioInputStream audioInputStream;
+	private Clip clip;
 	
 	public Monster(int x, int y) {
 		this.setX(x);
 		this.setY(y);
 		this.life = randomGenerator.nextInt(MAXLIFE);
+		try {
+			audioInputStream = AudioSystem.getAudioInputStream(this.getClass()
+					.getResource("music/monsterDie.wav"));
+			clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			
+		} catch (Exception ex) {
+			System.out.println("Error with playing sound.");
+			ex.printStackTrace();
+		}
 	}
 
 	public int getX() {
@@ -45,6 +61,8 @@ public class Monster {
 			life--;
 			return true;
 		}
+		clip.setFramePosition(0);
+		clip.start();
 		return false;
 	}
 	
@@ -53,6 +71,11 @@ public class Monster {
 			return true;
 		}
 		return false;
+	}
+	
+	public void playDieSound() {
+		clip.setFramePosition(0);
+		clip.start();
 	}
 	
 	public Monster clone(){
