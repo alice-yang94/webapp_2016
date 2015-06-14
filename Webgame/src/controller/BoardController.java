@@ -1,6 +1,8 @@
 package controller;
 
+import java.sql.*;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -14,6 +16,10 @@ import model.Player;
 import model.Seed;
 
 public class BoardController {
+
+  private final String dbConnString = "jdbc:postgresql://db.doc.ic.ac.uk/g1427101_u";
+  private final String dbUsername   = "g1427101_u";
+  private final String dbPassword   = "ZfOfLyHLTA";
 
 	private Board board;
 	private Player player;
@@ -51,6 +57,32 @@ public class BoardController {
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 
+  public void storeCompletedGame() {
+    try {
+      String username = player.getName();
+      try {
+        Class.forName("org.postgresql.Driver");
+      } catch (ClassNotFoundException e) {
+        //
+      }
+
+      Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
+
+      Statement statement = conn.createStatement();
+
+      statement.executeUpdate("DELETE FROM currentGame WHERE username = '" + username + "'");
+
+      Calendar cal = Calendar.getInstance();
+      Date date = new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
+
+      statement.executeUpdate("INSERT INTO completedGames VALUES ( DEFAULT, '" + username + "', " + date + ", " + killedMonster + ")");
+
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
 	public synchronized void update(long initialTime) throws Exception {
 		if (board.hasPlayer()) {
 			win = false;
@@ -62,6 +94,27 @@ public class BoardController {
 				while (playerLoseLife()) {
 					playerLoseLife();
 				}
+
+        try {
+          String username = player.getName();
+          try {
+            Class.forName("org.postgresql.Driver");
+          } catch (ClassNotFoundException e) {
+            //
+          }
+
+          Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
+
+          Statement statement = conn.createStatement();
+
+          statement.executeUpdate("DELETE FROM currentGame WHERE username = '" + username + "'");
+
+          statement.executeUpdate("INSERT INTO currentGame VALUES ('" + username + "', " + player.getLevel() + ", " + killedMonster + ")");
+
+          conn.close();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
 				// TODO: SHOW WIN MSG AND CLEAREVERYTHING, RESTART AND
 				// GOTO NEXT LEVEL
 			}
@@ -232,6 +285,7 @@ public class BoardController {
 			hasInput = false; // invalid move, has to wait another input
 			return true;
 		} else { // restart game
+      storeCompletedGame();
 			endGame++;
 			return false;
 		}
