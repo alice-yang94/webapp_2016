@@ -2,4 +2,4 @@ Database Configuration:
 
 create table users (username varchar(20), password text, salt text);
 create table completedGames (id SERIAL, username varchar(20), dateCompleted date, score integer);
-create table currentGame (username varchar(20), level integer, score integer);
+create table currentGame (username varchar(20), level integer, jumps integer, score integer);

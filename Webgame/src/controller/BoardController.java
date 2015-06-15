@@ -135,7 +135,7 @@ public class BoardController {
 				timeUsedToWin = System.nanoTime() - startTime;
 				if (timeUsedToWin / 1000 > 10000000) {
 					board.getOneJump();
-					board.setJumpGainedInLevel(1);;
+					board.setJumpGainedInLevel(1);
 				}
 				if (timeUsedToWin / 1000 > 90000000) {
 					board.getOneJump();
@@ -163,7 +163,7 @@ public class BoardController {
 
           statement.executeUpdate("DELETE FROM currentGame WHERE username = '" + username + "'");
 
-          statement.executeUpdate("INSERT INTO currentGame VALUES ('" + username + "', " + player.getLevel() + ", " + timeUsedToWin + ")");
+          statement.executeUpdate("INSERT INTO currentGame VALUES ('" + username + "', " + player.getLevel() + ", " + player.getJumps() + ", " + timeUsedToWin + ")");
 
           conn.close();
         } catch (Exception e) {

@@ -52,6 +52,10 @@ public class Player {
 		jump++;
 	}
 
+    public int getJumps() {
+        return jump;
+    }
+
 	public synchronized int getLife() {
 		return life;
 	}
