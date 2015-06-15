@@ -25,13 +25,14 @@ public class GameController {
 	private int level;
 	private String name;
 	private int centerPoint = 14;
+	private int jump = 0;  //TODO: Connect to database
 	
 	public GameController(String username) throws Exception {
         name = username;
 
         level = getUsernameLevel(name);
 
-		player = new Player(level, name);
+		player = new Player(level, name, jump);
 		player.setX(centerPoint);
 		player.setY(centerPoint);
 		board = new Board(player);

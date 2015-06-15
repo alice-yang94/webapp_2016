@@ -21,8 +21,9 @@ public class Board {
 	private int numOfMonsters;
 	private int numOfSeeds;
 	private final int[] numberOfMonstersInLevel = { 15, 20, 25, 30, 35 };
-	// private final int[] numberOfMonstersInLevel = { 2,2,2,2,2 };
-
+//    private final int[] numberOfMonstersInLevel = { 2,2,2,2,2 };
+	private int jump;
+	private int jumpGainedThisRound;
 	private boolean canStart;
 
 	public Board(Player player) throws Exception {
@@ -121,11 +122,13 @@ public class Board {
 	}
 
 	public void restartBoard() throws Exception { // constant player won't
-													// change in the process
+			// change in the process
+		jumpGainedThisRound = 0;
 		player = constantPlayer;
 		player.reborn();
 		board[14][14] = player;
 		int level = player.getLevel();
+		jumpGainedThisRound = 0;
 		int numberOfMonster = numberOfMonstersInLevel[level];
 		generateMonsterAndSeed(numberOfMonster);
 	}
@@ -133,6 +136,7 @@ public class Board {
 	public void startNextLevelBoard() throws Exception { // constant player
 															// won't
 		// change in the process
+		jumpGainedThisRound = 0;
 		player = constantPlayer;
 		int level = player.incLevel();
 		player.reborn();
@@ -144,18 +148,6 @@ public class Board {
 		}
 		generateMonsterAndSeed(numOfMonsters);
 	}
-
-	// public void removeDeadMonster(Monster deadMonster) throws Exception {
-	// int x = deadMonster.getX();
-	// int y = deadMonster.getY();
-	//
-	// if (!monsters.remove(deadMonster)) {
-	// throw new Exception("The Game has Bugs!");
-	// }
-	// board[y][x] = null;
-	// numOfMonsters--;
-	//
-	// }
 
 	public synchronized void clearMonsterWhenHitBySeed(Monster deadMonster) {
 		board[deadMonster.getY()][deadMonster.getX()] = null;
@@ -224,6 +216,19 @@ public class Board {
 
 	public boolean canStart() {
 		return canStart;
+	}
+	
+	public synchronized void getOneJump() {
+		jump++;
+		constantPlayer.getJump();
+	}
+	
+	public synchronized void setJumpGainedInLevel(int jump) {
+		jumpGainedThisRound = jump;
+	}
+	
+	public synchronized int getJumpGainedThisRound() {
+		return jumpGainedThisRound;
 	}
 
 }

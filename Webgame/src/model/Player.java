@@ -7,15 +7,18 @@ public class Player {
 	private int level;
 	private int life;
 	private int bullets;
+	private int jump;
 	private final int[] bulletsByLevel = { 5, 4, 3, 2, 1 };
 	private final int MAXLIFE = 3;
 	private final String name;
 
-	public Player(int level, String name) {
+
+	public Player(int level, String name, int jump) {
 		this.level = level;
 		life = MAXLIFE;
 		bullets = bulletsByLevel[level];
 		this.name = name;
+		this.jump = jump;
 	}
 
 	public int getX() {
@@ -39,6 +42,14 @@ public class Player {
 		y = 14;
 		life = MAXLIFE;
 		bullets = bulletsByLevel[level];
+	}
+	
+	public void setJump(int n) {
+		jump = n;
+	}
+	
+	public void getJump() {
+		jump++;
 	}
 
 	public synchronized int getLife() {

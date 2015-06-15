@@ -133,6 +133,15 @@ public class BoardController {
 				}
 				playWinSound = true;
 				timeUsedToWin = System.nanoTime() - startTime;
+				if (timeUsedToWin / 1000 > 10000000) {
+					board.getOneJump();
+					board.setJumpGainedInLevel(1);;
+				}
+				if (timeUsedToWin / 1000 > 90000000) {
+					board.getOneJump();
+					board.getOneJump();
+					board.setJumpGainedInLevel(3);
+				}
 				win = true;
 				clapClip.start();
 				endGame++;

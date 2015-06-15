@@ -203,6 +203,10 @@ public class SimpleBoardRenderer implements Renderer {
 					char[] wintime = ("YOU SPENT " + seconds + "s TO WIN").toCharArray();
 					g.drawChars(wintime, 0, wintime.length, 180, 280);
 					
+					int jump = board.getJumpGainedThisRound();
+					char[] winJump = ("YOU EARN " + jump + " THIS ROUND").toCharArray();
+					g.drawChars(winJump, 0, winJump.length, 180, 330);
+					
 					//render restart or next level
 					newcount++;
 					g.setColor(new Color(255 - (newcount / 5), 255 - (newcount / 5), 255 - (newcount / 5)));
