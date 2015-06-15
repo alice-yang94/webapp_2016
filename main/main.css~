@@ -1,5 +1,5 @@
 body {
-    background-image: url("../background.jpg");
+    background-image: url("background.jpg");
     background-color: #ffefad;
 }
 
@@ -7,7 +7,7 @@ body {
     background-color: ;
 }
 
-.btn-lg {
+.btn {
     margin-top: 25px;
     margin-bottom: 25px;
     width: 400px;

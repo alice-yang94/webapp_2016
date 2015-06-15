@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
       Encryption storedPasswordPair = getUserPasswordPair(username);
 
       if (usernameNotUsed(username)) {
-        out.println("<script>");
+        out.println("<script type=\"text/javascript\">");
         out.println("alert(\"The username doesn't exist\");");
         out.println("window.location.replace(\"login.html\");");
         out.println("</script>");

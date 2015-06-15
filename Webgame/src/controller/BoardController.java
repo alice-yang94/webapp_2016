@@ -138,7 +138,7 @@ public class BoardController {
 						board.getOneJump();
 						board.setJumpGainedInLevel(1);
 					}
-					if (timeUsedToWin / 1000 > 90000000) {
+					if (timeUsedToWin / 1000 > 30000000) {
 						board.getOneJump();
 						board.getOneJump();
 						board.setJumpGainedInLevel(3);

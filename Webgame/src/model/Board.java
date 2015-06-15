@@ -20,8 +20,8 @@ public class Board {
 	private Player player;
 	private int numOfMonsters;
 	private int numOfSeeds;
-	private final int[] numberOfMonstersInLevel = { 15, 20, 25, 30, 35 };
-//    private final int[] numberOfMonstersInLevel = { 2,2,2,2,2 };
+//	private final int[] numberOfMonstersInLevel = { 15, 20, 25, 30, 35 };
+    private final int[] numberOfMonstersInLevel = { 2,2,2,2,2 };
 	private int jump;
 	private int jumpGainedThisRound;
 	private boolean canStart;
@@ -67,7 +67,7 @@ public class Board {
 			monsters.add((Monster) board[y][x]);
 
 			// generate seeds
-			if (random.nextInt(3) > 0) {
+			if (random.nextInt(5) > 0) {
 				int sx = generateNeighbourPoint(x);
 				int sy = generateNeighbourPoint(y);
 				while (board[sy][sx] != null) {
@@ -94,7 +94,7 @@ public class Board {
 	}
 
 	public synchronized int getMonsterToKill() {
-		return (player.getLevel() * 10);// FIXME
+		return (player.getLevel()+1) * 10;
 	}
 
 	public synchronized List<Monster> getMonsters() {
