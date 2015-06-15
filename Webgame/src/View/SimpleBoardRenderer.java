@@ -59,7 +59,7 @@ public class SimpleBoardRenderer implements Renderer {
 
 		if (board.canStart()) {
 			if (board.hasPlayer()) {
-				if (board.getPlayer().getLevel() > 0) {
+				if (board.getPlayer().getLevel() > 5) {
 					cloudMove++;
 					int cloudAdd = cloudMove / 35;
 					g.drawImage(imgcloud, 0 + cloudAdd, 0, 500
@@ -68,7 +68,7 @@ public class SimpleBoardRenderer implements Renderer {
 					if (cloudAdd > 750) {
 						cloudMove = (-35) * imgcloud.getWidth();
 					}
-					if (board.getPlayer().getLevel() > 0) {//TODO CHANGE TO HIGHER LEVEL
+					if (board.getPlayer().getLevel() > 10) {
 						
 						g.drawImage(imgsea, 0, 500, 750,750, 0, 0,
 								imgsea.getWidth(), imgsea.getHeight(), null);
