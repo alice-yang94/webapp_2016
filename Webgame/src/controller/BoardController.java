@@ -111,6 +111,8 @@ public class BoardController {
 
             Statement statement = conn.createStatement();
 
+            statement.executeUpdate("DELETE FROM currentGame WHERE username = '" + username + "'");
+
             statement.executeUpdate("INSERT INTO currentGame VALUES ( '" + username + "', " + player.getLevel() + ", " + player.getJumps() + ")");
 
             conn.close();
