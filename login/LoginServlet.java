@@ -28,10 +28,11 @@ public class LoginServlet extends HttpServlet {
       Encryption storedPasswordPair = getUserPasswordPair(username);
 
       if (usernameNotUsed(username)) {
-        out.println("<script type=\"text/javascript\">");
+        out.println("<script>");
         out.println("alert(\"The username doesn't exist\");");
+        out.println("window.location.replace(\"login.html\");");
         out.println("</script>");
-        return;
+        out.close();
       }
 
       String storedPassword = storedPasswordPair.getPassword();
@@ -46,13 +47,9 @@ public class LoginServlet extends HttpServlet {
       } else {
         out.println("<script type=\"text/javascript\">");
         out.println("alert(\"The password is incorrect\");");
+        out.println("window.location.replace(\"login.html\");");
         out.println("</script>");
-        try {
-          Thread.sleep(5000);
-        } catch (InterruptedException e) {
-
-        }
-        response.sendRedirect("login.html");
+        out.close();
       }
 
     } else if ("create".equals(action)) { //Account Creation
@@ -63,15 +60,17 @@ public class LoginServlet extends HttpServlet {
       if (!usernameNotUsed(username)) {
         out.println("<script type=\"text/javascript\">");
         out.println("alert(\"Username already in use\");");
+        out.println("window.location.replace(\"create.html\");");
         out.println("</script>");
-        response.sendRedirect("create.html");
+        out.close();
       }
 
       if (!password.equals(password2)) {
         out.println("<script type=\"text/javascript\">");
         out.println("alert(\"The passwords don't match\");");
+        out.println("window.location.replace(\"create.html\");");
         out.println("</script>");
-        response.sendRedirect("create.html");
+        out.close();
       }
 
       Encryption encryptedPasswordPair = Encryption.encrypt(password);
