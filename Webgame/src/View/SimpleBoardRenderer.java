@@ -27,7 +27,7 @@ public class SimpleBoardRenderer implements Renderer {
 	private int newcount = 0;
 	private int counter = 0;
 	private int addition = 0;
-	BufferedImage bg, imgp, imgs, imgm, imgl, imgg, imgscroll, background;
+	BufferedImage bg, imgp, imgs, imgm, imgl, imgg, imgwing, background;
 
 	public SimpleBoardRenderer(Board board) {
 		this.board = board;
@@ -36,6 +36,7 @@ public class SimpleBoardRenderer implements Renderer {
 		imgm = getImage("monster.png");
 		imgl = getImage("life.png");
 		imgg = getImage("awesomenew.png");
+		imgwing = getImage("wing.png");
 		background = getImage("green.JPG");
 		bg = getImage("bg.png");
 		try {
@@ -127,13 +128,19 @@ public class SimpleBoardRenderer implements Renderer {
 				g.setColor(Color.black);
 				char[] name = "Player Name:".toCharArray();
 				g.drawChars(name, 0, 12, 760, 50);
+
 				char[] playerName = player.getName().toCharArray();
+
 				g.drawChars(playerName, 0, playerName.length, 790, 80);
 				char[] level = "Player Level:".toCharArray();
 				g.drawChars(level, 0, 13, 760, 120);
 				int playerlev = player.getLevel();
 				char[] playerLevel = Integer.toString(playerlev).toCharArray();
 				g.drawChars(playerLevel, 0, 1, 810, 150);
+
+				// show goal
+				char[] goal = ("Goal: "+board.getMonsterToKill()).toCharArray();
+				g.drawChars(goal, 0, goal.length, 760, 190);
 
 				// show player life
 				g.drawImage(imgl, 790, 300, 835, 335, 0, 0, imgl.getWidth(),
@@ -159,14 +166,18 @@ public class SimpleBoardRenderer implements Renderer {
 				g.drawChars(monsterKilled, 0, monsterKilled.length, 835, 552);
 
 				// show no of wings
-				char[] wingsGained = (" * ".concat(Integer.toString(board.getJump()))).toCharArray();
+				g.drawImage(imgwing, 780, 620, 845, 675, 0, 0,
+						imgwing.getWidth(), imgwing.getHeight(), null);
+
+				char[] wingsGained = (" * ".concat(Integer.toString(board
+						.getJump()))).toCharArray();
 				g.drawChars(wingsGained, 0, wingsGained.length, 835, 664);
 				count = 0;
 				addition = 0;
 				newcount = 0;
 
 			} else { // die or win
-				if (BoardController.win) {//win
+				if (BoardController.win) {// win
 					g.drawImage(background, 0, 0, 900, 750, 0, 0,
 							background.getWidth(), background.getHeight(), null);
 
@@ -198,21 +209,24 @@ public class SimpleBoardRenderer implements Renderer {
 					if (count > 900) {
 						count = -900;
 					}
-					
-					//render how long takes to win
-					g.setColor(new Color(255,128,0));
+
+					// render how long takes to win
+					g.setColor(new Color(255, 128, 0));
 					g.setFont(new Font("JOKERMAN", Font.BOLD, 36));
-					float seconds = (float) ((float)(BoardController.timeUsedToWin/ 1000000)/1000.0);
-					char[] wintime = ("YOU SPENT " + seconds + "s TO WIN").toCharArray();
+					float seconds = (float) ((float) (BoardController.timeUsedToWin / 1000000) / 1000.0);
+					char[] wintime = ("YOU SPENT " + seconds + "s TO WIN")
+							.toCharArray();
 					g.drawChars(wintime, 0, wintime.length, 180, 280);
-					
+
 					int jump = board.getJumpGainedThisRound();
-					char[] winJump = ("YOU EARN " + jump + " THIS ROUND").toCharArray();
+					char[] winJump = ("YOU EARN " + jump + " THIS ROUND")
+							.toCharArray();
 					g.drawChars(winJump, 0, winJump.length, 180, 330);
-					
-					//render restart or next level
+
+					// render restart or next level
 					newcount++;
-					g.setColor(new Color(255 - (newcount / 5), 255 - (newcount / 5), 255 - (newcount / 5)));
+					g.setColor(new Color(255 - (newcount / 5),
+							255 - (newcount / 5), 255 - (newcount / 5)));
 					g.setFont(new Font("JOKERMAN", Font.PLAIN, 30));
 					char[] pressEnter = "Press Enter To Restart".toCharArray();
 					g.drawChars(pressEnter, 0, 22, 35, 660);
@@ -221,8 +235,8 @@ public class SimpleBoardRenderer implements Renderer {
 					if (newcount == 1275) {
 						newcount = 0;
 					}
-					
-				} else {//game over
+
+				} else {// game over
 					g.drawImage(background, 0, 0, 900, 750, 0, 0,
 							background.getWidth(), background.getHeight(), null);
 					g.setColor(Color.gray);
@@ -279,7 +293,6 @@ public class SimpleBoardRenderer implements Renderer {
 
 		}
 	}
-
 
 	private BufferedImage getImage(String name) {
 		try {

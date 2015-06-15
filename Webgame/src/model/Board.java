@@ -206,6 +206,7 @@ public class Board {
 	}
 
 	public synchronized void clearEverything() {
+		constantPlayer.setJump(jump);
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
 				board[j][i] = null;
