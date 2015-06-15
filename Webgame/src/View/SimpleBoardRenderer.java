@@ -27,7 +27,10 @@ public class SimpleBoardRenderer implements Renderer {
 	private int newcount = 0;
 	private int counter = 0;
 	private int addition = 0;
-	BufferedImage bg, imgp, imgs, imgm, imgl, imgg, imgwing, background;
+	private int cloudMove = 0;
+	private int fishMove = 0;
+	BufferedImage bg, imgp, imgs, imgm, imgl, imgg,imgsea,imgfish, imgwing, imgcloud,
+			background;
 
 	public SimpleBoardRenderer(Board board) {
 		this.board = board;
@@ -36,7 +39,10 @@ public class SimpleBoardRenderer implements Renderer {
 		imgm = getImage("monster.png");
 		imgl = getImage("life.png");
 		imgg = getImage("awesomenew.png");
+		imgsea = getImage("sea.png");
+		imgfish = getImage("fish.png");
 		imgwing = getImage("wing.png");
+		imgcloud = getImage("cloud.png");
 		background = getImage("green.JPG");
 		bg = getImage("bg.png");
 		try {
@@ -53,7 +59,38 @@ public class SimpleBoardRenderer implements Renderer {
 
 		if (board.canStart()) {
 			if (board.hasPlayer()) {
-
+				if (board.getPlayer().getLevel() > 5) {
+					cloudMove++;
+					int cloudAdd = cloudMove / 35;
+					g.drawImage(imgcloud, 0 + cloudAdd, 0, 500
+							+ cloudAdd, 250, 0, 0,
+							imgcloud.getWidth(), imgcloud.getHeight(), null);
+					if (cloudAdd > 750) {
+						cloudMove = (-35) * imgcloud.getWidth();
+					}
+					if (board.getPlayer().getLevel() > 10) {
+						
+						g.drawImage(imgsea, 0, 500, 750,750, 0, 0,
+								imgsea.getWidth(), imgsea.getHeight(), null);
+						
+						fishMove++;
+						int fishAdd = cloudMove / 20;
+						g.drawImage(imgfish, 0 + fishAdd, 600, imgfish.getWidth()/3
+								+ fishAdd, 600 + imgfish.getHeight()/3, 0, 0,
+								imgfish.getWidth(), imgfish.getHeight(), null);
+						g.drawImage(imgfish, 200 + fishAdd, 600, 200 + imgfish.getWidth()/3
+								+ fishAdd, 600 + imgfish.getHeight()/3, 0, 0,
+								imgfish.getWidth(), imgfish.getHeight(), null);
+						if (fishAdd > 750) {
+							fishMove = (-20) * imgcloud.getWidth();
+						}
+					} else {
+						fishMove = 0;
+					}
+				} else {
+					fishMove = 0;
+					cloudMove = 0;
+				}
 				// render the board
 				int cellSize = 25;
 				g.setColor(Color.LIGHT_GRAY);
@@ -130,7 +167,7 @@ public class SimpleBoardRenderer implements Renderer {
 				g.drawChars(name, 0, 12, 760, 50);
 
 				char[] playerName = player.getName().toCharArray();
-
+				//char[] playerName = "player 1".toCharArray();
 				g.drawChars(playerName, 0, playerName.length, 790, 80);
 				char[] level = "Player Level:".toCharArray();
 				g.drawChars(level, 0, 13, 760, 120);
@@ -139,7 +176,8 @@ public class SimpleBoardRenderer implements Renderer {
 				g.drawChars(playerLevel, 0, 1, 810, 150);
 
 				// show goal
-				char[] goal = ("Goal: "+board.getMonsterToKill()).toCharArray();
+				char[] goal = ("Goal: " + board.getMonsterToKill())
+						.toCharArray();
 				g.drawChars(goal, 0, goal.length, 760, 190);
 
 				// show player life
