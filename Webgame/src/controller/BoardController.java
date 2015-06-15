@@ -272,50 +272,58 @@ public class BoardController {
 	}
 
 	public void pressUp() {
-		int y = player.getY() - 1;
-		if (withinIndexMove(y)) {
-			targetX = player.getX();
-			targetY = y;
-			hasInput = true;
-			return;
-		} else { // hit boundary, lose a life
-			playerLoseLife();
+		if (board.hasPlayer()) {
+			int y = player.getY() - 1;
+			if (withinIndexMove(y)) {
+				targetX = player.getX();
+				targetY = y;
+				hasInput = true;
+				return;
+			} else { // hit boundary, lose a life
+				playerLoseLife();
+			}
 		}
 	}
 
 	public void pressDown() {
-		int y = player.getY() + 1;
-		if (withinIndexMove(y)) {
-			targetX = player.getX();
-			targetY = y;
-			hasInput = true;
-			return;
-		} else { // hit boundary, lose a life
-			playerLoseLife();
+		if (board.hasPlayer()) {
+			int y = player.getY() + 1;
+			if (withinIndexMove(y)) {
+				targetX = player.getX();
+				targetY = y;
+				hasInput = true;
+				return;
+			} else { // hit boundary, lose a life
+				playerLoseLife();
+			}
 		}
 	}
 
 	public void pressRight() {
-		int x = player.getX() + 1;
-		if (withinIndexMove(x)) {
-			targetX = x;
-			targetY = player.getY();
-			hasInput = true;
-			return;
-		} else { // hit boundary, lose a life
-			playerLoseLife();
+		if (board.hasPlayer()) {
+			int x = player.getX() + 1;
+			if (withinIndexMove(x)) {
+				targetX = x;
+				targetY = player.getY();
+				hasInput = true;
+				return;
+			} else { // hit boundary, lose a life
+				playerLoseLife();
+			}
 		}
 	}
 
 	public void pressLeft() {
-		int x = player.getX() - 1;
-		if (withinIndexMove(x)) {
-			targetX = x;
-			targetY = player.getY();
-			hasInput = true;
-			return;
-		} else { // hit boundary, lose a life
-			playerLoseLife();
+		if (board.hasPlayer()) {
+			int x = player.getX() - 1;
+			if (withinIndexMove(x)) {
+				targetX = x;
+				targetY = player.getY();
+				hasInput = true;
+				return;
+			} else { // hit boundary, lose a life
+				playerLoseLife();
+			}
 		}
 	}
 
@@ -358,8 +366,10 @@ public class BoardController {
 	}
 
 	public void pressJump() {
-		if (board.useOneJump()) {
-			board.changePlayerPos(player);
+		if (board.hasPlayer()) {
+			if (board.useOneJump()) {
+				board.changePlayerPos(player);
+			}
 		}
 	}
 
