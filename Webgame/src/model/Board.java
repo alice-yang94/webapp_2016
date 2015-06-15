@@ -180,6 +180,19 @@ public class Board {
 		}
 		return false;
 	}
+	
+	public void changePlayerPos(Player player) {
+		board[player.getY()][player.getX()] = null;
+		int x = random.nextInt(WIDTH);
+		int y = random.nextInt(HEIGHT);
+		while (board[y][x] != null) {
+			x = random.nextInt(WIDTH);
+			y = random.nextInt(HEIGHT);
+		}
+		board[y][x] = player;
+		player.setX(x);
+		player.setY(y);
+	}
 
 	public boolean isEmpty(int x, int y) {
 		if (board[y][x] == null) {
@@ -221,6 +234,18 @@ public class Board {
 	public synchronized void getOneJump() {
 		jump++;
 		constantPlayer.getJump();
+	}
+	
+	public boolean useOneJump() {
+		if (jump >= 1) {
+			jump--;
+			return true;
+		}
+		return false;
+	}
+	
+	public int getJump() {
+		return jump;
 	}
 	
 	public synchronized void setJumpGainedInLevel(int jump) {

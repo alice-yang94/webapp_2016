@@ -17,9 +17,9 @@ import model.Seed;
 
 public class BoardController {
 
-  private final String dbConnString = "jdbc:postgresql://db.doc.ic.ac.uk/g1427101_u";
-  private final String dbUsername   = "g1427101_u";
-  private final String dbPassword   = "ZfOfLyHLTA";
+	private final String dbConnString = "jdbc:postgresql://db.doc.ic.ac.uk/g1427101_u";
+	private final String dbUsername = "g1427101_u";
+	private final String dbPassword = "ZfOfLyHLTA";
 
 	private Board board;
 	private Player player;
@@ -39,9 +39,11 @@ public class BoardController {
 	private AudioInputStream audioInputStream;
 	private AudioInputStream ghostAudioInputStream;
 	private AudioInputStream clapInputStream;
+	private AudioInputStream monsterAudioInputStream;
 	private Clip clip;
 	private Clip ghostClip;
 	private Clip clapClip;
+	private Clip monsterClip;
 	private boolean canAddMonsters;
 	private boolean playBackgroundMusic;
 	private int delayTime = 0;
@@ -52,11 +54,11 @@ public class BoardController {
 		player = board.getPlayer();
 		canAddMonsters = false;
 		playBackgroundMusic = false;
-		
+
 		try {
-			ghostAudioInputStream = AudioSystem.getAudioInputStream(this.getClass()
-					.getResource("music/ghost.wav"));
-            ghostClip = AudioSystem.getClip();
+			ghostAudioInputStream = AudioSystem.getAudioInputStream(this
+					.getClass().getResource("music/ghost.wav"));
+			ghostClip = AudioSystem.getClip();
 			ghostClip.open(ghostAudioInputStream);
 		} catch (Exception ex) {
 			System.out.println("Error with playing sound.");
@@ -64,15 +66,16 @@ public class BoardController {
 		}
 		ghostClip.start();
 		playClapSound();
+		playMonsterSound();
 	}
-	
+
 	private void playBackgroundSound() {
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(this.getClass()
 					.getResource("music/backgroundMusic.wav"));
 			clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
-			
+
 		} catch (Exception ex) {
 			System.out.println("Error with playing sound.");
 			ex.printStackTrace();
@@ -80,7 +83,7 @@ public class BoardController {
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 
 	}
-	
+
 	private void playClapSound() {
 		try {
 			clapInputStream = AudioSystem.getAudioInputStream(this.getClass()
@@ -94,32 +97,44 @@ public class BoardController {
 
 	}
 
-  public void storeCurrentGame() {
-    try {
-      String username = player.getName();
-      try {
-        Class.forName("org.postgresql.Driver");
-      } catch (ClassNotFoundException e) {
-        //
-      }
+    public void storeCurrentGame() {
+        try {
+            String username = player.getName();
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                //
+            }
 
-      Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
+            Connection conn = DriverManager.getConnection(dbConnString,
+                    dbUsername, dbPassword);
 
-      Statement statement = conn.createStatement();
+            Statement statement = conn.createStatement();
 
-      statement.executeUpdate("DELETE FROM currentGame WHERE username = '" + username + "'");
+            statement.executeUpdate("INSERT INTO currentGame VALUES ( '" + username + "', " + player.getLevel() + ", " + player.getJumps() + ")");
 
-      statement.executeUpdate("INSERT INTO currentGame VALUES ( '" + username + "', " + player.getLevel() + ", " + player.getJumps() + ")");
-
-      conn.close();
-    } catch (Exception e) {
-      e.printStackTrace();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-  }
+
+	private void playMonsterSound() {
+		try {
+			monsterAudioInputStream = AudioSystem.getAudioInputStream(this
+					.getClass().getResource("music/monsterDie.wav"));
+			monsterClip = AudioSystem.getClip();
+			monsterClip.open(monsterAudioInputStream);
+
+		} catch (Exception ex) {
+			System.out.println("Error with playing sound.");
+			ex.printStackTrace();
+		}
+	}
 
 	public synchronized void update(long initialTime) throws Exception {
 		delayTime++;
-		if (delayTime == 2000 && !playBackgroundMusic) {
+		if (delayTime == 10000 && !playBackgroundMusic) {
 			playBackgroundSound();
 		}
 		if (board.hasPlayer()) {
@@ -198,8 +213,8 @@ public class BoardController {
 						endGame++;
 						break;
 					}
-
-					monster.playDieSound();
+					monsterClip.setFramePosition(0);
+					monsterClip.start();
 					board.getMonsters().remove(monster);
 					board.clearMonsterWhenHitBySeed(monster);
 					killedMonster++;
@@ -288,8 +303,10 @@ public class BoardController {
 	}
 
 	public synchronized void pressSpace() throws Exception {
-		if (player.decreaseBullets()) {
-			hitMonster();
+		if (board.hasPlayer()) {
+			if (player.decreaseBullets()) {
+				hitMonster();
+			}
 		}
 	}
 
@@ -323,6 +340,12 @@ public class BoardController {
 		}
 	}
 
+	public void pressJump() {
+		if (board.useOneJump()) {
+			board.changePlayerPos(player);
+		}
+	}
+
 	public synchronized void hitMonster() throws Exception {
 		Iterator<Monster> iter = board.getMonsters().iterator();
 		while (iter.hasNext()) {
@@ -333,6 +356,8 @@ public class BoardController {
 			int py = player.getY();
 			if (mx == px || my == py) {
 				if (!monster.loseLife()) {
+					monsterClip.setFramePosition(0);
+					monsterClip.start();
 					board.getMonsters().remove(monster);
 					board.clearMonsterWhenHitBySeed(monster);
 					killedMonster++;
