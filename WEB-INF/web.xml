@@ -32,6 +32,10 @@
     <servlet-class>LoginServlet</servlet-class>
 </servlet>
 <servlet>
+    <servlet-name>ScoresServlet</servlet-name>
+    <servlet-class>ScoresServlet</servlet-class>
+</servlet>
+<servlet>
     <servlet-name>MainServlet</servlet-name>
     <servlet-class>MainServlet</servlet-class>
 </servlet>
@@ -39,6 +43,10 @@
     <servlet-name>MainServlet</servlet-name>
     <url-pattern>/main/main</url-pattern>
 </servlet-mapping>   
+<servlet-mapping>
+    <servlet-name>ScoresServlet</servlet-name>
+    <url-pattern>/main/submit</url-pattern>
+</servlet-mapping> 
 <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/login/login</url-pattern>

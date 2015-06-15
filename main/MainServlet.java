@@ -40,6 +40,7 @@ public class MainServlet extends HttpServlet {
         ResultSet rs = statement.executeQuery("SELECT * FROM completedGames WHERE username='" + 
                             username + "' ORDER BY dateCompleted DESC");
 
+        res += "<div class=\"row\">";
         int i = 1;
         while (rs.next() && i < 10) {
           if (i % 3 == 1) res += "<div class=\"col-md-4\">";
@@ -50,6 +51,7 @@ public class MainServlet extends HttpServlet {
           if (i % 3 == 0) res += "</div>";
           i++;
         }
+        res += "</div>";
       } catch (Exception e) {
         for (int x = 0; x < 3; x++) {
           res += "<div class=\"row\">";
@@ -79,7 +81,7 @@ public class MainServlet extends HttpServlet {
         int i = 1;
         while (rs.next() && i < 10) {
           res += "<div class=\"well well-sm\"><b>" + i + ": " + rs.getString("username") +
-                  " - " + rs.getString("dateCompleted") + "</b><br />" + rs.getString("score") + "</div>";
+                  " - " + rs.getString("dateCompleted") + "</b><br /> Completed in: " + rs.getString("score") + " s</div>";
           i++;
         }
 

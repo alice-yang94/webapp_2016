@@ -1,5 +1,12 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -16,10 +23,6 @@ import model.Player;
 import model.Seed;
 
 public class BoardController {
-
-	private final String dbConnString = "jdbc:postgresql://db.doc.ic.ac.uk/g1427101_u";
-	private final String dbUsername = "g1427101_u";
-	private final String dbPassword = "ZfOfLyHLTA";
 
 	private Board board;
 	private Player player;
@@ -97,33 +100,11 @@ public class BoardController {
 
 	}
 
-	public void storeCurrentGame() {
-		try {
-			String username = player.getName();
-			try {
-				Class.forName("org.postgresql.Driver");
-			} catch (ClassNotFoundException e) {
-				//
-			}
+    public void storeCurrentGame() {
 
-			Connection conn = DriverManager.getConnection(dbConnString,
-					dbUsername, dbPassword);
+        sendInProgressGame(player.getName(), player.getLevel(), player.getJumps());
 
-			Statement statement = conn.createStatement();
-
-			statement
-					.executeUpdate("DELETE FROM currentGame WHERE username = '"
-							+ username + "'");
-
-			statement.executeUpdate("INSERT INTO currentGame VALUES ( '"
-					+ username + "', " + player.getLevel() + ", "
-					+ player.getJumps() + ")");
-
-			conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    }
 
 	private void playMonsterSound() {
 		try {
@@ -169,51 +150,16 @@ public class BoardController {
 				while (playerLoseLife()) {
 					playerLoseLife();
 				}
-				if (!resultsStored) {
-					try {
-						String username = player.getName();
-						try {
-							Class.forName("org.postgresql.Driver");
-						} catch (ClassNotFoundException e) {
-							//
-						}
 
-						Connection conn = DriverManager.getConnection(
-								dbConnString, dbUsername, dbPassword);
+                if (!resultsStored) {
+                    Calendar cal = Calendar.getInstance();
+                    float score = (float) ((float) (BoardController.timeUsedToWin / 1000000) / 1000.0);
 
-						Statement statement = conn.createStatement();
+                    sendCompletedGame(player.getName(), player.getLevel(), player.getJumps(), cal.getTime().getTime(), score);
 
-						statement
-								.executeUpdate("DELETE FROM currentGame WHERE username = '"
-										+ username + "'");
+                    resultsStored = true;
+                }
 
-						float score = (float) ((float) (BoardController.timeUsedToWin / 1000000) / 1000.0);
-
-						statement
-								.executeUpdate("INSERT INTO currentGame VALUES ( '"
-										+ username
-										+ "', "
-										+ player.getLevel()
-										+ ", " + player.getJumps() + ")");
-
-						Calendar cal = Calendar.getInstance();
-						Date date = new Date(cal.getTime().getTime());
-
-						PreparedStatement prep = conn
-								.prepareStatement("INSERT INTO completedGames VALUES ( DEFAULT, ?, ?, ? )");
-
-						prep.setString(1, username);
-						prep.setDate(2, date);
-						prep.setFloat(3, score);
-
-						prep.executeUpdate();
-
-						conn.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					resultsStored = true;
-				}
 				// TODO: SHOW WIN MSG AND CLEAREVERYTHING, RESTART AND
 				// GOTO NEXT LEVEL
 			}
@@ -271,18 +217,77 @@ public class BoardController {
 		hasInput = false;
 	}
 
-	public void pressUp() {
-		if (board.hasPlayer()) {
-			int y = player.getY() - 1;
-			if (withinIndexMove(y)) {
-				targetX = player.getX();
-				targetY = y;
-				hasInput = true;
-				return;
-			} else { // hit boundary, lose a life
-				playerLoseLife();
-			}
-		}
+    private void sendCompletedGame(String name, int level, int jumps, long date, float score) {
+        String postfix = "action=complete"+"&username="+ URLEncoder.encode(name)+"&level="+URLEncoder.encode(String.valueOf(level))
+                +"&jumps="+URLEncoder.encode(String.valueOf(jumps))+"&date="+URLEncoder.encode(String.valueOf(date))
+                +"&score="+URLEncoder.encode(String.valueOf(score));
+
+        try {
+            URL postURL = new URL("http://localhost:59999/main/submit?" + postfix);
+            HttpURLConnection conn = (HttpURLConnection) postURL.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.connect();
+
+            InputStream instr = conn.getInputStream();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(instr));
+            StringBuilder res = new StringBuilder();
+            String line;
+            while((line = reader.readLine()) != null) {
+                res.append(line);
+            }
+            System.out.println(res.toString());
+            instr.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //
+        }
+    }
+
+    private void sendInProgressGame(String name, int level, int jumps) {
+        String postfix = "action=progress"+"&username="+ URLEncoder.encode(name)+"&level="+URLEncoder.encode(String.valueOf(level))
+                +"&jumps="+URLEncoder.encode(String.valueOf(jumps));
+
+        try {
+            URL postURL = new URL("http://localhost:59999/main/submit?" + postfix);
+            HttpURLConnection conn = (HttpURLConnection) postURL.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.connect();
+
+            InputStream instr = conn.getInputStream();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(instr));
+            StringBuilder res = new StringBuilder();
+            String line;
+            while((line = reader.readLine()) != null) {
+                res.append(line);
+            }
+            System.out.println(res.toString());
+            instr.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //
+        }
+    }
+
+    public void pressUp() {
+        if (board.hasPlayer()) {
+            int y = player.getY() - 1;
+            if (withinIndexMove(y)) {
+                targetX = player.getX();
+                targetY = y;
+                hasInput = true;
+                return;
+            } else { // hit boundary, lose a life
+                playerLoseLife();
+            }
+        }
 	}
 
 	public void pressDown() {
