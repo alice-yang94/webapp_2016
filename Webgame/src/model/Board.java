@@ -20,8 +20,8 @@ public class Board {
 	private Player player;
 	private int numOfMonsters;
 	private int numOfSeeds;
-	private final int[] numberOfMonstersInLevel = { 15, 20, 25, 30, 35 };
-//    private final int[] numberOfMonstersInLevel = { 2,2,2,2,2 };
+//	private final int[] numberOfMonstersInLevel = { 15, 20, 25, 30, 35 };
+    private final int[] numberOfMonstersInLevel = { 2,2,2,2,2 };
 	private int jump;
 	private int jumpGainedThisRound;
 	private boolean canStart;
