@@ -56,7 +56,8 @@
       }
 
       function startGame() {
-        $('#mainRow').load("game_content.html");
+        var username = getUsername();
+        $('#mainRow').html('<div class=\"col-md-12\"><center><applet id=\"webgame\"  width=\"900\" height=\"750\" archive=\"webgame.jar\" code=\"rm.RunningMonster.class\"><param id=\"game_name\" name=\"username\" value=\"' + username + '\"></applet></center></div>');
       }
 
       function getUsername() {
