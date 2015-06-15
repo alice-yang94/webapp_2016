@@ -31,10 +31,8 @@
 
     <br />
 
-    <div class="container">
-      <div class="row" id="mainRow">
+    <div class="container" id="mainRow">
 
-      </div>
     </div>
 
     <script type="text/javascript">
@@ -51,13 +49,25 @@
       }
 
       function loadLobby() {
-        getHighScores();
         $('#mainRow').load("lobby_content.html");
+        getHighScores();
+        getTestimonials();
+      }
+
+      function getTestimonials() {
+        $.get('testimonial', function(data) {
+          $('#tests').html(data);
+        });
+      }
+
+      function newSubmission() {
+        var username = getUsername();
+        $('#lobbyWell').html('<form method=\"POST\" action=\"testimonial\"><input id=\"testimonial_username\" type=\"hidden\" name=\"username\" value=\"'+ username + '\"><h1 class=\"title\">Submit your thoughts:</h2><label for=\"thoughts\" class=\"sr-only\">Your thoughts</label><input id=\"thoughts\" name=\"thoughts\" class=\"form-control\" placeholder=\"Your thoughts...\" required autofocus> <center><button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">Submit</button></center></form>');
       }
 
       function startGame() {
         var username = getUsername();
-        $('#mainRow').html('<div class=\"col-md-12\"><center><applet id=\"webgame\"  width=\"900\" height=\"750\" archive=\"webgame.jar\" code=\"rm.RunningMonster.class\"><param id=\"game_name\" name=\"username\" value=\"' + username + '\"></applet></center></div>');
+        $('#mainRow').html('<div class=\"row\"><div class=\"col-md-12\"><center><applet id=\"webgame\"  width=\"900\" height=\"750\" archive=\"webgame.jar\" code=\"rm.RunningMonster.class\"><param id=\"game_name\" name=\"username\" value=\"' + username + '\"></applet></center></div></div>');
       }
 
       function getUsername() {
@@ -68,7 +78,7 @@
             while (c.charAt(0)==' ') c = c.substring(1);
             if (c.indexOf(name) == 0) return c.substring(name.length+1,c.length);
         }
-        return "whoops";
+        return "username_not_found";
       }
     </script>
 

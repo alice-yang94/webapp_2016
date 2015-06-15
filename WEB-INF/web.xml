@@ -36,6 +36,10 @@
     <servlet-class>ScoresServlet</servlet-class>
 </servlet>
 <servlet>
+    <servlet-name>TestimonialServlet</servlet-name>
+    <servlet-class>TestimonialServlet</servlet-class>
+</servlet>
+<servlet>
     <servlet-name>MainServlet</servlet-name>
     <servlet-class>MainServlet</servlet-class>
 </servlet>
@@ -43,6 +47,10 @@
     <servlet-name>MainServlet</servlet-name>
     <url-pattern>/main/main</url-pattern>
 </servlet-mapping>   
+<servlet-mapping>
+    <servlet-name>TestimonialServlet</servlet-name>
+    <url-pattern>/main/testimonial</url-pattern>
+</servlet-mapping>  
 <servlet-mapping>
     <servlet-name>ScoresServlet</servlet-name>
     <url-pattern>/main/submit</url-pattern>

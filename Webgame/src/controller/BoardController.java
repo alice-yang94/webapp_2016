@@ -218,9 +218,9 @@ public class BoardController {
 	}
 
     private void sendCompletedGame(String name, int level, int jumps, long date, float score) {
-        String postfix = "action=complete"+"&username="+ URLEncoder.encode(name)+"&level="+URLEncoder.encode(String.valueOf(level))
-                +"&jumps="+URLEncoder.encode(String.valueOf(jumps))+"&date="+URLEncoder.encode(String.valueOf(date))
-                +"&score="+URLEncoder.encode(String.valueOf(score));
+        String postfix = "action=complete"+"&username="+name+"&level="+String.valueOf(level)
+                +"&jumps="+String.valueOf(jumps)+"&date="+String.valueOf(date)
+                +"&score="+String.valueOf(score);
 
         try {
             URL postURL = new URL("http://localhost:59999/main/submit?" + postfix);
@@ -248,8 +248,8 @@ public class BoardController {
     }
 
     private void sendInProgressGame(String name, int level, int jumps) {
-        String postfix = "action=progress"+"&username="+ URLEncoder.encode(name)+"&level="+URLEncoder.encode(String.valueOf(level))
-                +"&jumps="+URLEncoder.encode(String.valueOf(jumps));
+        String postfix = "action=progress"+"&username="+name+"&level="+String.valueOf(level)
+                +"&jumps="+String.valueOf(jumps);
 
         try {
             URL postURL = new URL("http://localhost:59999/main/submit?" + postfix);

@@ -3,3 +3,4 @@ Database Configuration:
 create table users (username varchar(20), password text, salt text);
 create table completedGames (id SERIAL, username varchar(20), dateCompleted date, score real);
 create table currentGame (username varchar(20), level integer, jumps integer);
+create table submittedTestimonials (id SERIAL, username varchar(20), dateSubmitted date, testimonial text);
