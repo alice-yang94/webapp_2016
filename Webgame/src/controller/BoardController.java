@@ -17,9 +17,9 @@ import model.Seed;
 
 public class BoardController {
 
-  private final String dbConnString = "jdbc:postgresql://db.doc.ic.ac.uk/g1427101_u";
-  private final String dbUsername   = "g1427101_u";
-  private final String dbPassword   = "ZfOfLyHLTA";
+	private final String dbConnString = "jdbc:postgresql://db.doc.ic.ac.uk/g1427101_u";
+	private final String dbUsername = "g1427101_u";
+	private final String dbPassword = "ZfOfLyHLTA";
 
 	private Board board;
 	private Player player;
@@ -38,9 +38,11 @@ public class BoardController {
 	private AudioInputStream audioInputStream;
 	private AudioInputStream ghostAudioInputStream;
 	private AudioInputStream clapInputStream;
+	private AudioInputStream monsterAudioInputStream;
 	private Clip clip;
 	private Clip ghostClip;
 	private Clip clapClip;
+	private Clip monsterClip;
 	private boolean canAddMonsters;
 	private boolean playBackgroundMusic;
 	private int delayTime = 0;
@@ -51,11 +53,11 @@ public class BoardController {
 		player = board.getPlayer();
 		canAddMonsters = false;
 		playBackgroundMusic = false;
-		
+
 		try {
-			ghostAudioInputStream = AudioSystem.getAudioInputStream(this.getClass()
-					.getResource("music/ghost.wav"));
-            ghostClip = AudioSystem.getClip();
+			ghostAudioInputStream = AudioSystem.getAudioInputStream(this
+					.getClass().getResource("music/ghost.wav"));
+			ghostClip = AudioSystem.getClip();
 			ghostClip.open(ghostAudioInputStream);
 		} catch (Exception ex) {
 			System.out.println("Error with playing sound.");
@@ -63,15 +65,16 @@ public class BoardController {
 		}
 		ghostClip.start();
 		playClapSound();
+		playMonsterSound();
 	}
-	
+
 	private void playBackgroundSound() {
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(this.getClass()
 					.getResource("music/backgroundMusic.wav"));
 			clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
-			
+
 		} catch (Exception ex) {
 			System.out.println("Error with playing sound.");
 			ex.printStackTrace();
@@ -79,7 +82,7 @@ public class BoardController {
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 
 	}
-	
+
 	private void playClapSound() {
 		try {
 			clapInputStream = AudioSystem.getAudioInputStream(this.getClass()
@@ -93,35 +96,59 @@ public class BoardController {
 
 	}
 
-  public void storeCompletedGame() {
-    try {
-      String username = player.getName();
-      try {
-        Class.forName("org.postgresql.Driver");
-      } catch (ClassNotFoundException e) {
-        //
-      }
+	private void playMonsterSound() {
+		try {
+			monsterAudioInputStream = AudioSystem.getAudioInputStream(this
+					.getClass().getResource("music/monsterDie.wav"));
+			monsterClip = AudioSystem.getClip();
+			monsterClip.open(monsterAudioInputStream);
 
-      Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
+		} catch (Exception ex) {
+			System.out.println("Error with playing sound.");
+			ex.printStackTrace();
+		}
+	}
 
-      Statement statement = conn.createStatement();
+	public void storeCompletedGame() {
+		try {
+			String username = player.getName();
+			try {
+				Class.forName("org.postgresql.Driver");
+			} catch (ClassNotFoundException e) {
+				//
+			}
 
-      statement.executeUpdate("DELETE FROM currentGame WHERE username = '" + username + "'");
+			Connection conn = DriverManager.getConnection(dbConnString,
+					dbUsername, dbPassword);
 
-      Calendar cal = Calendar.getInstance();
-      Date date = new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
+			Statement statement = conn.createStatement();
 
-      statement.executeUpdate("INSERT INTO completedGames VALUES ( DEFAULT, '" + username + "', " + date + ", " + timeUsedToWin + ")");
+			statement
+					.executeUpdate("DELETE FROM currentGame WHERE username = '"
+							+ username + "'");
 
-      conn.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+			Calendar cal = Calendar.getInstance();
+			Date date = new Date(cal.get(Calendar.YEAR),
+					cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
+
+			statement
+					.executeUpdate("INSERT INTO completedGames VALUES ( DEFAULT, '"
+							+ username
+							+ "', "
+							+ date
+							+ ", "
+							+ timeUsedToWin
+							+ ")");
+
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public synchronized void update(long initialTime) throws Exception {
 		delayTime++;
-		if (delayTime == 2000 && !playBackgroundMusic) {
+		if (delayTime == 10000 && !playBackgroundMusic) {
 			playBackgroundSound();
 		}
 		if (board.hasPlayer()) {
@@ -133,14 +160,17 @@ public class BoardController {
 				}
 				playWinSound = true;
 				timeUsedToWin = System.nanoTime() - startTime;
-				if (timeUsedToWin / 1000 > 10000000) {
-					board.getOneJump();
-					board.setJumpGainedInLevel(1);;
-				}
-				if (timeUsedToWin / 1000 > 90000000) {
-					board.getOneJump();
-					board.getOneJump();
-					board.setJumpGainedInLevel(3);
+				if (endGame == 0) {
+					if (timeUsedToWin / 1000 > 10000000) {
+						board.getOneJump();
+						board.setJumpGainedInLevel(1);
+						;
+					}
+					if (timeUsedToWin / 1000 > 90000000) {
+						board.getOneJump();
+						board.getOneJump();
+						board.setJumpGainedInLevel(3);
+					}
 				}
 				win = true;
 				clapClip.start();
@@ -149,26 +179,31 @@ public class BoardController {
 					playerLoseLife();
 				}
 
-        try {
-          String username = player.getName();
-          try {
-            Class.forName("org.postgresql.Driver");
-          } catch (ClassNotFoundException e) {
-            //
-          }
+				try {
+					String username = player.getName();
+					try {
+						Class.forName("org.postgresql.Driver");
+					} catch (ClassNotFoundException e) {
+						//
+					}
 
-          Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
+					Connection conn = DriverManager.getConnection(dbConnString,
+							dbUsername, dbPassword);
 
-          Statement statement = conn.createStatement();
+					Statement statement = conn.createStatement();
 
-          statement.executeUpdate("DELETE FROM currentGame WHERE username = '" + username + "'");
+					statement
+							.executeUpdate("DELETE FROM currentGame WHERE username = '"
+									+ username + "'");
 
-          statement.executeUpdate("INSERT INTO currentGame VALUES ('" + username + "', " + player.getLevel() + ", " + timeUsedToWin + ")");
+					statement.executeUpdate("INSERT INTO currentGame VALUES ('"
+							+ username + "', " + player.getLevel() + ", "
+							+ timeUsedToWin + ")");
 
-          conn.close();
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				// TODO: SHOW WIN MSG AND CLEAREVERYTHING, RESTART AND
 				// GOTO NEXT LEVEL
 			}
@@ -185,8 +220,8 @@ public class BoardController {
 						endGame++;
 						break;
 					}
-
-					monster.playDieSound();
+					monsterClip.setFramePosition(0);
+					monsterClip.start();
 					board.getMonsters().remove(monster);
 					board.clearMonsterWhenHitBySeed(monster);
 					killedMonster++;
@@ -275,8 +310,10 @@ public class BoardController {
 	}
 
 	public synchronized void pressSpace() throws Exception {
-		if (player.decreaseBullets()) {
-			hitMonster();
+		if (board.hasPlayer()) {
+			if (player.decreaseBullets()) {
+				hitMonster();
+			}
 		}
 	}
 
@@ -309,6 +346,12 @@ public class BoardController {
 		}
 	}
 
+	public void pressJump() {
+		if (board.useOneJump()) {
+			board.changePlayerPos(player);
+		}
+	}
+
 	public synchronized void hitMonster() throws Exception {
 		Iterator<Monster> iter = board.getMonsters().iterator();
 		while (iter.hasNext()) {
@@ -319,6 +362,8 @@ public class BoardController {
 			int py = player.getY();
 			if (mx == px || my == py) {
 				if (!monster.loseLife()) {
+					monsterClip.setFramePosition(0);
+					monsterClip.start();
 					board.getMonsters().remove(monster);
 					board.clearMonsterWhenHitBySeed(monster);
 					killedMonster++;
@@ -348,7 +393,7 @@ public class BoardController {
 			hasInput = false; // invalid move, has to wait another input
 			return true;
 		} else { // restart game
-      storeCompletedGame();
+			storeCompletedGame();
 			endGame++;
 			return false;
 		}

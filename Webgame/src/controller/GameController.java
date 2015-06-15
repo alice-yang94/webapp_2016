@@ -96,6 +96,9 @@ public class GameController {
 		case KeyEvent.VK_BACK_SPACE:
 			controller.pressBack();
 			break;
+		case KeyEvent.VK_J:
+			controller.pressJump();
+			break;
 		}
 		return false;
 	}

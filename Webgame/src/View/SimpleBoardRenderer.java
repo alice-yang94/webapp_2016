@@ -158,6 +158,9 @@ public class SimpleBoardRenderer implements Renderer {
 						.toCharArray();
 				g.drawChars(monsterKilled, 0, monsterKilled.length, 835, 552);
 
+				// show no of wings
+				char[] wingsGained = (" * ".concat(Integer.toString(board.getJump()))).toCharArray();
+				g.drawChars(wingsGained, 0, wingsGained.length, 835, 664);
 				count = 0;
 				addition = 0;
 				newcount = 0;
