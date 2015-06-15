@@ -121,7 +121,7 @@ public class BoardController {
 
 	public synchronized void update(long initialTime) throws Exception {
 		delayTime++;
-		if (delayTime == 10000 && !playBackgroundMusic) {
+		if (delayTime == 7000 && !playBackgroundMusic) {
 			playBackgroundSound();
 		}
 		if (board.hasPlayer()) {

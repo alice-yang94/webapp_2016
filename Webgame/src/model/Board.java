@@ -129,6 +129,7 @@ public class Board {
 		board[14][14] = player;
 		int level = player.getLevel();
 		jumpGainedThisRound = 0;
+		player.setLife(3);
 		int numberOfMonster = numberOfMonstersInLevel[level];
 		generateMonsterAndSeed(numberOfMonster);
 	}
