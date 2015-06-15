@@ -94,7 +94,7 @@ public class Board {
 	}
 
 	public synchronized int getMonsterToKill() {
-		return (player.getLevel() * 10);// FIXME
+		return (player.getLevel()+1) * 10;
 	}
 
 	public synchronized List<Monster> getMonsters() {
