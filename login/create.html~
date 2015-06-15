@@ -15,7 +15,6 @@
       <center>
       <form method="POST" action="login">
         <input type="hidden" name="action" value="create">
-        <div class="well well-lg">
         <h1 class="title">Create Account</h2>
         <label for="username" class="sr-only">Username</label>
         <input id="username" name="username" class="form-control" placeholder="Username" required autofocus>
@@ -27,7 +26,6 @@
         <input type="password" id="password2" name="password2" class="form-control" placeholder="Confirm Password" required>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
-	</div>
       </form>
     </center>
     </div>

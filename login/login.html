@@ -15,26 +15,29 @@
   </head>
 
   <body>
+      <div class="container">
+      <br />
+      <br />
+        <center>
+        <form method="POST" action="login">
+          <input type="hidden" name="action" value="login">
+          <div class="well well-lg">
+          <h1 class="title">The Hunted</h2>
+          <label for="username" class="sr-only">Username</label>
+          <input id="username" name="username" class="form-control" placeholder="Username" required autofocus>
 
-    <div class="container">
-      <center>
-      <form method="POST" action="login">
-        <input type="hidden" name="action" value="login">
-        <h1 class="title">Enter Account Details</h2>
-        <label for="username" class="sr-only">Username</label>
-        <input id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+          <label for="password" class="sr-only">Password</label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
 
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
+        </form>
 
-
-    <br />
-    <br />
-    <center><a href="create.html">Create New Account</a></center>
-    </center>
+      <br />
+      <br />
+      <center><a href="create.html">Create New Account</a></center>
+      </div>
+      </center>
     </div>
 
   </body>
