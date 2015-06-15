@@ -24,14 +24,14 @@ public class TestimonialServlet extends HttpServlet {
 
             int i = 0;
             while (rs.next() && i < 3) {
-                res += "<div class=\"well well-sm\"><b>" + rs.getString("username") + ": - " 
-                    + rs.getString("dateSubmitted") + "</b><br />" + rs.getString("testimonial") + "</div>";
+                res += "<div class=\"col-md-3\"><div class=\"well well-sm\"><b>" + rs.getString("username") + ": - " 
+                    + rs.getString("dateSubmitted") + "</b><br />" + rs.getString("testimonial") + "</div></div>";
                 i++;
             }
 
         } catch(Exception e) {
             for (int i = 0; i < 3; i++) {
-                res += "<div class=\"well well-sm\"><b>player: - 1/1/1970</b><br />texttexttexttexttexttexttexttext</div>";    
+                res += "<div class=\"col-md-3\"><div class=\"well well-sm\"><b>player: - 1/1/1970</b><br />texttexttexttexttexttexttexttext</div></div>";    
             }
         }
 
