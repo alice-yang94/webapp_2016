@@ -67,7 +67,7 @@ public class Board {
 			monsters.add((Monster) board[y][x]);
 
 			// generate seeds
-			if (random.nextInt(3) > 0) {
+			if (random.nextInt(5) > 0) {
 				int sx = generateNeighbourPoint(x);
 				int sy = generateNeighbourPoint(y);
 				while (board[sy][sx] != null) {
