@@ -2,6 +2,10 @@ package controller;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -46,64 +50,44 @@ public class GameController {
 	}
 
     private int getUsernameJumps(String username) {
-        int res = 0;
-
-        try {
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                //
-            }
-
-            Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
-
-            Statement statement = conn.createStatement();
-
-            ResultSet rs = statement.executeQuery("SELECT jumps FROM currentGame WHERE username='" +
-                    username + "'");
-
-            while (rs.next()) {
-                res = rs.getInt("jumps");
-            }
-
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return res;
+        return sendGet("jumps", username);
     }
 
     private int getUsernameLevel(String username) {
-        int res = 1;
+        return sendGet("level", username);
+    }
 
+    private int sendGet(String action, String username) {
+        String result;
         try {
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                //
+            URL getURL = new URL("http://localhost:59999/main/submit?action=" + action + "&username=" + username);
+            HttpURLConnection conn = (HttpURLConnection) getURL.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.connect();
+
+            InputStream instr = conn.getInputStream();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(instr));
+            StringBuilder res = new StringBuilder();
+            String line;
+            while((line = reader.readLine()) != null) {
+                res.append(line);
             }
+            instr.close();
 
-            Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
+            result = res.toString();
 
-            Statement statement = conn.createStatement();
-
-            ResultSet rs = statement.executeQuery("SELECT level FROM currentGame WHERE username='" +
-                    username + "'");
-
-            while (rs.next()) {
-                res = rs.getInt("level");
-            }
-
-            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
 
-        return res;
+        return Integer.valueOf(result);
     }
-	
-	public boolean eventHandler(KeyEvent e) throws Exception {
+
+    public boolean eventHandler(KeyEvent e) throws Exception {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			controller.pressUp();
