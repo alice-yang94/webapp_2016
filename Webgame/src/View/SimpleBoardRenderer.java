@@ -173,7 +173,7 @@ public class SimpleBoardRenderer implements Renderer {
 				g.drawChars(level, 0, 13, 760, 120);
 				int playerlev = player.getLevel();
 				char[] playerLevel = Integer.toString(playerlev).toCharArray();
-				g.drawChars(playerLevel, 0, 1, 810, 150);
+				g.drawChars(playerLevel, 0, playerLevel.length, 810, 150);
 
 				// show goal
 				char[] goal = ("Goal: " + board.getMonsterToKill())

@@ -20,18 +20,18 @@ public class TestimonialServlet extends HttpServlet {
             
             Statement statement = conn.createStatement();
             
-            ResultSet rs = statement.executeQuery("SELECT * FROM submittedTestimonials");
+            ResultSet rs = statement.executeQuery("SELECT * FROM submittedTestimonials ORDER BY dateSubmitted DESC");
 
             int i = 0;
             while (rs.next() && i < 3) {
-                res += "<div class=\"col-md-3\"><div class=\"well well-sm\"><b>" + rs.getString("username") + ": - " 
+                res += "<div class=\"col-md-4\"><div class=\"well well-sm\"><b>" + rs.getString("username") + ": - "
                     + rs.getString("dateSubmitted") + "</b><br />" + rs.getString("testimonial") + "</div></div>";
                 i++;
             }
 
         } catch(Exception e) {
             for (int i = 0; i < 3; i++) {
-                res += "<div class=\"col-md-3\"><div class=\"well well-sm\"><b>player: - 1/1/1970</b><br />texttexttexttexttexttexttexttext</div></div>";    
+                res += "<div class=\"col-md-4\"><div class=\"well well-sm\"><b>player: - 1/1/1970</b><br />texttexttexttexttexttexttexttext</div></div>";
             }
         }
 

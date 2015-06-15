@@ -8,7 +8,6 @@ public class Player {
 	private int life;
 	private int bullets;
 	private int jump;
-	private final int[] bulletsByLevel = { 5, 4, 3, 2, 1 };
 	private final int MAXLIFE = 3;
 	private final String name;
 
@@ -16,10 +15,14 @@ public class Player {
 	public Player(int level, String name, int jump) {
 		this.level = level;
 		life = MAXLIFE;
-		bullets = bulletsByLevel[level];
+		bullets = getBullets(level);
 		this.name = name;
 		this.jump = jump;
 	}
+
+    private int getBullets(int level) {
+        return 5 - level > 0 ? 5 - level : 0;
+    }
 
 	public int getX() {
 		return x;
@@ -41,7 +44,7 @@ public class Player {
 		x = 14;
 		y = 14;
 		life = MAXLIFE;
-		bullets = bulletsByLevel[level];
+		bullets = getBullets(level);
 	}
 	
 	public void setJump(int n) {

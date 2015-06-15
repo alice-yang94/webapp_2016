@@ -45,8 +45,11 @@ public class MainServlet extends HttpServlet {
         while (rs.next() && i < 10) {
           if (i % 3 == 1) res += "<div class=\"col-md-4\">";
 
-          res += "<div class=\"well well-sm\"><b>" + rs.getString("dateCompleted") + 
-                  "</b><br />" + rs.getString("score") + "</div>";
+          Float score = rs.getFloat("score");
+          String scoreStr = String.format("%.2f", score);
+
+          res += "<div class=\"well well-sm\"><b>" + i + ": " + rs.getString("dateCompleted") +
+                  "</b><br /> Completed in: " + scoreStr +  "s</div>";
 
           if (i % 3 == 0) res += "</div>";
           i++;
@@ -79,15 +82,18 @@ public class MainServlet extends HttpServlet {
         
         ResultSet rs = statement.executeQuery("SELECT * FROM completedGames ORDER BY score ASC");
         int i = 1;
-        while (rs.next() && i < 10) {
+        while (rs.next() && i < 7) {
+          Float score = rs.getFloat("score");
+          String scoreStr = String.format("%.2f", score);
+
           res += "<div class=\"well well-sm\"><b>" + i + ": " + rs.getString("username") +
-                  " - " + rs.getString("dateCompleted") + "</b><br /> Completed in: " + rs.getString("score") + " s</div>";
+                  " - " + rs.getString("dateCompleted") + "</b><br /> Completed in: " + scoreStr + " s</div>";
           i++;
         }
 
         conn.close();
       } catch (Exception e) { //print dummy data as database could not be accessed
-        for (int x = 1; x < 10; x++) {
+        for (int x = 1; x < 7; x++) {
           res += "<div class=\"well well-sm\"><b>" + x + ": player - 1/1/1970</b><br />999999</div>";
         }
       }

@@ -31,15 +31,8 @@ public class Board {
 		this.player = player;
 		int level = player.getLevel();
 		board = new Object[HEIGHT][WIDTH];
-		if (level > 4) {
-			numOfMonsters = 40;
-		} else {
-			if (level < 5) {
-				numOfMonsters = numberOfMonstersInLevel[level];
-			} else {
-				numOfMonsters = 40;
-			}
-		}
+        numOfMonsters = getNumMonsters(level);
+
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
 				board[j][i] = null;
@@ -52,7 +45,11 @@ public class Board {
 		generateMonsterAndSeed(numOfMonsters);
 	}
 
-	public synchronized void generateMonsterAndSeed(int numOfM)
+    private int getNumMonsters(int level) {
+        return 40 > level * 3 ? level * 3 : 40;
+    }
+
+    public synchronized void generateMonsterAndSeed(int numOfM)
 			throws Exception {
 		// add number of monsters with seeds related to player's level
 		for (int i = 0; i < numOfM; i++) {
@@ -130,7 +127,7 @@ public class Board {
 		int level = player.getLevel();
 		jumpGainedThisRound = 0;
 		player.setLife(3);
-		int numberOfMonster = numberOfMonstersInLevel[level];
+		int numberOfMonster = getNumMonsters(level);
 		generateMonsterAndSeed(numberOfMonster);
 	}
 
@@ -142,11 +139,8 @@ public class Board {
 		int level = player.incLevel();
 		player.reborn();
 		board[14][14] = player;
-		if (level > 4) {
-			numOfMonsters = 40;
-		} else {
-			numOfMonsters = numberOfMonstersInLevel[level];
-		}
+        numOfMonsters = getNumMonsters(level);
+
 		generateMonsterAndSeed(numOfMonsters);
 	}
 

@@ -50,6 +50,8 @@ public class ScoresServlet extends HttpServlet {
                 prep.setFloat(3, score);
 
                 prep.executeUpdate();
+
+                res = "stored completed";
             }
 
             conn.close();

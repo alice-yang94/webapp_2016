@@ -147,9 +147,7 @@ public class BoardController {
 				win = true;
 				clapClip.start();
 				endGame++;
-				while (playerLoseLife()) {
-					playerLoseLife();
-				}
+
 
                 if (!resultsStored) {
                     Calendar cal = Calendar.getInstance();
@@ -159,6 +157,10 @@ public class BoardController {
 
                     resultsStored = true;
                 }
+
+				while (playerLoseLife()) {
+					playerLoseLife();
+				}
 
 				// TODO: SHOW WIN MSG AND CLEAREVERYTHING, RESTART AND
 				// GOTO NEXT LEVEL
@@ -346,11 +348,12 @@ public class BoardController {
 		}
 		playBackgroundMusic = true;
 		startTime = System.nanoTime();
-		board.setStart(true);
+
 		if (!board.hasPlayer()) {
 			board.restartBoard();
 			endGame = 0;
 		}
+        board.setStart(true);
 		canAddMonsters = true;
 		resultsStored = false;
 	}
@@ -361,11 +364,12 @@ public class BoardController {
 
 	public void pressBack() throws Exception {// go to next level
 		if (win) {
-			board.setStart(true);
+
 			if (!board.hasPlayer()) {
 				board.startNextLevelBoard();
 				endGame = 0;
 			}
+            board.setStart(true);
 			canAddMonsters = true;
 		}
 	}
@@ -419,7 +423,10 @@ public class BoardController {
 			hasInput = false; // invalid move, has to wait another input
 			return true;
 		} else { // restart game
-			storeCurrentGame();
+            if (!resultsStored) {
+                storeCurrentGame();
+                resultsStored = true;
+            }
 			endGame++;
 			return false;
 		}
