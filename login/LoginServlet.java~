@@ -29,11 +29,10 @@ public class LoginServlet extends HttpServlet {
 
       if (usernameNotUsed(username)) {
         out.println("<script>");
-        out.println("var element = document.getElementById(\"error\");");
-        out.println("element.innerHTML = \"The username doesn't exist\";");
+        out.println("alert(\"The username doesn't exist\");");
+        out.println("window.location.replace(\"login.html\");");
         out.println("</script>");
         out.close();
-        response.sendRedirect("login.html");
       }
 
       String storedPassword = storedPasswordPair.getPassword();
@@ -61,15 +60,17 @@ public class LoginServlet extends HttpServlet {
       if (!usernameNotUsed(username)) {
         out.println("<script type=\"text/javascript\">");
         out.println("alert(\"Username already in use\");");
+        out.println("window.location.replace(\"create.html\");");
         out.println("</script>");
-        response.sendRedirect("create.html");
+        out.close();
       }
 
       if (!password.equals(password2)) {
         out.println("<script type=\"text/javascript\">");
         out.println("alert(\"The passwords don't match\");");
+        out.println("window.location.replace(\"create.html\");");
         out.println("</script>");
-        response.sendRedirect("create.html");
+        out.close();
       }
 
       Encryption encryptedPasswordPair = Encryption.encrypt(password);
