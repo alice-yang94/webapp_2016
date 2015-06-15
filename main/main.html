@@ -67,7 +67,7 @@
 
       function startGame() {
         var username = getUsername();
-        $('#mainRow').html('<div class=\"row\"><div class=\"col-md-12\"><center><applet id=\"webgame\"  width=\"900\" height=\"750\" archive=\"webgame.jar\" code=\"rm.RunningMonster.class\"><param id=\"game_name\" name=\"username\" value=\"' + username + '\"></applet></center></div></div>');
+        $('#mainRow').html('<div class=\"row\" id=\"game_row\"><div class=\"col-md-10\"><center><applet id=\"webgame\"  width=\"900\" height=\"750\" archive=\"webgame.jar\" code=\"rm.RunningMonster.class\"><param id=\"game_name\" name=\"username\" value=\"' + username + '\"></applet></center></div><div class=\"col-md-2\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><b>How to play: </b></div><div class=\"panel-body\"><li>The arrow keys move your character</li><br /><li>Press space to fire seeds around you</li><br /><li>Press J to use a jump and teleport to a random location</li><br /><li>Moving into the side or a monster will cause you to lose a life and kill the monster</li><br /><li>Seeds can be earned by picking up a watermelon</li><br /><li>Jumps can be earned by staying alive on one level for a set amount of time</li></div></div></div></div></div>');
       }
 
       function getUsername() {
