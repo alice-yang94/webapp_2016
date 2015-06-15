@@ -18,8 +18,7 @@ public class RunningMonster extends Applet implements Runnable, KeyListener {
 
     public void init() {
         try {
-//            gc = new GameController(getParameter("username"));
-        	gc = new GameController("Player1");
+            gc = new GameController(getParameter("username"));
             addKeyListener(this);
         } catch (Exception e) {
             e.printStackTrace();

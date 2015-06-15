@@ -24,6 +24,7 @@ public class BoardController {
 	private Board board;
 	private Player player;
 
+    private boolean resultsStored;
 	private int targetX, targetY;
 	private boolean hasInput = false; // true if player input on keyboard
 	private int endGame = 0;
@@ -93,7 +94,7 @@ public class BoardController {
 
 	}
 
-  public void storeCompletedGame() {
+  public void storeCurrentGame() {
     try {
       String username = player.getName();
       try {
@@ -108,10 +109,7 @@ public class BoardController {
 
       statement.executeUpdate("DELETE FROM currentGame WHERE username = '" + username + "'");
 
-      Calendar cal = Calendar.getInstance();
-      Date date = new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
-
-      statement.executeUpdate("INSERT INTO completedGames VALUES ( DEFAULT, '" + username + "', " + date + ", " + timeUsedToWin + ")");
+      statement.executeUpdate("INSERT INTO currentGame VALUES ( '" + username + "', " + player.getLevel() + ", " + player.getJumps() + ")");
 
       conn.close();
     } catch (Exception e) {
@@ -148,27 +146,42 @@ public class BoardController {
 				while (playerLoseLife()) {
 					playerLoseLife();
 				}
+                if (!resultsStored) {
+                    try {
+                        String username = player.getName();
+                        try {
+                            Class.forName("org.postgresql.Driver");
+                        } catch (ClassNotFoundException e) {
+                            //
+                        }
 
-        try {
-          String username = player.getName();
-          try {
-            Class.forName("org.postgresql.Driver");
-          } catch (ClassNotFoundException e) {
-            //
-          }
+                        Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
 
-          Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
+                        Statement statement = conn.createStatement();
 
-          Statement statement = conn.createStatement();
+                        statement.executeUpdate("DELETE FROM currentGame WHERE username = '" + username + "'");
 
-          statement.executeUpdate("DELETE FROM currentGame WHERE username = '" + username + "'");
+                        float score = (float) ((float) (BoardController.timeUsedToWin / 1000000) / 1000.0);
 
-          statement.executeUpdate("INSERT INTO currentGame VALUES ('" + username + "', " + player.getLevel() + ", " + player.getJumps() + ", " + timeUsedToWin + ")");
+                        statement.executeUpdate("INSERT INTO currentGame VALUES ( '" + username + "', " + player.getLevel() + ", " + player.getJumps() + ")");
 
-          conn.close();
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+                        Calendar cal = Calendar.getInstance();
+                        Date date = new Date(cal.getTime().getTime());
+
+                        PreparedStatement prep = conn.prepareStatement("INSERT INTO completedGames VALUES ( DEFAULT, ?, ?, ? )");
+
+                        prep.setString(1, username);
+                        prep.setDate(2, date);
+                        prep.setFloat(3, score);
+
+                        prep.executeUpdate();
+
+                        conn.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    resultsStored = true;
+                }
 				// TODO: SHOW WIN MSG AND CLEAREVERYTHING, RESTART AND
 				// GOTO NEXT LEVEL
 			}
@@ -292,6 +305,7 @@ public class BoardController {
 			endGame = 0;
 		}
 		canAddMonsters = true;
+        resultsStored = false;
 	}
 
 	public synchronized boolean canAddMonsters() {
@@ -348,7 +362,7 @@ public class BoardController {
 			hasInput = false; // invalid move, has to wait another input
 			return true;
 		} else { // restart game
-      storeCompletedGame();
+            storeCurrentGame();
 			endGame++;
 			return false;
 		}

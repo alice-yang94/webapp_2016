@@ -25,12 +25,13 @@ public class GameController {
 	private int level;
 	private String name;
 	private int centerPoint = 14;
-	private int jump = 0;  //TODO: Connect to database
+	private int jump;
 	
 	public GameController(String username) throws Exception {
         name = username;
 
         level = getUsernameLevel(name);
+        jump = getUsernameJumps(name);
 
 		player = new Player(level, name, jump);
 		player.setX(centerPoint);
@@ -43,6 +44,35 @@ public class GameController {
 		//setup controller
 		controller = new BoardController(board);
 	}
+
+    private int getUsernameJumps(String username) {
+        int res = 0;
+
+        try {
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                //
+            }
+
+            Connection conn = DriverManager.getConnection(dbConnString, dbUsername, dbPassword);
+
+            Statement statement = conn.createStatement();
+
+            ResultSet rs = statement.executeQuery("SELECT jumps FROM currentGame WHERE username='" +
+                    username + "'");
+
+            while (rs.next()) {
+                res = rs.getInt("jumps");
+            }
+
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
 
     private int getUsernameLevel(String username) {
         int res = 1;
@@ -58,7 +88,7 @@ public class GameController {
 
             Statement statement = conn.createStatement();
 
-            ResultSet rs = statement.executeQuery("SELECT score, level FROM currentGame WHERE username='" +
+            ResultSet rs = statement.executeQuery("SELECT level FROM currentGame WHERE username='" +
                     username + "'");
 
             while (rs.next()) {
